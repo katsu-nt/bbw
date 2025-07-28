@@ -1,0 +1,2716 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&display=swap");
+
+  body {
+    margin: auto;
+    width: 100%;
+  }
+  .container-bannerName {
+    color: white;
+    font-size: 27vh;
+    position: absolute;
+    bottom: 0px;
+    left: 20px;
+    z-index: 100;
+    font-family: "Ibm Plex Serif", serif !important;
+    text-align: left;
+    max-width: 36vh;
+    line-height: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12vh;
+  }
+  .content-section p {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+  .container-contact-sub strong,
+  .container-contact-sub a {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+  .price-hotel p,
+  .price-hotel h2 {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .bottom-container h5,
+  .bottom-container a {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  p {
+    margin: unset !important;
+  }
+
+  .cre,
+  .cre i {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  #selected-country-name,
+  #country {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .container-stock {
+    border-bottom: 1px dotted #000;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .container-contact {
+    border: 2px solid #000 !important;
+    display: table;
+    padding: 8px;
+    font-size: 22px;
+    margin: unset;
+    margin-bottom: 20px;
+  }
+  .container-contactName {
+    border-bottom: 2px dotted #000 !important;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .container-contactName:hover {
+    border-bottom: 2px solid #000;
+  }
+  .container-box {
+    margin-top: 30px;
+  }
+  .container-caption {
+    padding: 0 14px !important;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .container-content-25DiaDiem {
+    font-size: 22px;
+    max-width: 620px;
+    margin: auto;
+  }
+  .time-content,
+  .container-content-25DiaDiem p {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .container-content-25DiaDiem div p strong {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  .location-image {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    height: 110vh;
+  }
+  .container-item {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .container-name {
+    margin: unset;
+    margin: 2rem;
+    font-weight: 500;
+    font-size: 5.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .container-img {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .container-img img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: var(--object-fit, cover);
+    object-position: center;
+    position: relative;
+  }
+
+  @keyframes clipAnimation_child_1 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 90% 90%, 0% 100%);
+    }
+    10% {
+      clip-path: polygon(0 0, 100% 0, 2.5% 2.5%, 0% 100%);
+    }
+    90% {
+      clip-path: polygon(0 0, 100% 0, 2.5% 2.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 90% 90%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_2 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    10% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    20% {
+      clip-path: polygon(0 0, 100% 0, 5% 5%, 0% 100%);
+    }
+    80% {
+      clip-path: polygon(0 0, 100% 0, 5% 5%, 0% 100%);
+    }
+    90% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_3 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    20% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    30% {
+      clip-path: polygon(0 0, 100% 0, 7.5% 7.5%, 0% 100%);
+    }
+    70% {
+      clip-path: polygon(0 0, 100% 0, 7.5% 7.5%, 0% 100%);
+    }
+    80% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_4 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    30% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    40% {
+      clip-path: polygon(0 0, 100% 0, 10% 10%, 0% 100%);
+    }
+    70% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_5 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    50% {
+      clip-path: polygon(10% 10%, 100% 0, 100% 100%, 0% 100%);
+    }
+    60% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+  }
+
+  .container-item:nth-child(1) img {
+    animation: clipAnimation_child_1 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(2) img {
+    animation: clipAnimation_child_2 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(3) img {
+    animation: clipAnimation_child_3 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(4) img {
+    animation: clipAnimation_child_4 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(5) img {
+    animation: clipAnimation_child_5 15s ease-in-out infinite;
+  }
+
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 620px;
+    position: relative;
+  }
+
+  .globe-container {
+    position: sticky;
+    top: 0;
+    right: 0;
+    z-index: 200;
+  }
+  #country {
+    width: 80%;
+    margin-top: 2px;
+    padding: 5px;
+    background-color: #82ada8;
+    height: 35px;
+    font-size: 15px;
+    font-weight: 500;
+    appearance: none;
+  }
+  #country:focus {
+    border: none;
+  }
+
+  #country option {
+    background-color: black;
+    color: white;
+    font-size: large;
+  }
+
+  /* Optional: Style when hovering over options */
+  #country option:hover {
+    background-color: white; /* Dark gray for contrast */
+    color: black;
+  }
+
+  /* Optional: Style when hovering over options */
+  #country option:hover {
+    background-color: white; /* Dark gray for contrast */
+    color: black;
+  }
+
+  /* ✅ Scrollbar Styling (For WebKit browsers) */
+  #country::-webkit-scrollbar {
+    width: 5px; /* Thin scrollbar */
+  }
+
+  #country::-webkit-scrollbar-track {
+    background: black; /* Background of scrollbar */
+  }
+
+  #country::-webkit-scrollbar-thumb {
+    background: white; /* Scrollbar color */
+    border-radius: 10px;
+  }
+
+  #country::-webkit-scrollbar-thumb:hover {
+    background: white; /* Lighter color when hovered */
+  }
+
+  #button-close {
+    padding-inline: 5px;
+    position: absolute;
+    right: 22%;
+    display: flex;
+    justify-content: end;
+    background-color: #82ada8;
+    top: 25%;
+    margin-right: 1px;
+    border: 0;
+    z-index: 10;
+    font-size: small;
+    font-weight: 600;
+    visibility: hidden;
+  }
+
+  @media (max-width: 991px) {
+    .banner {
+      height: 70vh !important;
+    }
+
+    .location-image {
+      max-height: 70vh;
+    }
+
+    .box-price {
+      margin-left: unset !important;
+    }
+
+    .container-name {
+      font-size: 3.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .banner {
+      height: 50vh !important;
+    }
+
+    .banner img {
+      height: 50vh !important;
+    }
+
+    .chart-container {
+      width: 550px !important;
+    }
+    .container-name {
+      line-height: 1.1 !important;
+    }
+
+    .bottom-container {
+      margin-inline: 20px !important;
+    }
+    .cre {
+      margin-left: unset !important;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .location-image {
+      max-height: 50vh !important;
+    }
+
+    .banner h1 {
+      font-size: 5vh !important;
+      max-width: 16vh !important;
+    }
+
+    .chart-container {
+      width: 450px !important;
+    }
+
+    .container-name {
+      font-size: 2.5rem !important;
+      margin: 1rem;
+    }
+
+    .container-content-25DiaDiem {
+      padding-block: 10px;
+      padding-inline: 10px;
+    }
+
+    .bar-progress {
+      height: 25px !important;
+    }
+    .label-month {
+      height: 25px !important;
+      font-size: 0.9rem !important;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .chart-container {
+      width: 380px !important;
+    }
+
+    .bottom-container {
+      margin-inline: 10px !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .chart-container {
+      width: 360px !important;
+    }
+  }
+
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 620px;
+    position: relative;
+  }
+
+  .bar-container {
+    position: relative;
+    display: flex;
+    margin-top: 2px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .bar-progress:hover .bar-inforDetail {
+    opacity: 1;
+    visibility: visible;
+  }
+  .bar-inforDetail {
+    position: absolute;
+    top: -135px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    white-space: nowrap;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    z-index: 40 !important;
+    opacity: 0;
+    visibility: hidden;
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  .bar-progress:hover + .bar-inforDetail {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .bar-inforDetail::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border-width: 10px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+  .bar-inforDetail::before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 9px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+  }
+
+  .bar-inforDetail h4 {
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 8px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-inforDetail h5 {
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 5px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-showInfor {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    background-color: white;
+    color: #999;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-infoContent {
+    margin-bottom: 10px !important;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-showInfor h5 {
+    margin: 0;
+    font-size: 14px;
+    margin-left: 15px !important;
+    margin-bottom: 10px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .bar-showInfor h5::before {
+    content: "";
+    position: absolute;
+    margin-top: 10px;
+    left: 5px;
+    transform: rotate(91deg);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #c4c4c4;
+    transition: transform 0.3s ease;
+  }
+
+  .bar-showInfor.active h5::before {
+    transform: rotate(180deg);
+  }
+
+  .bar-showInfor:hover h5 {
+    color: black;
+  }
+
+  .bar-infoContent {
+    display: none;
+  }
+  .bar-showInfor.active .bar-infoContent {
+    display: block;
+  }
+
+  .label-month:hover {
+    border-color: black;
+  }
+
+  .bar-progress:hover {
+    border-color: black;
+  }
+
+  .label-month {
+    width: 93px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-size: 0.9rem !important;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-right-width: 0;
+  }
+
+  .bar-progress {
+    height: 30px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    cursor: crosshair;
+    border-left-width: 0;
+  }
+</style>
+
+<main style="font-family: 'Ibm Plex Serif', serif !important">
+  <section style="font-family: 'Ibm Plex Serif', serif !important">
+    <div
+      class="banner"
+      style="position: relative; width: 100%; height: 100vh; z-index: 10"
+    >
+      <ul
+        style="
+          list-style: none;
+          margin: unset !important;
+          padding: unset !important;
+          position: relative;
+        "
+      >
+        <li style="z-index: 5" class="container-item">
+          <img
+            src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i8ZTuvZM260U/v0/2000x-1.jpg"
+            style="
+              width: 100vw;
+              height: 100vh;
+              clip-path: polygon(0 0, 100% 0, 90% 90%, 0% 100%);
+            "
+          />
+        </li>
+        <li style="z-index: 4" class="container-item">
+          <img
+            src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ixwtDavVQTgc/v0/2000x-1.jpg"
+            style="
+              width: 100vw;
+              height: 100vh;
+              clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+            "
+          />
+        </li>
+
+        <li style="z-index: 3" class="container-item">
+          <img
+            src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/itT2W4wvvxaI/v0/2000x-1.jpg"
+            style="
+              width: 100vw;
+              height: 100vh;
+              clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+            "
+          />
+        </li>
+
+        <li style="z-index: 2" class="container-item">
+          <img
+            src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/isFwV6dZLN_k/v0/2000x-1.jpg"
+            style="
+              width: 100vw;
+              height: 100vh;
+              clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+            "
+          />
+        </li>
+
+        <li style="z-index: 1" class="container-item">
+          <img
+            src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ikgPDIVR6jt4/v0/2000x-1.jpg"
+            style="
+              width: 100vw;
+              height: 100vh;
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            "
+          />
+        </li>
+      </ul>
+      <div
+        style="
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-color: black;
+          opacity: 0.15;
+          z-index: 10;
+        "
+      ></div>
+      <h1 class="container-bannerName">Đi đâu vào năm 2025</h1>
+    </div>
+
+    <div
+      style="
+        max-width: 1408px;
+        margin-left: 26px;
+        padding: 0 10px;
+        font-size: 14px;
+        line-height: 1.2;
+      "
+      class="cre"
+    >
+      Quần đảo Canary và Seville.
+      <i>Nhiếp ảnh gia: Gabriela Herman cho Bloomberg Businessweek</i
+      ><b>&nbsp; | </b>Cảng. <i>Nhiếp ảnh gia: Pia Vergara</i
+      ><b>&nbsp; | </b>Jaipur. <i>Nguồn: Raffles Hotels and Resorts</i
+      ><b>&nbsp; | </b> Casa de Brasa tại Four Seasons Resort Los Cabos ở Costa
+      Palmas. <i>Nguồn: Costa Palmas</i>
+    </div>
+  </section>
+
+  <section
+    style="
+      margin-top: 20px;
+      font-size: 22px;
+      margin-right: auto;
+      margin-left: auto;
+      width: 620px;
+      max-width: 92vw;
+    "
+    class="content-section"
+  >
+    <a
+      style="
+        display: block;
+        font-size: 22px;
+        margin: 1rem;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+      "
+      id="source"
+      >Theo
+      <span
+        id="bloomberg-pursuits"
+        style="border-bottom: 1px dotted currentColor; cursor: pointer"
+        >Bloomberg Pursuits</span
+      >
+      <br />Ngày 12 tháng 12 năm 2024
+    </a>
+  </section>
+
+  <section
+    style="
+      margin-top: 20px;
+      font-size: 22px;
+      margin-right: auto;
+      margin-left: auto;
+      width: 620px;
+      max-width: 92vw;
+    "
+    class="content-section"
+  >
+    <section>
+      <p>
+        Dù các ký giả du lịch có miễn cưỡng thừa nhận đến đâu, thì trên địa cầu
+        này, kỳ thực chẳng có nơi nào thực sự “mới mẻ.”
+      </p>
+      <p style="margin-top: 1rem !important">
+        Vậy, làm sao có thể kiến tạo một danh mục điểm đến đầy mê hoặc cho những
+        lữ khách khát khao chinh phục những miền đất lạ? Chúng tôi thường tìm
+        nguồn cảm hứng từ những địa danh vốn đã trứ danh nhưng nay khoác lên
+        mình diện mạo mới mẻ với hàng loạt cải tiến, cũng như những vùng đất
+        thâm tàng bí mật, lâu nay vẫn lặng lẽ ẩn mình trước con mắt thế nhân.
+        Đặc biệt, năm nay còn có những địa phương từng khép kín với du lịch suốt
+        nhiều thập niên, nhưng giờ đây đang từng bước tiếp nhận nó như một cơ
+        hội vừa kinh tế vừa văn hóa.
+      </p>
+      <p style="margin-top: 1rem !important">
+        Ở mảng kinh điển, những đô thị như Roma, Bangkok, Luân Đôn và New York
+        đang đón nhận các khoản đầu tư hạ tầng quy mô lớn, sự xuất hiện của các
+        nhà hàng danh giá và những khách sạn xa hoa được mong đợi từ lâu. Với
+        những tâm hồn đam mê thiên nhiên hoang dã, rừng Amazon Colombia và São
+        Tomé & Príncipe—vùng đất được mệnh danh “Galápagos của châu Phi”—hẳn sẽ
+        là những chân trời chưa được khai phá. Song có lẽ đáng trông đợi nhất
+        chính là những nơi như Greenland hay Algeria: nhờ vào các phi trường vừa
+        xây dựng và những cải cách mang tính đột phá về chính sách thị thực, các
+        vùng đất này đang dần trở nên dễ dàng tiếp cận hơn bao giờ hết.
+      </p>
+      <p style="margin-top: 1rem !important">
+        Việc chắt lọc những tin tức du lịch trọng yếu nhất thế giới xuống chỉ
+        còn 25 điểm đến là một mối bận tâm quanh năm của Bloomberg Pursuits. Như
+        những năm trước, chúng tôi đã tham vấn các chuyên gia hoạch định hành
+        trình đáng tin cậy nhất, nhằm giúp độc giả xác định thời điểm lý tưởng
+        để đặt chân tới mỗi địa danh—từ yếu tố thời tiết đến những lễ hội và sự
+        kiện văn hóa đặc sắc.
+      </p>
+      <p style="margin-top: 1rem !important">
+        Năm nay, chúng tôi còn mở rộng góc nhìn hơn nữa. Chỉ cần lựa chọn thành
+        phố xuất phát của quý độc giả ở đầu trang, quý vị sẽ nhận được những ước
+        tính chi phí khách sạn và vé máy bay theo từng tháng, được cá nhân hóa
+        cho từng điểm đến. Để thực hiện điều này, đội ngũ khoa học dữ liệu tại
+        Kayak đã dày công tổng hợp hàng tỉ—vâng, hàng tỉ!—dữ kiện để mang đến
+        thông tin chính xác nhất.
+      </p>
+    </section>
+    <section
+      class="box-price"
+      style="
+        margin-top: 1rem !important;
+        padding: 17px 21px 35px;
+        border: 2px solid #000;
+        border-radius: 0;
+        margin-bottom: 50px;
+        margin-left: calc(50% - 330px);
+      "
+    >
+      <p>
+        Để tính toán giá vé máy bay và lưu trú cho suốt 12 tháng tới tại các
+        điểm đến hàng đầu năm 2025 của Bloomberg, Kayak đã phân tích 90 triệu dữ
+        liệu về vé bay và 2,5 tỉ dữ liệu về khách sạn. Tất nhiên, giá cả sẽ biến
+        động, nhất là tại những nơi có tuyến bay mới và sân bay mới đi vào hoạt
+        động trong năm.
+      </p>
+      <p
+        style="
+          margin-top: 20px !important;
+          border-bottom: 2px solid #000;
+          padding-bottom: 20px;
+        "
+      >
+        Truy cập công cụ
+        <a
+          href="https://www.kayak.com/best-time-to-travel"
+          class="resource-link"
+          style="
+            text-decoration: none;
+            color: inherit;
+            border-bottom: 1px dotted currentColor;
+            font-style: italic;
+          "
+          >Best Time to Travel
+        </a>
+        của Kayak để cập nhật giá vé máy bay trong 12 tháng tiếp theo.
+      </p>
+      <p style="margin-top: 1rem !important">
+        Muốn biết thời điểm tối ưu để bay đến bất kỳ điểm đến nào trong danh mục
+        của chúng tôi? Hãy chọn địa điểm khởi hành để xem mức giá trung bình của
+        các chuyến bay.
+      </p>
+    </section>
+  </section>
+
+  <!-- SECTION GLOBE -->
+  <section class="globe-container">
+    <div
+      style="
+        display: flex;
+        margin-top: 20px;
+        height: 120px;
+        position: absolute;
+        right: 95px;
+      "
+    >
+      <div
+        id="country-name-box"
+        style="
+          background: white;
+          padding: 5px;
+          border: 2px solid black;
+          border-right: none;
+          width: 200px;
+          height: 80px;
+          z-index: 200;
+        "
+      >
+        <span
+          id="selected-country-name"
+          style="font-size: medium; font-weight: 500"
+          >Bạn muốn đến đâu?</span
+        >
+        <div style="position: relative">
+          <select name="country" id="country">
+            <option value="" disabled selected hidden>--- Lựa chọn ---</option>
+          </select>
+          <button id="button-close">X</button>
+        </div>
+      </div>
+    </div>
+    <div style="position: absolute; right: 10px">
+      <svg id="myglobe" style="position: relative; z-index: 300"></svg>
+    </div>
+  </section>
+
+  <!-- SECTION ARTICLE -->
+  <section id="content-container"></section>
+
+  <!-- SECTION BOTTOM -->
+  <section
+    class="bottom-container"
+    style="
+      font-size: 22px;
+      max-width: 620px;
+      margin: auto;
+      font-family: Arial, sans-serif;
+    "
+  >
+    <div>
+      <h5 style="margin: 0; font-size: 22px; margin-bottom: 10px">
+        Mã chứng khoán liên quan:
+      </h5>
+      <a
+        href="https://www.bloomberg.com/profile/company/KYAK%20US%20EQUITY"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        KYAK US Equity (Kayak Software Corp)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/MAR%20US%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        MAR US Equity (Marriott International Inc.)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/HLT%20US%20EQUITY"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        HLT US Equity (Hilton Worldwide Holdings Inc.)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/MC%20FP%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        MC FP Equity (LVMH Moet Hennessy Louis Vuitton SE)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/IHG%20US%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        IHG US Equity (InterContinental Hotels Group PLC)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/H%20US%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        H US Equity (Hyatt Hotels Corp)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/Dusit%20TB%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        Dusit TB Equity (Dusit Thani PCL)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/NTFLX%20US%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        NTFLX US Equity (Netflix Inc)
+      </a>
+      <a
+        href="https://www.bloomberg.com/profile/company/AAL%20US%20Equity"
+        class="container-stock resource-link"
+        style="text-decoration: none; color: inherit"
+      >
+        AAL US Equity (American Airlines Group Inc)
+      </a>
+    </div>
+    <div style="margin-top: 20px">
+      <h5 style="font-weight: 100; margin: 0; font-size: 16px; color: gray">
+        Phóng viên:Jackie Caradonio, Sara Clemence, Nikki Ekstein, Lebawit Lily
+        Girma, Mark Johanson, Sarah Khan, Kate Krader, Jen Murphy, Brandon
+        Presser, Sarah Rappaport, Chris Schalkx,James Tarmy.
+      </h5>
+      <h5 style="font-weight: 100; margin: 0; font-size: 16px; color: gray">
+        Sản xuất:Jeremy Scott Diamond
+      </h5>
+      <h5 style="font-weight: 100; margin: 0; font-size: 16px; color: gray">
+        Biên tập ảnh:Halie Chavez,Leonor Mamanna
+      </h5>
+    </div>
+  </section>
+</main>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&display=swap");
+
+  body {
+    margin: auto;
+    width: 100%;
+  }
+  .container-bannerName {
+    color: white;
+    font-size: 27vh;
+    position: absolute;
+    bottom: 0px;
+    left: 20px;
+    z-index: 100;
+    font-family: "Ibm Plex Serif", serif !important;
+    text-align: left;
+    max-width: 36vh;
+    line-height: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12vh;
+  }
+  .content-section p {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+  .container-contact-sub strong,
+  .container-contact-sub a {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+  .price-hotel p,
+  .price-hotel h2 {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .bottom-container h5,
+  .bottom-container a {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  p {
+    margin: unset !important;
+  }
+
+  .cre,
+  .cre i {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  #selected-country-name,
+  #country {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .container-stock {
+    border-bottom: 1px dotted #000;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .container-contact {
+    border: 2px solid #000 !important;
+    display: table;
+    padding: 8px;
+    font-size: 22px;
+    margin: unset;
+    margin-bottom: 20px;
+  }
+  .container-contactName {
+    border-bottom: 2px dotted #000 !important;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .container-contactName:hover {
+    border-bottom: 2px solid #000;
+  }
+  .container-box {
+    margin-top: 30px;
+  }
+  .container-caption {
+    padding: 0 14px !important;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .container-content-25DiaDiem {
+    font-size: 22px;
+    max-width: 620px;
+    margin: auto;
+  }
+  .time-content,
+  .container-content-25DiaDiem p {
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .container-content-25DiaDiem div p strong {
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  .location-image {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    height: 110vh;
+  }
+  .container-item {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .container-name {
+    margin: unset;
+    margin: 2rem;
+    font-weight: 500;
+    font-size: 5.5rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .container-img {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .container-img img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: var(--object-fit, cover);
+    object-position: center;
+    position: relative;
+  }
+
+  @keyframes clipAnimation_child_1 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 90% 90%, 0% 100%);
+    }
+    10% {
+      clip-path: polygon(0 0, 100% 0, 2.5% 2.5%, 0% 100%);
+    }
+    90% {
+      clip-path: polygon(0 0, 100% 0, 2.5% 2.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 90% 90%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_2 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    10% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    20% {
+      clip-path: polygon(0 0, 100% 0, 5% 5%, 0% 100%);
+    }
+    80% {
+      clip-path: polygon(0 0, 100% 0, 5% 5%, 0% 100%);
+    }
+    90% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 92.5% 92.5%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_3 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    20% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    30% {
+      clip-path: polygon(0 0, 100% 0, 7.5% 7.5%, 0% 100%);
+    }
+    70% {
+      clip-path: polygon(0 0, 100% 0, 7.5% 7.5%, 0% 100%);
+    }
+    80% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 95% 95%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_4 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    30% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    40% {
+      clip-path: polygon(0 0, 100% 0, 10% 10%, 0% 100%);
+    }
+    70% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 97.5% 97.5%, 0% 100%);
+    }
+  }
+
+  @keyframes clipAnimation_child_5 {
+    0% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    50% {
+      clip-path: polygon(10% 10%, 100% 0, 100% 100%, 0% 100%);
+    }
+    60% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    100% {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+  }
+
+  .container-item:nth-child(1) img {
+    animation: clipAnimation_child_1 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(2) img {
+    animation: clipAnimation_child_2 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(3) img {
+    animation: clipAnimation_child_3 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(4) img {
+    animation: clipAnimation_child_4 15s ease-in-out infinite;
+  }
+
+  .container-item:nth-child(5) img {
+    animation: clipAnimation_child_5 15s ease-in-out infinite;
+  }
+
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 620px;
+    position: relative;
+  }
+
+  .globe-container {
+    position: sticky;
+    top: 0;
+    right: 0;
+    z-index: 200;
+  }
+  #country {
+    width: 80%;
+    margin-top: 2px;
+    padding: 5px;
+    background-color: #82ada8;
+    height: 35px;
+    font-size: 15px;
+    font-weight: 500;
+    appearance: none;
+  }
+  #country:focus {
+    border: none;
+  }
+
+  #country option {
+    background-color: black;
+    color: white;
+    font-size: large;
+  }
+
+  /* Optional: Style when hovering over options */
+  #country option:hover {
+    background-color: white; /* Dark gray for contrast */
+    color: black;
+  }
+
+  /* Optional: Style when hovering over options */
+  #country option:hover {
+    background-color: white; /* Dark gray for contrast */
+    color: black;
+  }
+
+  /* ✅ Scrollbar Styling (For WebKit browsers) */
+  #country::-webkit-scrollbar {
+    width: 5px; /* Thin scrollbar */
+  }
+
+  #country::-webkit-scrollbar-track {
+    background: black; /* Background of scrollbar */
+  }
+
+  #country::-webkit-scrollbar-thumb {
+    background: white; /* Scrollbar color */
+    border-radius: 10px;
+  }
+
+  #country::-webkit-scrollbar-thumb:hover {
+    background: white; /* Lighter color when hovered */
+  }
+
+  #button-close {
+    padding-inline: 5px;
+    position: absolute;
+    right: 22%;
+    display: flex;
+    justify-content: end;
+    background-color: #82ada8;
+    top: 25%;
+    margin-right: 1px;
+    border: 0;
+    z-index: 10;
+    font-size: small;
+    font-weight: 600;
+    visibility: hidden;
+  }
+
+  @media (max-width: 991px) {
+    .banner {
+      height: 70vh !important;
+    }
+
+    .location-image {
+      max-height: 70vh;
+    }
+
+    .box-price {
+      margin-left: unset !important;
+    }
+
+    .container-name {
+      font-size: 3.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .banner {
+      height: 50vh !important;
+    }
+
+    .banner img {
+      height: 50vh !important;
+    }
+
+    .chart-container {
+      width: 550px !important;
+    }
+    .container-name {
+      line-height: 1.1 !important;
+    }
+
+    .bottom-container {
+      margin-inline: 20px !important;
+    }
+    .cre {
+      margin-left: unset !important;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .location-image {
+      max-height: 50vh !important;
+    }
+
+    .banner h1 {
+      font-size: 5vh !important;
+      max-width: 16vh !important;
+    }
+
+    .chart-container {
+      width: 450px !important;
+    }
+
+    .container-name {
+      font-size: 2.5rem !important;
+      margin: 1rem;
+    }
+
+    .container-content-25DiaDiem {
+      padding-block: 10px;
+      padding-inline: 10px;
+    }
+
+    .bar-progress {
+      height: 25px !important;
+    }
+    .label-month {
+      height: 25px !important;
+      font-size: 0.9rem !important;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .chart-container {
+      width: 380px !important;
+    }
+
+    .bottom-container {
+      margin-inline: 10px !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .chart-container {
+      width: 360px !important;
+    }
+  }
+
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 620px;
+    position: relative;
+  }
+
+  .bar-container {
+    position: relative;
+    display: flex;
+    margin-top: 2px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .bar-progress:hover .bar-inforDetail {
+    opacity: 1;
+    visibility: visible;
+  }
+  .bar-inforDetail {
+    position: absolute;
+    top: -135px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    white-space: nowrap;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    z-index: 40 !important;
+    opacity: 0;
+    visibility: hidden;
+    font-family: "Ibm Plex Serif", serif !important;
+    line-height: 1.875rem !important;
+    font-size: 19px !important;
+  }
+
+  .bar-progress:hover + .bar-inforDetail {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .bar-inforDetail::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border-width: 10px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+  .bar-inforDetail::before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 9px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+  }
+
+  .bar-inforDetail h4 {
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 8px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-inforDetail h5 {
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 5px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-showInfor {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    background-color: white;
+    color: #999;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-infoContent {
+    margin-bottom: 10px !important;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+  .bar-showInfor h5 {
+    margin: 0;
+    font-size: 14px;
+    margin-left: 15px !important;
+    margin-bottom: 10px;
+    font-family: "Ibm Plex Serif", serif !important;
+  }
+
+  .bar-showInfor h5::before {
+    content: "";
+    position: absolute;
+    margin-top: 10px;
+    left: 5px;
+    transform: rotate(91deg);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #c4c4c4;
+    transition: transform 0.3s ease;
+  }
+
+  .bar-showInfor.active h5::before {
+    transform: rotate(180deg);
+  }
+
+  .bar-showInfor:hover h5 {
+    color: black;
+  }
+
+  .bar-infoContent {
+    display: none;
+  }
+  .bar-showInfor.active .bar-infoContent {
+    display: block;
+  }
+
+  .label-month:hover {
+    border-color: black;
+  }
+
+  .bar-progress:hover {
+    border-color: black;
+  }
+
+  .label-month {
+    width: 93px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-size: 0.9rem !important;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    border-right-width: 0;
+  }
+
+  .bar-progress {
+    height: 30px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    cursor: crosshair;
+    border-left-width: 0;
+  }
+</style>
+
+<script>
+  const months = [
+    "Tháng 1",
+    "Tháng 2",
+    "Tháng 3",
+    "Tháng 4",
+    "Tháng 5",
+    "Tháng 6",
+    "Tháng 7",
+    "Tháng 8",
+    "Tháng 9",
+    "Tháng 10",
+    "Tháng 11",
+    "Tháng 12",
+  ];
+
+  function createBarChart(prices, bestMonths, worstMonths, note) {
+    const displayedNote = note.replace(/\r?\n/g, "<br>");
+
+    const maxPrice = Math.max(...prices);
+    const minPrice = Math.min(...prices);
+
+    // Calculate the position for the lowest price
+    const minPricePosition = parseFloat((minPrice / maxPrice) * 100 - 0.2);
+
+    return `
+    <section style="position: relative; display: flex; justify-content: center">
+      <section class="price-hotel">
+        <h2 style="font-weight: 600">GIÁ KHÁCH SẠN</h2>
+        <br/>
+        <div class="chart-container" id="chart">
+          <div style="height: 30px"></div>
+
+          <!-- Left solid border -->
+          <div
+            style="z-index:1; position: absolute; top: 0; left: 83px; height: 100%; width: 1; border-style: solid; border-color: black; border-width: 2px; border-top: 0; border-bottom: 0; border-left: 0;"
+          ></div>
+
+          <!-- Middle dotted border (Low Price Indicator) -->
+          <div
+            style="; position: absolute; top: 0; left: 0; height: 100%; width: 100%; font-size: 1rem; display:flex; "
+          >
+                <div style="width:83px"></div>
+                <div style="flex: 1; height:100%; position: relative;">
+                    <div style="width: ${minPricePosition}%; height:100%; display:flex; justify-content:end">
+                        <div style="z-index: 1; background-color:transparent; width:fit-content; border-style: dotted; border-color: black; border-width: 2px; border-top: 0; border-bottom: 0; border-left: 0;">
+                            <p style="text-align: end; font-weight: 600; margin-top: -15px !important; margin-right:5px !important; font-size: 14px !important; line-height:unset !important">Thấp</p>
+                            <p style="text-align: end; font-weight: 600; font-size: 14px !important;  margin-right:5px !important; line-height:1 !important">$${minPrice}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          <!-- Right dotted border -->
+          <div
+            style="z-index:100; position: absolute; top: 0; right: 0; height: 100%; border-style: dotted; border-color: black; border-width: 2px; border-top: 0; border-bottom: 0; border-left: 0; font-size: 1rem;"
+          >
+            <p style="text-align: end; font-weight: 600; margin-top: -15px !important; margin-right:5px !important; font-size: 14px !important; line-height:unset !important">Cao</p>
+            <p style="text-align: end; font-weight: 600; font-size: 14px !important; line-height:1 !important; margin-right:5px !important;">$${maxPrice}</p>
+          </div>
+
+          <!-- Generate bars dynamically -->
+          ${months
+            .map((month, index) => {
+              const barWidth = (prices[index] / maxPrice) * 100;
+              const color = bestMonths.includes(month)
+                ? "#82ada8"
+                : worstMonths.includes(month)
+                ? "#d6bcad"
+                : "#e6e4da";
+
+              const colorTitle =
+                bestMonths.includes(month) || worstMonths.includes(month)
+                  ? "black"
+                  : "#777";
+              return `<div class="bar-container">
+                    <p style="background-color: ${color}; color: ${colorTitle}" class="label-month">
+                        ${month}
+                    </p>
+                    <div style="width: 100%; position: relative;">
+                        <div class="bar-progress" style="width: ${barWidth}%; background-color: ${color}; position: relative;">
+                            <!-- Tooltip được đặt bên trong bar-progress để hover hoạt động đúng -->
+                            <div class="bar-inforDetail">
+                                <h4 style="background-color: ${color}; font-weight:600">${month}</h4>
+                                <h5 style="font-weight: 600">Giá khách sạn trung bình</h5>
+                                <h5 style="font-weight: 600">$${prices[index]}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            })
+            .join("")}
+
+        </div>
+
+        <div style=" margin-top: 10px; font-weight:600">
+            <p style="font-size:14px;">Thời điểm nên đi:</p>
+            <div style="display: flex; align-items: center">
+                <div style="width: 15px; height: 15px; background-color: #82ada8; margin-right: 5px"></div>
+                <p style="font-size:14px">Tốt nhất</p>
+                <div style="width: 15px; height: 15px; background-color: #d6bcad; margin-left: 20px; margin-right:5px"></div>
+                <p style="font-size:14px">Tệ nhất</p>
+            </div>
+        </div>
+
+        <div class="bar-showInfor">
+            <h5>Ghi chú về giá từ Kayak</h5>
+            <div class="bar-infoContent" style="font-size:16px;">
+                ${displayedNote}
+            </div>
+        </div>
+        <div style="width:100%; height:1.5px; background-color:black;"></div>
+        <br>
+      </section>
+    </section>
+  `;
+  }
+</script>
+
+<script>
+  const articles = [
+    {
+      id: 0,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iVQdskhnQqTU/v0/-1x-1.jpg",
+      caption:
+        "Grand Erg Occidental cao chót vót trên ốc đảo Taghit. Nhiếp ảnh gia: Will Bowen",
+      title: "Algeria",
+      content:
+        " Nếu quý độc giả chưa tường tận về quốc gia rộng lớn nhất châu Phi, thì đó có lẽ không phải là điều ngẫu nhiên. Algeria đã tự thu mình để bảo toàn bản sắc văn hóa sau hai chương lịch sử bi tráng: Cuộc cách mạng khốc liệt kéo dài tám năm kết thúc ách cai trị của Pháp vào năm 1962, và cuộc nội chiến đẫm máu giữa chính quyền quân sự và các nhóm Hồi giáo vũ trang trong thập niên 1990. Giờ đây, Algeria đã khôi phục ổn định—và năm 2023, chính phủ nước này đã triển khai chương trình cấp thị thực tại cửa khẩu như một bước khởi đầu trong kế hoạch phát triển ngành du lịch. Đến năm 2030, Algeria đặt mục tiêu đón tiếp 12 triệu du khách mỗi năm.\n\n Lựa chọn đến Algeria ngay lúc này—trước khi quốc gia này hoàn toàn bước ra ánh sáng—là một đặc quyền hiếm có. Du khách sẽ có cơ hội chiêm ngưỡng những cảnh quan hoang sơ, như ốc đảo rợp bóng cọ giữa sa mạc Sahara gần Timimoun, mà không bị vẩn đục bởi dòng xe du lịch. Hơn thế nữa, đây cũng là dịp chứng kiến một nền văn hóa sôi động, nơi người dân vẫn ung dung bảo lưu bản sắc của mình mà không chút mảy may đến ánh nhìn phương Tây. \n\n Khởi hành từ kinh đô hoa lệ Algiers, nơi Viện bảo tàng Mỹ thuật Quốc gia do Pháp xây dựng sừng sững dưới bóng ngọn tháp uy nghi của Đài tưởng niệm Liệt sĩ, vinh danh 1,5 triệu người Algeria hy sinh trong cuộc chiến giành độc lập. Tiếp tục hành trình đến Constantine, thành phố nửa triệu dân với bảy cây cầu vắt ngang những hẻm núi hiểm trở của sông Rhumel, tựa như những sợi dây căng giữa không trung. Cuối cùng là Cuicul, một thuộc địa La Mã từng phồn vinh, nay là quần thể di tích ngoạn mục được bảo tồn gần như nguyên vẹn. Ở bất kỳ nơi nào khác trên thế giới, một kho tàng cổ vật quy mô như vậy hẳn sẽ bị bao phủ bởi hàng rào bảo vệ, lối đi có kiểm soát và biển chỉ dẫn cho dòng người tấp nập. Nhưng tại đây, tất cả vẫn vắng lặng, dành trọn cho bạn—ít nhất là vào thời điểm này.",
+      pointGo:
+        "Tháng 9 và 10 mang đến trải nghiệm trọn vẹn mà không bị cái nóng sa mạc mùa Hè cản trở. Mùa Xuân cao điểm—tháng 4 và 5—cũng có những lợi thế tương tự.",
+      pointNotGo:
+        "Tránh tháng 3, khi Ramadan khiến nhịp sống địa phương lắng xuống, cũng như tháng 7 và 8, khi nhiệt độ tại Sahara có thể vượt ngưỡng 38°C.",
+      contact: "Wild Frontiers",
+      linkcontact:
+        "https://www.wildfrontierstravel.com/en_US/destination/algeria",
+      prices: [135, 125, 130, 131, 129, 125, 126, 129, 119, 119, 120, 121],
+      bestMonths: ["Tháng 4", "Tháng 5", "Tháng 9", "Tháng 10"],
+      worstMonths: ["Tháng 3", "Tháng 7", "Tháng 8"],
+      note: "Giá khách sạn: Kayak đã phân tích dữ liệu tìm kiếm từ 1.5.2023 đến 1.11.2024 cho các chuyến đi từ 1.11.2023 đến 31.12.2024, dựa trên mức giá trung vị theo đêm tại khách sạn 4 và 5 sao cho phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Khởi hành từ kinh đô hoa lệ Algiers, nơi Viện bảo tàng Mỹ thuật Quốc gia do Pháp xây dựng sừng sững dưới bóng ngọn tháp uy nghi của Đài tưởng niệm Liệt sĩ, vinh danh 1,5 triệu người Algeria hy sinh trong cuộc chiến giành độc lập. Tiếp tục hành trình đến Constantine, thành phố nửa triệu dân với bảy cây cầu vắt ngang những hẻm núi hiểm trở của sông Rhumel, tựa như những sợi dây căng giữa không trung. Cuối cùng là Cuicul, một thuộc địa La Mã từng phồn vinh, nay là quần thể di tích ngoạn mục được bảo tồn gần như nguyên vẹn. Ở bất kỳ nơi nào khác trên thế giới, một kho tàng cổ vật quy mô như vậy hẳn sẽ bị bao phủ bởi hàng rào bảo vệ, lối đi có kiểm soát và biển chỉ dẫn cho dòng người tấp nập. Nhưng tại đây, tất cả vẫn vắng lặng, dành trọn cho bạn—ít nhất là vào thời điểm này.",
+    },
+    {
+      id: 1,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ip1CjRoP11mE/v0/3200x-1.jpg",
+      caption: "Ảnh: Đảo Waldorf Astoria Platte. Nguồn: Waldorf Astoria",
+      title: "Seychelles",
+      content:
+        " Nằm cách đất liền hơn 1.600 km—ngoài khơi bờ biển phía Đông Kenya—quần đảo Seychelles với 115 đảo nhỏ biệt lập từ lâu đã trở thành thiên đường xa hoa, nơi những khu nghỉ dưỡng đẳng cấp song hành cùng mức giá xứng tầm. Điều này không chỉ đơn thuần do vị trí địa lý hẻo lánh, mà còn nhờ quy định nghiêm ngặt: Pháp luật Seychelles giới hạn mật độ xây dựng khách sạn ở mức rất thấp, khiến sự xuất hiện của Waldorf Astoria và Cheval Blanc Seychelles do tập đoàn LVMH sở hữu trở thành lý do đầy hấp dẫn để ghé thăm.\n\n Tại Cheval Blanc, 52 biệt thự trên đảo chính Mahé do kiến trúc sư Jean-Michel Gathy thiết kế, mang dáng vẻ thanh thoát với những mái nhọn cao vút, lấy cảm hứng từ phong cách kiến trúc Creole của Seychelles. Không gian nội thất nổi bật với những tấm dệt nghệ thuật tinh xảo của Joël Andrianomearisoa từ Madagascar. Khu nghỉ dưỡng còn sở hữu spa Guerlain đẳng cấp cùng năm nhà hàng, nhiều trong số đó tọa lạc ngay bên bờ biển, nơi những khối đá granite tựa như những chú cá voi mắc cạn giữa thiên nhiên. \n\n Trong khi đó, Waldorf Astoria mang đến trải nghiệm nghỉ dưỡng biệt lập với 50 biệt thự trên đảo Platte, một thiên đường xanh thơm ngát hương hoa dành dành và là nơi trú ẩn của rùa biển hawksbill quý hiếm. Chỉ có thể tiếp cận bằng chuyến bay kéo dài 25 phút, hòn đảo này là điểm đến lý tưởng cho những ai đam mê lướt ván diều, câu cá biển, lặn biển và khám phá các rạn san hô cùng hướng dẫn viên. \n\n Và rồi còn có đảo Frégate, nơi nhiều cư dân địa phương xem là khu nghỉ dưỡng xa hoa đầu tiên của Seychelles khi khai trương vào năm 1999. Sau ba năm đóng cửa, nơi đây sẽ tái xuất vào nửa cuối năm 2025. Mười bảy biệt thự vốn đã rộng rãi nay được mở rộng thêm, với cửa kính kéo dài từ sàn đến trần, hệ thống năng lượng mặt trời và nội thất tân trang. Song điều quan trọng hơn cả là những gì vẫn được bảo tồn nguyên vẹn: Sinh cảnh dành cho các loài quý hiếm có nguy cơ tuyệt chủng, từ chim chích magpie robin, bọ Frégate đến rùa khổng lồ Aldabra, vẫn được bảo vệ nghiêm ngặt trên diện tích 750 mẫu Anh của khu nghỉ dưỡng.",
+      pointGo:
+        "Seychelles quanh năm ấm áp, nhưng tháng 4, 5, 10 và 11 là thời điểm lý tưởng với độ ẩm thấp, gió lặng và biển êm. Đây cũng là giai đoạn ít khách du lịch, tránh được mùa cao điểm mùa Hè.",
+      pointNotGo:
+        "Gió mùa mạnh quét qua hai lần mỗi năm—từ tháng 12 đến tháng 3 và từ tháng 6 đến tháng 9—thường khiến những bờ cát trắng nguyên sơ phủ đầy rong biển.",
+      contact: "Roar Africa",
+      linkcontact: "https://www.roarafrica.com/",
+      prices: [432, 453, 455, 437, 400, 380, 422, 436, 390, 425, 445, 452],
+      bestMonths: ["Tháng 4", "Tháng 5", "Tháng 10", "Tháng 11"],
+      worstMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 6",
+        "Tháng 7",
+        "Tháng 8",
+        "Tháng 9",
+        "Tháng 12",
+      ],
+      note: "Và rồi còn có đảo Frégate, nơi nhiều cư dân địa phương xem là khu nghỉ dưỡng xa hoa đầu tiên của Seychelles khi khai trương vào năm 1999. Sau ba năm đóng cửa, nơi đây sẽ tái xuất vào nửa cuối năm 2025. Mười bảy biệt thự vốn đã rộng rãi nay được mở rộng thêm, với cửa kính kéo dài từ sàn đến trần, hệ thống năng lượng mặt trời và nội thất tân trang. Song điều quan trọng hơn cả là những gì vẫn được bảo tồn nguyên vẹn: Sinh cảnh dành cho các loài quý hiếm có nguy cơ tuyệt chủng, từ chim chích magpie robin, bọ Frégate đến rùa khổng lồ Aldabra, vẫn được bảo vệ nghiêm ngặt trên diện tích 750 mẫu Anh của khu nghỉ dưỡng.",
+    },
+    {
+      id: 2,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iOuWv3DKcgR4/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Một đầu bếp tại Somni đang trình bày món canapé. Nguồn: Nhà hàng Somni",
+      title: "Los Angeles",
+      content:
+        "Giữa thời điểm ẩm thực thượng lưu bị cho là đã thoái trào, Hollywood lại đang thổi bùng sức sống mới vào nghệ thuật vị giác. Đứng đầu danh sách là Somni, nơi đầu bếp Aitor Zabala biến thực đơn 20 món thành một màn trình diễn mãn nhãn, với phong cách siêu hiện đại và mức giá 495 USD. Món trứng cá muối tại đây đi kèm với blini làm từ lòng trắng trứng đánh bông, bơ hun khói và kem. \n\n Khi bước sang năm 2025, Seline—do Dave Beran, cựu đầu bếp của Alinea, sáng lập—sẽ chính thức ra mắt tại Santa Monica. Ông từng huấn luyện Jeremy Allen White để hóa thân thành đầu bếp trong The Bear. Nhà hàng này mang đến thực đơn 15 đến 18 món theo phong vị Nam California hiện đại, được phục vụ ngay tại gian bếp mở kết nối liền mạch với phòng ăn. \n\n Ngoài ra, Udatsu, nhà hàng sushi trứ danh từ Tokyo, vừa khai trương chi nhánh đầu tiên tại Mỹ trong một phòng thu cũ trên Đại lộ Sunset. Trải nghiệm omakase tối giản với mức giá 225 USD chỉ dành cho tám thực khách may mắn trong mỗi lượt phục vụ. \n\n Không chỉ những địa điểm ẩm thực cao cấp mới gây tiếng vang. Đầu bếp danh tiếng tại Los Angeles, Bryant Ng, đang chuẩn bị khai trương Jade Rabbit, nơi thực đơn quy tụ những món như gà cam xoài – sự hòa quyện táo bạo giữa hương vị Triều Tiên và Quảng Đông. Đến mùa Hè năm sau, Super Peach với 200 chỗ ngồi—nhà hàng Momofuku đầu tiên ra mắt sau nhiều năm—sẽ xuất hiện tại trung tâm thương mại Westfield Century City, tiếp nối phong vị phóng khoáng của Noodle Bar nguyên bản ở New York. \n\n Tất nhiên, sau những trải nghiệm ẩm thực đó, một nơi nghỉ dưỡng đẳng cấp là điều không thể thiếu. Regent Santa Monica Beach với 167 phòng và suite mang phong cách du thuyền sẽ là lựa chọn lý tưởng. Ngay cả bữa sáng cũng được nâng tầm, với sự góp mặt của hai nhà hàng từ đầu bếp Michael Mina và Ayesha Curry. Hãy coi đó như màn dạo đầu cho những ngày ngập tràn mỹ vị phía trước.",
+      pointGo:
+        "Từ tháng 3 đến tháng 5 là thời điểm lý tưởng với thời tiết ôn hòa và ít du khách. Mùa thu cũng mang đến không khí dễ chịu, đồng thời giúp bạn tránh khỏi cảnh xếp hàng dài tại các điểm tham quan nổi tiếng.",
+      pointNotGo:
+        "Từ tháng 6 đến tháng 8 nên hạn chế, đặc biệt nếu bạn có kế hoạch đến Disneyland. Đây là giai đoạn giao thoa không mong muốn giữa nắng nóng cực độ và giá cả leo thang.",
+      contact: "Embark Beyond",
+      linkcontact: "https://www.embarkbeyond.com/",
+      prices: [257, 291, 286, 270, 293, 292, 316, 281, 293, 297, 276, 268],
+      bestMonths: [
+        "Tháng 3",
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 9",
+        "Tháng 10",
+        "Tháng 11",
+      ],
+      worstMonths: ["Tháng 6", "Tháng 7"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến mức giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến.",
+    },
+    {
+      id: 3,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iiQlxQ9v78mk/v0/3200x-1.jpg",
+      caption: "Ảnh: Trượt tuyết tại Portillo. Nhiếp ảnh gia: Rick Sorensen",
+      title: "Portillo, Chile",
+      content:
+        " Khu trượt tuyết Portillo của Chile được những tín đồ tuyết bột sành sỏi ca tụng không kém gì các triền núi phủ băng của Niseko, Nhật Bản. Trên diện tích 1.235 mẫu Anh, những cung đường trượt dành cho tay chơi lão luyện uốn lượn quanh một hồ nước màu lam ngọc, nép mình dưới bóng đỉnh núi cao nhất Tây Bán Cầu—một bức tranh hòa quyện giữa điều kiện trượt tuyết lý tưởng và phong cảnh ngoạn mục. Nhưng điều khiến Portillo trở nên độc nhất chính là sự trường tồn của nó. Kể từ khi Bob Purcell—một doanh nhân New York—rời bỏ phố thị để tiếp quản khu nghỉ dưỡng trượt tuyết đầu tiên của lục địa vào năm 1961, nơi đây gần như không thay đổi. \n\n Trong một ngành công nghiệp bị chi phối bởi những tập đoàn nghỉ dưỡng khổng lồ, Portillo vẫn kiên định giữ bản sắc độc lập. Không thị trấn nghỉ dưỡng, không trò trượt phao, không xe trượt tuyết kéo ngựa. Mọi tiện ích cần thiết—từ rạp chiếu phim, sàn nhảy đến quầy bar piano—đều nằm gọn trong một khách sạn sáu tầng màu vàng chanh, ngay sát dốc trượt. Du khách đến đây không đặt phòng theo đêm mà chọn gói nghỉ trọn tuần hoặc nửa tuần, dùng bữa bốn lần mỗi ngày (bao gồm cả trà chiều theo phong cách Chile) tại những chiếc bàn cố định trong đại sảnh lát gỗ, trò chuyện với người lạ như thể đang lênh đênh trên một du thuyền. Với công suất tối đa chỉ 450 khách, không gian trượt tuyết ở đây rộng rãi đến lạ thường—hàng dài chờ lên cáp treo là điều không tồn tại trên ngọn núi này. \n\n Vì sao nên ưu tiên Portillo ngay lúc này, khi nơi đây đã giữ nguyên vẻ cổ kính suốt hàng thập kỷ?  \n\n Nhân kỷ niệm 75 năm, gia tộc Purcell sẽ thêm chút điểm xuyết lộng lẫy—dù chỉ là tạm thời. Du khách sẽ có cơ hội tham dự những bữa tiệc tối trên đỉnh núi do các bậc thầy rượu vang Chile dẫn dắt, trải nghiệm hành trình khám phá bầu trời đầy sao cùng chuyên gia thiên văn hay thử thách lòng gan dạ với những lần ngâm mình trong làn nước lạnh cắt da. Hành trình đến đây cũng trở nên thuận tiện hơn bao giờ hết với nhà ga quốc tế trị giá 990 triệu USD mới khánh thành ở sân bay Santiago, chỉ cách Portillo hai giờ di chuyển. Nếu muốn kéo dài chuyến đi, hãy dừng chân tại Debaines—khách sạn boutique 50 phòng thuộc Small Luxury Hotels of the World, khai trương vào tháng 12 ngay cạnh nhà hát opera tân cổ điển của thủ đô.",
+      pointGo:
+        "Đã đến đây để trượt tuyết thì không có lựa chọn nào khác ngoài mùa Đông. Nhưng nếu muốn những ngày trời xanh quang đãng và lớp tuyết ổn định nhất, hãy nhắm đến giai đoạn từ tháng 8 đến đầu tháng 9.",
+      pointNotGo:
+        "Ngoại trừ một lễ hội âm nhạc nổi bật vào tháng 1, từ tháng 11 đến tháng 6 nơi đây không có nhiều hoạt động đáng chú ý. Một số du khách thích leo núi và chèo thuyền vẫn ghé qua, nhưng khách sạn chính sẽ đóng cửa. Nếu muốn tận hưởng trọn vẹn, hãy kiên nhẫn chờ đợi đến khi mùa tuyết phủ.",
+      contact: "Landed",
+      linkcontact: "https://landedtravel.com/chile/",
+      prices: [123, 116, 125, 112, 123, 436, 721, 629, 436, 101, 113, 123],
+      bestMonths: ["Tháng 8", "Tháng 9"],
+      worstMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 11",
+        "Tháng 12",
+      ],
+      note: "Giá khách sạn: Báo giá cho Khách sạn Portillo được hiển thị từ tháng 6 đến tháng 9. Nếu không, hiển thị giá Kayak từ hai nhà gỗ cho thuê dựa trên các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 4,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/it8s8_5IbZo0/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Trang viên lâu đài Maryhill Estate. Nguồn: Maryhill Estate",
+      title: "Skåne, Thụy Điển",
+      content:
+        " Điểm đến lý tưởng cho một kỳ nghỉ mát lạnh tiếp theo đang nằm ngay trước mắt, chỉ cách Copenhagen một chuyến xe 30 phút băng qua cầu Øresund nối liền Đan Mạch và Thụy Điển. Skåne là vùng cực nam của đất nước này, nơi những ngọn hải đăng đơn độc soi bóng lên bờ biển tĩnh lặng, những làng chài nhỏ xinh ẩn mình bên làn nước trong vắt và những khu vườn hoàng gia trải dài mênh mông—một chốn để sống chậm, dạo bước trên bãi cát dài với những túp lều rực rỡ sắc màu và tận hưởng những giờ fika bất tận với cà phê đậm đà và bánh quế thơm lừng. \n\n Nhưng nơi đây không chỉ có vẻ đẹp trầm mặc. Một làn gió sôi động đang tràn qua vùng đất này với sự xuất hiện của Maryhill Estate—một lâu đài baroque được trùng tu với 163 phòng trang trí hoa lá và họa tiết kẹo sọc, nằm vững chãi bên bờ biển Øresund lộng gió, đủ để sánh ngang với các lâu đài tráng lệ của thung lũng Loire. Với hồ bơi riêng tư và bãi cỏ dành cho môn croquet, đây là chốn dừng chân lý tưởng đầu tiên của Skåne, nâng tầm chuẩn mực nghỉ dưỡng của cả Bắc Âu. Hãy biến nơi đây thành điểm khởi hành cho những ngày chu du giữa các xưởng rượu táo, những nhà thờ cổ kính và cung điện nguy nga—hoặc đơn giản là một cái cớ hoàn hảo để khám phá thủ phủ khu vực, thành phố Mälmo.  \n\n  Một tin tức ẩm thực chấn động cũng đang chờ đón du khách. Đầu bếp Magnus Nilsson—người từng tạo dựng danh tiếng toàn cầu với nhà hàng Fäviken Magasinet ở cực bắc Thụy Điển—sẽ ra mắt Pensionat Furuhem vào mùa Xuân này. Nhà hàng tọa lạc trong một tòa nhà sơn trắng từng là trường nội trú dành cho nữ sinh tại thị trấn Båstad. Đây sẽ là một điểm đến ẩm thực độc đáo, được sở hữu tập thể bởi chính các đầu bếp và nhân viên, mang đến trải nghiệm ẩm thực truyền thống địa phương, một tiệm bánh phục vụ suốt cả ngày và một số phòng khách sạn ở tầng trên. ",
+      pointGo:
+        "Ngay cả vào giữa mùa Hè, nhiệt độ cao nhất cũng chỉ khoảng 24°C. Tuy nhiên, mùa du lịch kéo dài từ tháng 6 đến tháng 9, khi lượng khách giảm bớt nhưng thời tiết vẫn dễ chịu và ấm áp.",
+      pointNotGo:
+        "Bạn nghĩ mùa Đông ở quê nhà đã đủ u ám? Hãy tránh từ tháng 11 đến tháng 1, khi Thụy Điển chỉ có khoảng bảy giờ ánh sáng mỗi ngày—một thử thách thực sự với những ai không quen với đêm trắng.",
+      contact: "Jacada Travel",
+      linkcontact: "https://www.jacadatravel.com/",
+      prices: [113, 123, 116, 130, 176, 150, 151, 143, 140, 135, 132, 124],
+      bestMonths: ["Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9"],
+      worstMonths: ["Tháng 1", "Tháng 11", "Tháng 12"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 5,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/izGD9fsUuS8c/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Khu nghỉ dưỡng Four Seasons Los Cabos tại Costa Palmas. Nguồn: Costa Palmas",
+      title: "Costa Palmas, Mexico",
+      content:
+        " Hầu hết du khách đến sân bay San José del Cabo, nằm ở mũi bán đảo Baja California (đón 3,86 triệu lượt khách trong năm 2023), đều đổ về dải nghỉ dưỡng Los Cabos Corridor. Tuy nhiên, cách đó khoảng 100 km về phía Đông, Costa Palmas đang nổi lên như một lựa chọn tinh tế và biệt lập hơn. \n\n  Khu cộng đồng ven biển tư nhân rộng 1.500 mẫu Anh này lần đầu tiên ghi dấu ấn khi Four Seasons khai trương vào năm 2019 với một tổ hợp biệt thự trắng tinh khôi và sân golf danh tiếng do Robert Trent Jones II thiết kế. Đến năm 2025, sự xa hoa tại Costa Palmas sẽ đạt đến đỉnh cao khi hàng loạt khu nghỉ dưỡng và nhà hàng mới ra mắt, quy tụ những tên tuổi hàng đầu trong lĩnh vực thiết kế và ẩm thực.\n\n Elastic Architects, một studio thiết kế danh tiếng tại Athens, là đơn vị đứng sau dự án Amanvari—khu nghỉ dưỡng mới thuộc tập đoàn Aman. Những bungalow hình khối tại đây được trang bị tường kính có thể thu vào và cầu thang dẫn thẳng xuống biển. Trong khi đó, Casa Blake—một khu căn hộ cao cấp có thể cho khách du lịch thuê—mang phong cách xa hoa của Martin Brudnizki, bậc thầy thiết kế người London nổi danh với cách chơi đùa sắc màu, chất liệu và hoa văn. Brudnizki cũng chịu trách nhiệm kiến tạo hộp đêm đầy mê hoặc tại Four Seasons, nơi những bức tường hồng rực rỡ được trang trí bằng alebrijes—những sinh vật huyền thoại trong nghệ thuật dân gian Mexico. \n\n Dàn đầu bếp đổ về Costa Palmas cũng không kém phần danh giá, với những cái tên như Ludo Lefebvre và Nancy Silverton từ Los Angeles, cùng sự xuất hiện của Estiatorio Milos—nhà hàng Hy Lạp được yêu thích trên toàn cầu. \n\n Không chỉ mang đến sự xa hoa, Costa Palmas còn xây dựng một mô hình du lịch bền vững với Costa Palmas Foundation—tổ chức phi lợi nhuận do các khu nghỉ dưỡng tài trợ nhằm tạo ra tác động tích cực tại địa phương. Du khách có thể tham gia các hoạt động như dọn dẹp bãi biển, thả rùa biển về đại dương, quyên góp đồ chơi hay hỗ trợ xây dựng trường học, công viên và cơ sở y tế. Đây chính là hình mẫu mới cho ngành du lịch Mexico—vừa tinh tuyển, vừa gắn kết sâu sắc với cộng đồng bản địa.",
+      pointGo:
+        "Tháng 11 và tháng 4 là thời điểm lý tưởng, tránh được lượng khách đông đúc và những cơn bão lớn.",
+      pointNotGo:
+        "Tháng 9 và tháng 10 thích hợp cho dân lướt sóng, nhưng không lý tưởng với đa số du khách do nguy cơ cao xảy ra bão và áp thấp nhiệt đới.",
+      contact: "Journey Mexico",
+      linkcontact: "https://www.journeymexico.com/",
+      prices: [
+        1801, 1733, 1891, 2026, 1652, 1411, 1451, 1369, 1265, 1439, 1660, 2575,
+      ],
+      bestMonths: ["Tháng 4", "Tháng 11"],
+      worstMonths: ["Tháng 9", "Tháng 10"],
+      note: " Giá khách sạn: Giá thuyền kayak tại Four Seasons Resort Los Cabos tại Costa Palmas dựa trên các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 6,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ihrQ5bRHeufQ/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Một hồ bơi tại resort Four Seasons Osaka. Nguồn: Four Seasons",
+      title: "Japan",
+      content:
+        " Xứ Phù Tang luôn ẩn chứa những không gian tĩnh lặng để chiêm nghiệm, và dự án mới nhất của bậc thầy kiến trúc Tadao Ando trên đảo Naoshima—hòn đảo nhỏ phía nam Okayama trên vùng biển nội địa Seto—chắc chắn là một điểm đến đáng ưu tiên. Là một phần của quần thể nghệ thuật Benesse Art Site trứ danh, Bảo tàng Nghệ thuật Mới Naoshima sẽ gia nhập hàng ngũ chín viện bảo tàng khác trên hòn đảo bé nhỏ này—nơi có lẽ còn nhiều quả bí ngô chấm bi của Yayoi Kusama hơn cả số cư dân thường trú. \n\n Khi khánh thành vào mùa Xuân, không gian ba tầng của bảo tàng sẽ giới thiệu tác phẩm của những nghệ sĩ đương đại hàng đầu châu Á như Takashi Murakami và Cai Guo-Qiang, tất cả được trưng bày trong một công trình tối giản với tường đá cuội, hòa quyện hoàn hảo vào cảnh quan đồi núi ven biển. Từ quán cà phê trên tầng thượng, du khách có thể lặng lẽ ngắm nhìn những chiếc thuyền đánh cá xuôi dòng qua vùng biển rải rác những ngọn núi lửa phủ sương mù—một khung cảnh vừa siêu thực, vừa đầy chất thơ. \n\n Dĩ nhiên, đây cũng là thời điểm lý tưởng để tận hưởng xa hoa, nhất là khi đồng yên vẫn đang suy yếu. Sau khi giành ngôi vị quán quân trong danh sách 50 khách sạn hàng đầu thế giới với cơ sở tại Bangkok, Capella tiếp tục chinh phục Kyoto với 92 phòng nghỉ, spa phong cách onsen và vị trí đắc địa: Chỉ cách chùa Kiyomizu-dera—di sản được Unesco bảo hộ—một quãng tản bộ ngắn. Cùng với đó, một cơ sở mới của chuỗi khách sạn Shangri-La, do bậc thầy Kengo Kuma thiết kế, cũng sắp khai trương tại cố đô. \n\n Tại đại đô thị Osaka, Four Seasons vừa mở cửa, kết hợp tinh tế giữa phong cách ryokan truyền thống với tatami và cửa shoji trong một tòa tháp kính hiện đại. Đây chỉ là bước khởi đầu cho làn sóng khách sạn hạng sang sắp đổ bộ, bao gồm Waldorf Astoria và Patina—thương hiệu anh em của Capella—với tầm nhìn hướng ra những mái đền cong vút của Lâu đài Osaka. Tất cả sẽ kịp thời khai trương để đón Expo 2025, sự kiện kéo dài sáu tháng với các gian triển lãm toàn cầu xoay quanh chủ đề đổi mới bền vững.",
+      pointGo:
+        "Tháng Hai là lựa chọn của những lữ khách sành sỏi. Đúng là tháng Ba, tháng Tư rực rỡ hoa anh đào, và tháng Mười, tháng Mười Một quyến rũ bởi sắc lá phong, nhưng giữa mùa Đông là khoảng thời gian hiếm hoi khi đám đông thưa thớt và giá cả ưu đãi hơn.",
+      pointNotGo:
+        "Tháng Tám. Ai từng mắc sai lầm này đều sẽ nói với bạn rằng, độ ẩm khắc nghiệt đủ để khiến quần áo ướt đẫm ngay cả khi bạn chỉ bước vài bước từ taxi vào nhà hàng.",
+      contact: "Remote Lands",
+      linkcontact: "https://www.remotelands.com/",
+      prices: [207, 247, 283, 281, 239, 206, 209, 217, 219, 265, 264, 257],
+      bestMonths: ["Tháng 2", "Tháng 3", "Tháng 4", "Tháng 10", "Tháng 11"],
+      worstMonths: ["Tháng 8"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: TYO, NRT, HND, OSA, KIX và OKA. ",
+    },
+    {
+      id: 7,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iXZFbFbliulA/v0/3200x-1.jpg",
+      caption:
+        "Hồ muối ngầm Jameos del Agua trên Lanzarote. Nhiếp ảnh gia: Gabriela Herman cho Bloomberg Businessweek",
+      title: "Quần đảo Canary",
+      content:
+        " Bạn có thể nghĩ rằng hành trình đến quần đảo Canary hẳn là gian nan—xét cho cùng, quần đảo Tây Ban Nha này nằm gần Morocco hơn là Madrid. Nhưng thực tế, một loạt hãng hàng không quốc tế có đường bay thẳng đến ba hòn đảo lớn nhất—Tenerife, Gran Canaria và Lanzarote—nơi du khách có thể thong dong trên những con đường lát đá dẫn vào các cửa hiệu tinh tế, chinh phục những cảnh quan hiểm trở hoặc chỉ đơn giản là nằm dài trên bãi biển với một cuốn sách trong tay. \n\n Tương tự như cách quần đảo Balearic đã nhanh chóng chuyển mình từ thiên đường tiệc tùng thành một bức tranh đa sắc của những trải nghiệm xa hoa, Canary cũng đang thu hút làn sóng đầu tư mạnh mẽ vào ngành lưu trú cao cấp. Những vịnh nhỏ lý tưởng cho lướt sóng, các ngôi làng trung cổ quyến rũ và những điền trang rộng lớn đang biến nơi đây thành điểm đến được săn đón bởi giới mộ điệu du lịch. \n\n Nếu chỉ có thời gian để khám phá một hòn đảo duy nhất, hãy chọn Lanzarote, nơi vừa trở thành điểm đến đầu tiên trong quần đảo Canary sở hữu những khu nghỉ dưỡng đẳng cấp hạng A. Năm 2025, một khu nghỉ Grand Hyatt dọc bờ biển và một khu nghỉ dưỡng Alila biệt lập (đây cũng là điểm dừng chân đầu tiên của thương hiệu xa xỉ này tại châu Âu) sẽ chính thức ra mắt. Những tên tuổi này sẽ gia nhập cùng César Lanzarote, một khách sạn boutique với thiết kế tinh tế tọa lạc gần các vườn nho La Geria, và Hotel Casa de las Flores, một tân binh đầy triển vọng tại ngôi làng cổ Teguise. \n\n Đừng bỏ lỡ cơ hội thưởng thức ẩm thực tại Restaurante Palacio Ico, nơi phục vụ những món ăn địa phương đặc sắc như cá cherne và thịt lợn đen Canary. Sau đó, hãy thử sức với những con sóng tại bãi biển Famara cùng Lanzasurf, một đơn vị hướng dẫn lướt sóng danh tiếng, hiện vẫn đang hoạt động trên những bờ biển yên bình, chưa bị dòng khách du lịch làm xao động.",
+      pointGo:
+        "Tháng 3 là thời điểm lý tưởng để tránh xa những ngày Đông xám xịt và ảm đạm tại nhiều nơi trên thế giới. Tháng 10 và 11 cũng là khoảng thời gian tuyệt vời—đặc biệt đối với những ai muốn tìm kiếm một chốn nắng ấm trong khi vùng Caribe đang bước vào mùa bão.",
+      pointNotGo:
+        "Thật khó để nói rằng có thời điểm nào không nên đến quần đảo Canary, bởi nơi đây nổi tiếng với khí hậu dễ chịu quanh năm. Tuy nhiên, hãy lưu ý tháng 12, khi mùa mưa đạt đỉnh điểm và lượng du khách đổ về đông đúc, khiến giá khách sạn tăng vọt.",
+      contact: "Scott Dunn",
+      linkcontact: "https://www.scottdunn.com/us",
+      prices: [208, 233, 228, 166, 138, 158, 176, 181, 166, 179, 206, 222],
+      bestMonths: ["Tháng 3", "Tháng 10", "Tháng 11"],
+      worstMonths: ["Tháng 12"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: LPA, TCI, TFN và TFS.",
+    },
+    {
+      id: 8,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/izYs5lakykZQ/v0/-1x-1.jpg",
+      caption: "Ảnh: Câu lạc bộ Potlatch tại Eleuthera. Nguồn: Potlatch Club",
+      title: "Quần đảo Out Islands, Bahamas",
+      content:
+        " Trong số 700 đảo của Bahamas, chỉ khoảng 30 đảo có cư dân sinh sống—và chỉ duy nhất đảo New Providence mang dáng dấp đô thị với cảng du thuyền khổng lồ ở Nassau. Ngoài nơi này và Grand Bahama, phần còn lại là những quần đảo hoang sơ được biết đến với tên gọi Out Islands, nơi sở hữu những bãi biển nguyên sơ, các rừng đước chưa bị tác động và giờ đây là hàng loạt khu nghỉ dưỡng xa hoa mới, chỉ có thể tiếp cận bằng các chuyến bay nhỏ trên máy bay cánh quạt.\n\n  Sự kiện đáng mong đợi nhất vào năm tới chính là Montage Cay, khu nghỉ dưỡng tư nhân rộng 53 mẫu trên quần đảo Abacos. Với tổng mức đầu tư ước tính lên đến 68 triệu USD, Montage Cay sẽ bao gồm 50 suite sang trọng, một bến du thuyền nước sâu với 47 chỗ neo đậu và bảy bãi biển riêng biệt—đi kèm với dịch vụ tận tâm, tỉ mỉ vốn là dấu ấn làm nên thành công của hệ thống khách sạn Montage.\n\n Trong khi đó, Banyan Tree Bimini—khu nghỉ dưỡng với những bungalow trên mặt nước mang phong cách Maldives—sẽ chưa hoàn thành trước năm 2026. Tuy nhiên, một số hạng mục sẽ sớm đi vào hoạt động, bao gồm chi nhánh mới của Bonito, nhà hàng trứ danh đến từ St. Barts.  \n\n Tất cả những điều này góp phần tạo nên động lực mới, khiến Out Islands ngày càng trở thành điểm đến đáng giá. Trên đảo Eleuthera, Potlatch Club—biểu tượng của thập niên 1960—đã được cải tạo vào năm 2024 với 11 phòng nghỉ thời thượng. \n\n Vậy làm thế nào để đến đây? Hãng hàng không bán tư nhân Tradewind Aviation LLC đã mở dịch vụ bay thẳng từ Nam Florida đến Bắc Eleuthera, trong khi American Airlines bổ sung thêm các chuyến bay đến Nassau từ Chicago và Dallas-Fort Worth.",
+      pointGo:
+        "Mùa cao điểm kéo dài từ giữa tháng 12 đến giữa tháng 4. Thời tiết trong giai đoạn này vô cùng tuyệt vời, song lượng du khách cũng đông đúc. Nếu muốn tận hưởng điều kiện lý tưởng với giá khách sạn thấp hơn và không gian thư thái hơn, hãy lên kế hoạch du lịch vào tháng 11 hoặc cuối tháng 4.",
+      pointNotGo:
+        "Những tháng Hè trùng với mùa bão Đại Tây Dương, trong khi tháng 3 và đầu tháng 4 là thời điểm các sinh viên đổ về đây nghỉ Xuân, khiến không khí trở nên náo nhiệt quá mức.",
+      contact: "Audley Travel",
+      linkcontact: "https://www.audleytravel.com/",
+      prices: [500, 638, 567, 551, 494, 519, 494, 415, 356, 375, 463, 450],
+      bestMonths: ["Tháng 4", "Tháng 11"],
+      worstMonths: ["Tháng 3", "Tháng 7", "Tháng 8"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: NAS, FPO, GGT, MHH, ELH và BIM.",
+    },
+    {
+      id: 9,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ir8nFApvK2.k/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Bảo tàng Ai Cập lớn ở Giza. Nhiếp ảnh gia: Sayed Hassan/Getty Images",
+      title: "Ai Cập",
+      content:
+        "Vùng đất của các pharaoh đang chứng kiến sự bùng nổ du lịch chóng mặt—dự kiến phá kỷ lục của chính mình vào năm 2024 với 15 triệu du khách, bất chấp những biến động trong khu vực. Sức hút này sẽ tiếp tục gia tăng với sự kiện khai trương chính thức của Đại Bảo tàng Ai Cập (Grand Egyptian Museum), một công trình được mong đợi suốt gần 20 năm.\n\n Tọa lạc cách quần thể kim tự tháp Giza chưa đầy một dặm, bảo tàng này sẽ trưng bày hơn 100.000 cổ vật, bao gồm toàn bộ kho báu 5.000 hiện vật của Pharaoh Tutankhamun—trong đó có mặt nạ vàng và quan tài bằng vàng—được đặt trong một phòng triển lãm riêng biệt, hứa hẹn trở thành điểm thu hút bậc nhất của công trình này. \n\n Những khoản đầu tư khổng lồ đang mang đến cho Ai Cập hàng loạt kỳ quan hiện đại. Waldorf Astoria Cairo Heliopolis vừa khai trương với 252 phòng xa hoa gần sân bay, trong khi thương hiệu khách sạn danh tiếng Oberoi của Ấn Độ đang chuẩn bị ra mắt hai chiếc du thuyền sang trọng trên sông Nile—được thiết kế theo phong cách dahabeya vốn dành riêng cho hoàng gia. Mỗi du thuyền sẽ có bảy cabin hướng sông, đủ sức chứa 14 khách, cùng với một nhà Ai Cập học thường trú, đội ngũ quản gia riêng, quầy bar bên hồ bơi, nhà hàng với bếp mở cho các lớp dạy nấu ăn ban ngày và một spa trên boong tàu. \n\n Những điểm lưu trú ấn tượng nhất—dù trên sông hay trên đất liền—có lẽ đến từ những thương hiệu mang đậm dấu ấn Ai Cập. Kazazian, vốn đã đưa vào vận hành du thuyền kính toàn cảnh trên sông Nile từ năm 2021 và từng đón tiếp hoàng gia Kuwait cùng Qatar, hiện đang xây dựng khách sạn đầu tiên tại thị trấn cảng Siwa, tạo điều kiện cho du khách kéo dài hành trình khám phá những pháo đài sa mạc cổ đại. Khách sạn này sẽ gia nhập xu hướng bảo tồn kiến trúc lịch sử bên bờ sông Nile, cùng với Al Moudira Hotel ở Luxor—nơi bể bơi được lát đá cẩm thạch tái chế từ các cung điện Alexandria—mang đến những góc nhìn mới mẻ về đất nước và dòng sông huyền thoại này.",
+      pointGo:
+        "Tháng 11 đến tháng 3 là khoảng thời gian có thời tiết dễ chịu nhất để tận hưởng những ngày tham quan không bị gián đoạn—với ánh nắng ấm áp nhưng không gay gắt.",
+      pointNotGo:
+        "Trừ khi có thể chịu được nhiệt độ khắc nghiệt, du khách nên tránh các tháng Hè, khi nhiệt độ thường xuyên vượt ngưỡng 38°C. Tuy nhiên, nếu muốn trải nghiệm các địa danh lịch sử trong bầu không khí yên tĩnh nhất, hãy chuẩn bị thiết bị làm mát cá nhân và dành nhiều thời gian thư giãn bên hồ bơi khách sạn.",
+      contact: "Abercrombie & Kent",
+      linkcontact: "https://www.abercrombiekent.com/",
+      prices: [141, 138, 142, 156, 152, 166, 177, 172, 155, 164, 160, 163],
+      bestMonths: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 11", "Tháng 12"],
+      worstMonths: ["Tháng 6", "Tháng 7", "Tháng 8"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: CAI, HRG, SSH, HBE, SPX và LXR.",
+    },
+    {
+      id: 10,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iUJ2jf3a1ckk/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Một phòng khách sạn ở Manchester. Nhiếp ảnh: Natosha Via cho Bloomberg Businessweek",
+      title: "Lexington, Kentucky",
+      content:
+        " Các cuộc đua ngựa, những chiếc mũ cầu kỳ và những con đường mòn rượu bourbon: Lexington đầy truyền thống sẽ kỷ niệm 250 năm thành lập vào tháng 6, mang đến cơ hội để chứng kiến ​​vẻ đẹp miền Nam trong quá trình phát triển nhanh chóng. Thành phố sẽ sớm cắt băng khánh thành hệ thống đường mòn dành cho người đi bộ và đi xe đạp lát đá dài 22 dặm, trị giá 35,5 triệu đô la, kết nối một số khu phố hấp dẫn nhất của thành phố—bao gồm Khu Distillery được đặt tên khéo léo và Khu trung tâm chật kín nhà hàng—với bờ sông Kentucky đẹp như tranh vẽ. \n\n Bốn tour đi bộ Di sản người Mỹ gốc Phi mới được cập nhật cung cấp những điểm nổi bật về quá khứ của thành phố, bao gồm những câu chuyện ít người biết đến về những người đánh ngựa da đen và những con hẻm lịch sử từng được những người nô lệ và người hầu sử dụng để đi làm và về nhà mà không bị phát hiện. Fresh Bourbon, một trong những nhà máy chưng cất rượu đầu tiên do người da đen làm chủ của tiểu bang, gần đây đã bổ sung thêm các lớp pha chế và nếm thử rượu whisky với các món ăn kèm. Và vào tháng 6, Tuần lễ SoulFeast kéo dài 10 ngày sẽ giới thiệu các nhà hàng do người da đen làm chủ với các bữa ăn sáng muộn theo phong cách hip-hop và bữa tối từ nông trại đến bàn ăn tại Coleman Crest, trang trại hữu cơ đầu tiên do người da đen làm chủ của Kentucky.\n\n  Và hãy chú ý, Nashville. Lexington đang giành được uy tín cho bối cảnh âm nhạc thịnh vượng của mình, giờ đây dễ dàng khai thác hơn. Manchester, khách sạn boutique sang trọng đầu tiên của thành phố, chỉ cách Manchester Music Hall và Burl vài dãy nhà, nơi ban nhạc Uncle Lucius, Bayker Blankenship và các ngôi sao nhạc đồng quê mới nổi khác sẽ biểu diễn vào năm 2025. Và vào tháng 5, trong cuộc đua ngựa Kentucky Derby nổi tiếng chỉ cách đó 90 phút lái xe tại Churchill Downs của Louisville, thật đáng để cá cược rằng Taylor Swift sẽ xuất hiện: Con ngựa đua của bạn trai cô, Travis Kelce, dự kiến ​​sẽ tham gia thi đấu. Tên của nó là gì? Swift Delivery.",
+      pointGo:
+        "Lexington tỏa sáng vào tháng 4 và tháng 9. Và trong khi những tháng mùa hè ở giữa thì oi bức, thì nơi đây cũng tràn ngập các lễ hội âm nhạc và nghệ thuật ngoài trời để chuyến đi của bạn trở nên đáng giá.",
+      pointNotGo:
+        "Không có thời điểm nào tệ để đến, nhưng tháng 1 có thể lạnh một cách khó chịu. Tuy nhiên, hãy đến đó nếu bạn đang tìm kiếm một món hời, và hãy coi cái lạnh là cái cớ để nếm thử thêm một hoặc hai chai rượu bourbon.",
+      contact: "Enchanted Wanderings",
+      linkcontact: "https://www.enchantedwanderingstravel.com/",
+      prices: [158, 170, 193, 326, 290, 190, 208, 166, 262, 306, 199, 168],
+      bestMonths: ["Tháng 4", "Tháng 9"],
+      worstMonths: ["Tháng 1"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n  Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 11,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/id.lpjQbhrcU/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Delfshaven, một quận của Rotterdam ở bờ phải sông Maas. Nhiếp ảnh gia: Achim Thomae/Getty Images",
+      title: "Rotterdam",
+      content:
+        " Rotterdam từ lâu đã bị du khách bỏ qua để ưu tiên những thành phố Hà Lan nổi tiếng hơn như Amsterdam và The Hague—một sự bỏ lỡ đáng tiếc bởi thành phố lớn thứ hai của Hà Lan này cũng sở hữu những dòng kênh quyến rũ và những ngôi nhà san sát đặc trưng như các thành phố cùng quốc gia. Tuy nhiên, hai bảo tàng đẳng cấp thế giới sắp ra mắt sẽ thay đổi hoàn toàn cán cân, khiến Rotterdam trở thành điểm đến xứng đáng cho chuyến tàu chỉ 30 phút từ sân bay Schiphol.\n\n Đừng bỏ lỡ tầm nhìn toàn cảnh cảng biển khổng lồ của thành phố từ The Tornado —một cầu thang xoắn kép sáng loáng kết hợp với đài quan sát nằm trên đỉnh bảo tàng. Chính tại địa điểm này, hơn 3 triệu người di cư đã lên tàu để khởi đầu cuộc sống mới ở nước ngoài, trong đó có Willem de Kooning và Albert Einstein. Hàng triệu người khác cũng đã đặt chân đến đây, góp phần định hình Rotterdam thành một đô thị đa văn hóa như ngày nay. \n\n  Nếu ghé thăm vào cuối năm, bạn có thể chứng kiến sự kiện tái khai trương Nederlands Fotomuseum—một trong những kho lưu trữ nhiếp ảnh quan trọng nhất thế giới—hiện tọa lạc trong tòa nhà tám tầng từng là kho cà phê bên bờ cảng Rijnhaven của Rotterdam. Dù lựa chọn thời điểm nào, hãy cân nhắc lưu trú tại Mainport Hotel, khách sạn đang hoàn tất quá trình cải tạo toàn diện và sẽ gia nhập bộ sưu tập Curio Collection của Hilton vào mùa Xuân này; nơi đây có các phòng với cửa sổ toàn cảnh hướng ra dòng sông Maas hùng vĩ. ",
+      pointGo:
+        "Từ cuối mùa Xuân đến đầu mùa Thu, Rotterdam sôi động với các lễ hội ngoài trời và những quán cà phê sân hiên tấp nập. Đặc biệt, tháng 5 và tháng 6 mang đến những ngày dài với ánh sáng tự nhiên kéo dài đến tận 11 giờ đêm, tạo điều kiện lý tưởng để tham quan và tận hưởng những ly cocktail thư thái bên dòng sông Maas.",
+      pointNotGo:
+        "Mùa đông có thể lạnh, ẩm ướt và u ám, nhưng bầu không khí ấm cúng của những ánh đèn lễ hội cùng vô số điểm tham quan trong nhà vẫn giúp chuyến đi trở nên đáng giá.",
+      contact: "Inside Rotterdam",
+      linkcontact: "https://insiderotterdam.com/en/",
+      prices: [139, 149, 151, 195, 191, 199, 160, 145, 162, 157, 155, 155],
+      bestMonths: ["Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9"],
+      worstMonths: ["Tháng 1", "Tháng 2", "Tháng 12"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. ",
+    },
+    {
+      id: 12,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i9ZiBsW.UoFI/v0/-1x-1.jpg",
+      caption: "Ảnh: Pháo hoa trên Rady Shell. Nguồn: San Diego Symphony",
+      title: "San Diego",
+      content:
+        " Mặc dù từ lâu đã gắn liền với Top Gun và những tay lướt sóng hàng đầu, San Diego đang dần khẳng định vị thế như một điểm đến nghệ thuật đích thực. Việc cải tạo Trung tâm Âm nhạc Jacobs của Dàn nhạc Giao hưởng San Diego với kinh phí 125 triệu USD, hoàn thành vào tháng 9, là sự bổ sung hoàn hảo cho khán đài ngoài trời mới của họ—một công trình bên bờ biển thanh lịch mang tên Rady Shell.\n\n Giờ đây, dự án mở rộng trị giá 105 triệu USD của Bảo tàng Nghệ thuật Đương đại San Diego do Selldorf Architects thiết kế cũng đang mời gọi du khách khám phá thêm vẻ đẹp tự nhiên của thành phố. Các phòng trưng bày mới được lắp giếng trời và cửa sổ khổng lồ, mang đến tầm nhìn ngoạn mục ra Thái Bình Dương. (Hãy dùng bữa trưa tại nhà hàng hướng biển mới mở—một địa điểm vẫn còn là bí mật của người dân địa phương.",
+      pointGo:
+        "Nước biển vẫn ấm cho đến tháng 9, khiến đây trở thành thời điểm lý tưởng nếu có thể sắp xếp chuyến đi. Ngoài ra, mùa Xuân là lúc hoa dại nở rộ, còn mùa Đông mang đến những con sóng lớn—nhưng nếu muốn lướt sóng dịp Giáng sinh, bạn nên chuẩn bị sẵn bộ đồ lặn vì nhiệt độ nước có thể xuống dưới 60°F.",
+      pointNotGo:
+        "San Diego có khí hậu ôn hòa quanh năm, với nhiệt độ ban ngày hiếm khi xuống dưới 60°F vào mùa Đông hoặc vượt quá 85°F vào mùa Hè—đặc biệt là dọc bờ biển. Tuy nhiên, tháng 8 chứng kiến các bãi biển đông nghẹt du khách.",
+      contact: "Coastline Travel Advisors",
+      linkcontact: "https://www.coastlinetravel.com/",
+      prices: [288, 347, 346, 348, 342, 363, 411, 346, 357, 342, 306, 272],
+      bestMonths: [
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 9",
+        "Tháng 10",
+        "Tháng 11",
+        "Tháng 12",
+      ],
+      worstMonths: ["Tháng 8"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 13,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i2Nlxb39oj9Y/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Đường bờ biển của Vịnh Arcachon trên Cap Ferret. Nhiếp ảnh gia: Karel Balas",
+      title: "Cap Ferret, Pháp",
+      content:
+        " Liệu pháp mới dành cho giới thượng lưu Pháp đã chán ngán sự hào nhoáng của Saint-Tropez chính là Cap Ferret. Đừng nhầm với Cap Ferrat, địa danh nằm xa hơn vài thị trấn dọc vùng Riviera thượng lưu—Cap Ferret là một thiên đường boho-chic nằm trên dải đất hẹp ngăn cách Đại Tây Dương với vịnh Arcachon, nơi rải rác những quầy hàu tươi, những cồn cát khổng lồ và những căn nhà gỗ mộc mạc (cùng với vô số biệt thự sang trọng, tất nhiên). Vùng này mang nét hoang sơ như Montauk, New York cách đây một thập kỷ.\n\n Hãy nghỉ tại La Co(o)rniche hoặc Ha(a)ïtza, hai khách sạn mới bên kia vịnh, kết hợp phong cách gỗ Tudor với vẻ mộc mạc của Cape Cod để tạo nên một cảm giác thanh lịch hơn hẳn cái tên cầu kỳ của chúng. Cả hai đều thuộc sở hữu của gia đình Techoueyres, và họ sẽ khai trương khách sạn thứ ba trong khu vực vào năm 2025.",
+      pointGo:
+        "Hãy tận hưởng vẻ đẹp phóng khoáng của tháng 6 và tháng 7—trong khi tránh đám đông tháng 8. Nếu có thể linh hoạt lịch trình, tháng 9 vẫn có thời tiết dễ chịu và bạn còn có cơ hội chứng kiến không khí nhộn nhịp của mùa thu hoạch nho ở Bordeaux.",
+      pointNotGo:
+        "Các tháng cuối Thu và mùa Đông, từ tháng 11 đến tháng 3, có thể hấp dẫn nếu bạn muốn tìm sự tĩnh lặng. Nhưng hầu hết nhà hàng và khách sạn đều đóng cửa sau tháng 10, khiến kế hoạch này kém lý tưởng hơn nhiều.",
+      contact: "French Side Travel",
+      linkcontact: "https://frenchsidetravel.com/",
+      prices: [175, 195, 211, 238, 287, 264, 309, 408, 316, 266, 178, 228],
+      bestMonths: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 11", "Tháng 12"],
+      worstMonths: ["Tháng 6", "Tháng 7", "Tháng 9"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 14,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iHQLNqAepGgo/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Curtain Bluff ở Antigua. Nguồn: Cơ quan Du lịch Antigua & Barbuda",
+      title: "Antigua và Barbuda",
+      content:
+        " Được Liên Hợp Quốc công nhận là nền kinh tế phát triển nhanh nhất trong số các quốc đảo Caribe năm 2024, Antigua và Barbuda đang thu hút làn sóng đầu tư mạnh mẽ—1 tỉ USD đã được rót vào các dự án khách sạn mới từ 2023 đến 2025. Trong số hơn 1.000 phòng thuộc các dự án này, 12 căn đặc biệt đáng chú ý: loạt bungalow trên mặt nước đầu tiên của Antigua, thuộc khu nghỉ dưỡng Royalton Chic dành riêng cho người lớn và phục vụ trọn gói. Mỗi bungalow đều có hồ bơi riêng, võng treo trên mặt nước và sàn kính để du khách có thể quan sát những đàn cá sặc sỡ ngay từ giường ngủ. Còn tại Barbuda, khách sạn Nobu với 36 phòng sẽ khai trương vào tháng 11, tọa lạc trên bãi biển Princess Diana hoang sơ, một dự án do Robert De Niro đứng sau. ",
+      pointGo:
+        "Mùa cao điểm—và cũng là thời điểm đẹp nhất—kéo dài từ tháng 12 đến tháng 4, khi thời tiết khô ráo và ấm áp. Tháng 5 vẫn có những ngày dễ chịu, ít khách du lịch hơn và giá cả cũng nhẹ nhàng hơn.",
+      pointNotGo:
+        "Mùa bão Đại Tây Dương kéo dài từ tháng 6 đến 30.11, và nhiều cơ sở kinh doanh đóng cửa trong khoảng thời gian này. Nếu chi phí là ưu tiên hàng đầu, bạn có thể cân nhắc chấp nhận rủi ro khi đến vào mùa Hè.",
+      contact: "Andavo Travel",
+      linkcontact: "https://www.andavotravel.com/",
+      prices: [488, 512, 473, 358, 320, 472, 308, 324, 310, 281, 381, 561],
+      bestMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 12",
+      ],
+      worstMonths: [
+        "Tháng 6",
+        "Tháng 7",
+        "Tháng 8",
+        "Tháng 9",
+        "Tháng 10",
+        "Tháng 11",
+      ],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 15,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iWGH274p9Gyo/v0/-1x-1.jpg",
+      caption: "Ảnh: Via dei Fori Imperiali. Nhiếp ảnh gia: Federica Valabrega",
+      title: "Rome",
+      content:
+        " Trong năm Thánh 2025 của Vatican, Đức Giáo Hoàng sẽ mở năm Cửa Thánh tại các nhà thờ, bao gồm Vương cung thánh đường Thánh Phêrô, như một biểu tượng cứu rỗi dành cho tín hữu Công giáo trên toàn thế giới. Nhưng ngay cả với những du khách không theo tôn giáo, Rome cũng sẽ trở nên hấp dẫn và thuận tiện hơn nhờ khoản đầu tư 1,4 tỉ USD vào cơ sở hạ tầng đô thị. Số tiền này được dùng để trùng tu cả ba đài phun nước tại Piazza Navona, nâng cấp các khu vực xanh quanh Vatican và Lăng Hadrian—thường được biết đến với tên Castel Sant’Angelo—cũng như khánh thành các nhà ga quan trọng thuộc tuyến tàu điện ngầm Metro Line C trị giá 3 tỉ USD. Tuyến metro này không chỉ giúp giảm ùn tắc giao thông mà còn mang đến trải nghiệm độc đáo: các nhà ga Porta Metronia và Fori Imperiali-Colosseo sẽ đóng vai trò như bảo tàng khảo cổ, nơi du khách có thể chiêm ngưỡng các tàn tích La Mã qua những bức tường kính trong khi chờ tàu.",
+      pointGo:
+        "Tháng 2, 3, 10 và 11 là thời điểm lý tưởng để ghé thăm Rome. Bạn có thể dễ dàng đặt bàn tại các nhà hàng nổi tiếng mà không cần chờ đợi nhiều tháng, đồng thời tránh được lượng khách du lịch đông đúc nhất.",
+      pointNotGo:
+        "Những tuần cuối tháng 7 và đầu tháng 8 sẽ trùng với sự kiện Đại hội Giới trẻ, dự kiến thu hút khoảng 1 triệu người tham dự. (Tuy nhiên, tháng 8 ở Rome cũng có những nét hấp dẫn riêng.)",
+      contact: "Imago Artis Travel",
+      linkcontact: "https://www.iatravel.com/",
+      prices: [198, 213, 278, 348, 409, 360, 307, 246, 371, 368, 246, 266],
+      bestMonths: ["Tháng 2", "Tháng 3", "Tháng 10", "Tháng 11"],
+      worstMonths: ["Tháng 7"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 16,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ighh_trVdzEk/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Grand Lobby Bar tại Dusit Thani Bangkok. Nguồn: Dusit Thani",
+      title: "Bangkok",
+      content:
+        " Làm thế nào để một điểm đến du lịch bụi trở thành thiên đường của giới thượng lưu chỉ trong một thập kỷ? Bangkok chính là câu trả lời, và mùa sắp tới của The White Lotus sẽ minh chứng cho sự thăng hoa ngoạn mục của thành phố này. Một ví dụ điển hình là Mandarin Oriental—khách sạn danh giá bậc nhất Bangkok—vừa hoàn tất đợt cải tạo trị giá 90 triệu USD với sảnh đón tiếp lấp lánh pha lê và hai hồ bơi hướng ra sông. Dù vậy, thành phố này vẫn tiếp tục nâng tầm với hàng loạt dự án xa hoa, đáng tiếc là vừa bỏ lỡ cơ hội xuất hiện trên phim của HBO. ",
+      pointGo:
+        "Bangkok nóng ẩm quanh năm, nhưng mùa khô từ tháng 11 đến tháng 2 là thời điểm dễ chịu nhất, tránh được cái nóng oi bức đặc trưng của thành phố.",
+      pointNotGo:
+        "Mùa mưa từ tháng 7 đến tháng 9 thường khiến giao thông tắc nghẽn nghiêm trọng, trong khi những đợt nắng nóng cực độ vào tháng 4 có thể biến thành phố thành một lò lửa.",
+      contact: "Red Savannah",
+      linkcontact: "https://www.redsavannah.com/",
+      prices: [126, 133, 118, 120, 115, 118, 130, 145, 117, 123, 130, 150],
+      bestMonths: ["Tháng 1", "Tháng 2", "Tháng 11", "Tháng 12"],
+      worstMonths: ["Tháng 4", "Tháng 7", "Tháng 8", "Tháng 9"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 17,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i.2LumBddfHs/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Đi thuyền kayak qua rừng Amazon của Colombia. Nguồn: Nomad Lodges",
+      title: "Amazon Colombia",
+      content:
+        " Tận sâu trong vùng đông nam Colombia, gần Công viên Quốc gia Amacayacu, Nomad Lodge là điểm dừng chân mới dành cho những du khách ưa mạo hiểm. Dự án du lịch sinh thái đầy tham vọng này không chỉ mở ra cánh cửa vào khu rừng nguyên sinh mà còn hỗ trợ 22 cộng đồng bản địa Aticoya sinh sống tại đây. Chỉ có tám khách mỗi lượt được nghỉ trong các bungalow chạy bằng năng lượng mặt trời với hiên lộng che hướng thẳng ra cảnh quan thiên nhiên. Họ sẽ thức dậy vào bình minh để chèo thuyền xuyên qua rừng ngập nước đầy cá heo hồng, nghỉ trưa trên võng trong những giờ nóng nhất, rồi lại lên đường lúc hoàng hôn để tìm kiếm những chú lười đang say ngủ trên tán rừng.\n\n ",
+      pointGo:
+        "Mùa nước dâng từ tháng 11 đến tháng 5 giúp du khách dễ dàng quan sát động vật hoang dã hơn, dù lượng mưa không chênh lệch nhiều so với mùa khô. Đừng quên mang theo thuốc chống muỗi.",
+      pointNotGo:
+        "Nếu thích trekking, mùa khô từ tháng 6 đến tháng 10 sẽ phù hợp hơn, nhưng tránh tháng 9 và 10 khi nước rút khiến việc di chuyển trở nên khó khăn. Ngoài ra, tháng 1 là thời điểm ẩm ướt nhất trong năm.",
+      contact: "Plan South America",
+      linkcontact: "https://www.plansouthamerica.com/",
+      prices: [300, 300, 300, 300, 300, 325, 350, 350, 325, 300, 120, 121],
+      bestMonths: ["Tháng 5", "Tháng 6", "Tháng 11", "Tháng 10"],
+      worstMonths: ["Tháng 1", "Tháng 9", "Tháng 10"],
+      note: " Giá khách sạn: Trong trường hợp này, chúng tôi không sử dụng phân tích từ Kayak. Những mức giá này dành cho phòng tại Nomad Lodges Amazonas cho mỗi người mỗi đêm với thời gian lưu trú tối thiểu là ba đêm. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho hành trình từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 18,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/inj58WhqFWxQ/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Quán bar Writers Bar tại Raffles Jaipur. Nguồn: Raffles Hotels & Resorts",
+      title: "Jaipur",
+      content:
+        " Vào đầu thế kỷ 18, Maharaja Sawai Jai Singh II đã triệu tập những nghệ nhân tài hoa nhất từ khắp vương quốc để xây dựng thủ phủ Rajasthan với những đền thờ tinh xảo và cung điện sa thạch. Ngày nay, truyền thống vương giả ấy tiếp tục được duy trì bởi Maharaja Padmanabh Singh, 26 tuổi, và em gái ông, Công chúa Gauravi Kumari. \n\n  Tháng 11 năm ngoái, vị maharaja này đã ra mắt Trung tâm Nghệ thuật Jaipur, trưng bày các tác phẩm đương đại từ Ấn Độ và quốc tế. Đến tháng 12, ông tiếp tục khai trương Sarvato, một nhà hàng cao cấp nằm trong sân cung điện. Trong khi đó, công chúa mở Palace Atelier—một cửa hàng khái niệm rực rỡ sắc màu, nơi khách có thể mua sắm đồ nội thất thủ công địa phương, sari cao cấp và trang sức tinh xảo.",
+      pointGo:
+        "Tháng 10 là thời điểm tuyệt vời khi thời tiết mát mẻ hơn và thành phố rộn ràng đón lễ hội Diwali. Khoảng thời gian lý tưởng kéo dài đến tháng 3.",
+      pointNotGo:
+        "Tháng 5 và 6 cực kỳ oi bức với nhiệt độ vượt ngưỡng 100°F (38°C). Mùa mưa từ tháng 7 đến tháng 9 tuy không dữ dội như các vùng khác của Ấn Độ nhưng vẫn ảnh hưởng đến trải nghiệm du lịch.",
+      contact: "Rothschild Safaris",
+      linkcontact: "https://rothschildsafaris.com/",
+      prices: [135, 141, 125, 93, 79, 76, 86, 90, 86, 115, 145, 169],
+      bestMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 10",
+        "Tháng 11",
+        "Tháng 12",
+      ],
+      worstMonths: ["Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 19,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/irR05SCk2Apo/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Setas de Sevilla. Nhiếp ảnh gia: Gabriela Herman cho Bloomberg Businessweek",
+      title: "Seville",
+      content:
+        " Có thể bạn đã nghe thấy những lời tán dương về Seville, điểm đến tiếp theo đầy tiềm năng sau Barcelona, Madrid và Mallorca. Thành phố thủ phủ của Andalucia, dù từng bị bỏ qua do thiếu sân bay quốc tế lớn, lại sở hữu 300 ngày nắng mỗi năm cùng sự hòa quyện mê hoặc giữa kiến trúc Moorish và Baroque. Và dù hạn chế về đường bay, Seville vẫn tỏa sáng nhờ giá trị văn hóa sâu sắc—đây là quê hương của flamenco và là nơi tọa lạc của những công trình hiện đại như Metropol Parasol, một quảng trường công cộng có mái che hình nấm khổng lồ đầy ấn tượng. ",
+      pointGo:
+        "Mùa Xuân là thời điểm lý tưởng với khí hậu ôn hòa. Đặc biệt, đầu tháng 5, Hội chợ Seville biến thành phố thành một lễ hội rực rỡ, nơi người dân địa phương khoác lên mình những bộ váy flamenco sặc sỡ. Mùa Thu cũng là một lựa chọn phù hợp với thời tiết dễ chịu, dù ít sự kiện hơn.",
+      pointNotGo:
+        "Tháng 7 và 8 có thời tiết cực kỳ oi bức, trong khi Seville không có bãi biển hay làn gió biển để giảm nhiệt.",
+      contact: "Made for Spain and Portugal",
+      linkcontact: "https://www.madeforspainandportugal.com/",
+      prices: [118, 146, 223, 334, 263, 206, 116, 115, 208, 231, 179, 178],
+      bestMonths: ["Tháng 4", "Tháng 5", "Tháng 9", "Tháng 10"],
+      worstMonths: ["Tháng 7", "Tháng 8"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 20,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i5Ok6DS9eReg/v0/-1x-1.jpg",
+      caption:
+        "Ảnh: Vùng biển ngoài khơi Príncipe. Nhiếp ảnh gia: Scott Ramsay/HBD Príncipe Group",
+      title: "São Tomé và Príncipe",
+      content:
+        " São Tomé và Príncipe, quốc gia gồm hai hòn đảo núi lửa nằm ngoài khơi bờ biển xích đạo phía Tây châu Phi, được tỷ phú Nam Phi Mark Shuttleworth ví như “Galápagos của châu Phi.” Đây là vùng đất nơi rừng rậm tràn xuống những bãi biển ngọc trai điểm xuyết hàng cọ cổ đại tựa thời tiền sử, với khung cảnh chỉ bị ngắt quãng bởi những mái tranh đơn sơ và những ngọn đồi xanh biếc. Vùng biển nơi đây ấm áp quanh năm, là nơi cư ngụ của vô số sinh vật quý hiếm chỉ có ở Vịnh Guinea, bao gồm cả loài cá có khả năng đi trên đất liền. \n\n Shuttleworth, một doanh nhân trong lĩnh vực phần mềm, đã biến khu nghỉ dưỡng đổ nát từ thập niên 1980—vốn được xây dựng bởi một ngư dân lập dị—cùng ba công trình khác thành bốn khách sạn rải rác trên đảo Príncipe. Và ông vẫn chưa dừng lại: Sau khi đầu tư 50 triệu USD để phát triển ngành du lịch sinh thái non trẻ của hòn đảo, ông đang nâng cấp từng khu nghỉ dưỡng lên đẳng cấp năm sao thực thụ, khởi đầu với Bom Bom – khu nghỉ dưỡng 18 bungalow thấp tầng vừa mở cửa trở lại vào tháng 9. \n\n  Dự án tham vọng hơn cả của ông dự kiến khởi động vào năm 2025: Chương trình “Lợi tức Tự nhiên,” một khoản trợ cấp hàng quý dành cho toàn bộ cư dân Príncipe, được tính toán dựa trên mức độ bảo tồn giá trị sinh thái độc đáo của hòn đảo. Đây là một ý tưởng táo bạo nhằm gìn giữ một vùng đất hoang sơ—và có thể trở thành mô hình bảo tồn cho tương lai. ",
+      pointGo:
+        "Do nằm sát xích đạo, nhiệt độ nơi đây duy trì ổn định ở khoảng 21-30°C quanh năm. Tuy nhiên, tháng 1 và tháng 2 là thời điểm lý tưởng để tận hưởng khí hậu ấm áp hơn đôi chút và chứng kiến những chú rùa con nở trứng dọc bờ biển.",
+      pointNotGo:
+        "Tháng 10 và tháng 11 là hai tháng có lượng mưa nhiều nhất trong năm. Dù vậy, đây cũng là cơ hội để quan sát những đàn cá voi lưng gù nô đùa trong làn nước ấm áp của khu vực.",
+      contact: "Far and Wild",
+      linkcontact: "https://farandwild.travel/",
+      prices: [208, 204, 229, 231, 210, 213, 240, 237, 215, 195, 199, 229],
+      bestMonths: ["Tháng 1", "Tháng 2"],
+      worstMonths: ["Tháng 10", "Tháng 11"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Đối với cặp điểm đi-điểm đến này, các chuyến bay trước đây bị hạn chế — Kayak đã tìm thấy hai tuyến bay tốt nhất kết nối tại thành phố quá cảnh có khả năng xảy ra nhiều nhất (Lisbon), dựa trên khối lượng chuyến bay và sự thuận tiện, thay vì tính đến tất cả các kết hợp tuyến bay. ",
+    },
+    {
+      id: 21,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i5MiP4EVja14/v0/-1x-1.jpg",
+      caption: "Ảnh: Hovarda ở Canary Wharf. Nguồn: Hovarda",
+      title: "Tuyến Elizabeth – Hơi thở mới của London",
+      content:
+        " Những khách sạn và nhà hàng ấn tượng nhất London trong thời gian tới đều có một điểm chung: vị trí lý tưởng dọc theo tuyến Elizabeth, hệ thống đường sắt hiện đại đi vào hoạt động từ năm 2022. Chỉ cần rời ga Bond Street tại Mayfair, bạn sẽ chạm đến khách sạn siêu sang Chancery Rosewood, tọa lạc trong tòa nhà từng là Đại sứ quán Hoa Kỳ. Nơi đây sở hữu 146 phòng rộng rãi cùng hai nhà hàng danh tiếng: Carbone—địa điểm ưa thích của giới sao New York—và Le Caprice huyền thoại của London vừa hồi sinh. \n\n Một vài trạm dừng sau, tại Liverpool Street, đầu bếp lừng danh Gordon Ramsay sẽ khai trương năm nhà hàng bên trong 22 Bishopsgate, tòa tháp văn phòng cao nhất London. Đặc biệt, Lucky Cat trên tầng 60 sẽ trở thành phòng ăn cao nhất thành phố khi mở cửa vào tháng Hai. \n\n Phía đông tuyến Elizabeth, Canary Wharf đang vươn mình trở thành trung tâm ẩm thực đầy hứa hẹn. Hãy thử đến Roe—nhà hàng trên mặt nước với thực đơn sáng tạo gồm bánh mì dẹt ốc vindaloo hay hành tây nở giòn tan. Hovarda, tân binh ẩm thực Aegean, phục vụ món cừu quay kleftiko và rượu raki nồng nàn. Trong khi đó, nhà hàng Pháp Marceline, tọa lạc trên một pavilion nổi giữa sông Thames, là điểm dừng lý tưởng để thưởng thức cá bơn sốt grenobloise hay vẹm marinière tinh tế.",
+      pointGo:
+        "London trở nên huyền ảo nhất vào dịp lễ, khi đèn Giáng Sinh và những trang trí ấm áp bắt đầu tỏa sáng từ tháng 11. Tháng Năm và tháng Sáu cũng là thời điểm lý tưởng trước mùa cao điểm, nhưng đừng quên mang theo ô.",
+      pointNotGo:
+        "Những cơn mưa xám xịt đặc trưng của London xuất hiện dày đặc nhất vào tháng Hai và tháng Ba.",
+      contact: "Noteworthy",
+      linkcontact: "https://www.noteworthy.co.uk/",
+      prices: [271, 292, 316, 359, 386, 445, 432, 347, 365, 353, 350, 393],
+      bestMonths: ["Tháng 5", "Tháng 6", "Tháng 11"],
+      worstMonths: ["Tháng 2", "Tháng 3"],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: LON, STN, LHR, LGW, LCY và LTN. ",
+    },
+    {
+      id: 22,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i.6C04lrZWPA/v0/-1x-1.jpg",
+      caption: " Nhà hàng ở Dậu Antiparos. Nguồn: Gà trống Antiparos",
+      title: "Paros và Antiparos – Hy Lạp",
+      content:
+        " Quần đảo Cyclades từ lâu đã quen thuộc với dòng khách du lịch ồ ạt, nhưng vẻ đẹp của vùng biển Aegean không chỉ gói gọn trong hoàng hôn Santorini hay những bữa tiệc cuồng nhiệt ở Mykonos. Nằm ngoài những điểm đến nổi tiếng ấy là hàng chục hòn đảo nhỏ với đường bờ biển hoang sơ, thị trấn sơn trắng viền xanh đặc trưng và những bãi cát sỏi trải dài bất tận. \n\n Giữa muôn trùng đảo, Paros và Antiparos đang dần khẳng định vị thế của mình. Hai thiên đường phủ đầy hoa giấy này chỉ cách nhau năm phút phà và ngày càng thu hút giới thượng lưu nhờ làng Parikia với những bức tường đá rêu phong hay những bãi biển xanh thẳm dành cho những ai muốn đắm mình dưới ánh nắng Địa Trung Hải. Riêng thị trấn Naousa mang đến nhịp sống sôi động không kém Mykonos nhưng lại không đi kèm mức giá đắt đỏ. \n\n Không ngạc nhiên khi các khu nghỉ dưỡng nơi đây ngày càng lộng lẫy. Trong năm qua, Andronis Minois trên đảo Paros đã mở rộng thêm 44 phòng với hiên riêng biệt, chỉ cách bờ biển 150 mét. Nếu không thể đặt được một trong 17 phòng xa hoa tại Rooster Antiparos – khu nghỉ dưỡng tiên phong trên bờ biển hoang sơ phía tây đảo – đây là lựa chọn hoàn hảo.  \n\n Hãy đến Paros và Antiparos ngay bây giờ để tận hưởng vẻ đẹp nguyên sơ trước khi đám đông tràn đến. Những kỳ quan ngoạn mục nhất của hai hòn đảo này vẫn còn trong không gian tĩnh lặng: một nhà hát 5.000 năm tuổi và hang động cổ nhất Hy Lạp, có tuổi đời khoảng 45 triệu năm, từng được xem là cánh cổng dẫn vào địa ngục. \n\n Nhưng sự yên bình này sẽ không kéo dài lâu. Sân bay Paros đang trải qua quá trình nâng cấp trị giá 45 triệu USD, và đến mùa Hè 2026, đường băng dài hơn sẽ cho phép các chuyến bay quốc tế trực tiếp hạ cánh. Hãy đến đây trước khi những đoàn khách ồ ạt kéo đến.",
+      pointGo:
+        "Mùa Hè là thời điểm lý tưởng để tận hưởng nắng vàng và biển xanh, nhưng hãy cân nhắc đến vào tháng Năm hoặc tháng Chín để tránh đám đông du khách.",
+      pointNotGo:
+        "Mùa Đông có thể khá lạnh và nhiều địa điểm du lịch đóng cửa.",
+      contact: "Truffle Pig",
+      linkcontact: "https://trufflepig.com/",
+      prices: [268, 106, 186, 191, 240, 338, 477, 541, 334, 183, 206, 144],
+      bestMonths: ["Tháng 9", "Tháng 10"],
+      worstMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 7",
+        "Tháng 8",
+        "Tháng 11",
+        "Tháng 12",
+      ],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông.",
+    },
+    {
+      id: 23,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/ihzr6FoCelgM/v0/3200x-1.jpg",
+      caption:
+        "Ảnh: Một chuyến đi bộ dễ dàng trong vùng lân cận Trại Kiattua. Nguồn: Stanislas Fautre/Nomad Greenlane",
+      title: "Greenland",
+      content:
+        "Với những tảng băng khổng lồ, hàng dặm lãnh nguyên và những dải cực quang ngoạn mục, Greenland sở hữu vẻ đẹp thiên nhiên không kém gì Iceland – nhưng hiếm ai có cơ hội chiêm ngưỡng cảnh sắc băng giá huyền thoại này. Hầu hết du khách đến lãnh thổ Đan Mạch này đều đi trên những du thuyền chỉ cập bến trong vài giờ ngắn ngủi. Riêng năm 2023, 74 du thuyền đã thực hiện tổng cộng 183 chuyến đến Greenland – tăng 64% so với năm trước. \n\n  Sự mở rộng hạ tầng này đã thúc đẩy các công ty lữ hành như Black Tomato (Anh) giới thiệu những hành trình khám phá văn hóa và thiên nhiên tại các điểm đến ít người biết đến của Greenland. Du khách có thể hái nấm và dâu rừng ở Saqqaq, băng qua lãnh nguyên trên xe trượt chó ở Ilulissat hay bắt cá hồi Bắc Cực theo phong cách bản địa – bằng tay – tại vịnh Amitsuarsuk. Tiếp đó, hãy trekking đến khối băng lớn thứ hai thế giới tại Kangerlussuaq, rồi thưởng thức nền ẩm thực Bắc Âu hiện đại mang phong vị Greenland tại Nuuk.\n\n Dù lựa chọn lưu trú cao cấp còn hạn chế, hai khu cắm trại sang trọng mang đến cơ hội hòa mình trọn vẹn vào thiên nhiên hoang dã Greenland. Tại Saqqaq, Nomad Greenland vận hành những lều glamping kiểu Bắc Âu ngay rìa vịnh Disko. Trong khi đó, nhiều hành trình của Black Tomato chọn Kiattua – một khu cắm trại biệt lập ở Nuuk với lều xông hơi, bồn nước nóng và tầm nhìn ngoạn mục hướng ra vịnh hẹp cùng những tảng băng trôi. Đừng lo Greenland sẽ sớm quá tải du khách – nhiều nơi vẫn chỉ có thể tiếp cận bằng thuyền hoặc trực thăng.",
+      pointGo:
+        "Tháng 7 và tháng 8 là thời điểm lý tưởng để chiêm ngưỡng mặt trời lúc nửa đêm, tận hưởng thời tiết ấm áp và dễ dàng tiếp cận các tuyến trekking, chèo kayak và ngắm cá voi.",
+      pointNotGo:
+        "Từ tháng 10 đến tháng 5, tuyết dày, băng giá và ánh sáng mặt trời hạn chế khiến việc khám phá Greenland trở nên đầy thử thách.",
+      contact: "Black Tomato",
+      linkcontact: "https://www.blacktomato.com/us/",
+      prices: [203, 234, 245, 237, 275, 389, 536, 541, 301, 230, 215, 206],
+      bestMonths: ["Tháng 7", "Tháng 8"],
+      worstMonths: [
+        "Tháng 1",
+        "Tháng 2",
+        "Tháng 3",
+        "Tháng 4",
+        "Tháng 5",
+        "Tháng 10",
+        "Tháng 11",
+        "Tháng 12",
+      ],
+      note: "Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: GOH, SFJ, JAV, KUS, UAK và JEG.",
+    },
+    {
+      id: 24,
+      image:
+        "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i.w_dQq.gPOM/v0/-1x-1.jpg",
+      caption:
+        "Quán bar Bemelmans tại Carlyle. Nhiếp ảnh gia: Annie Schlechter cho Bloomberg Businessweek",
+      title: "Khu Thượng Đông",
+      content:
+        "  Khu phố được tiêm Botox nhiều nhất Manhattan vừa trải qua một cuộc cải tổ quy mô lớn. Điểm nhấn chính là Bảo tàng Frick, viên ngọc quý của New York từ đầu thế kỷ 20, sẽ mở cửa trở lại vào đầu năm 2025 sau lần trùng tu đầu tiên trong gần một thế kỷ. Trong diện mạo mới, bảo tàng mở thêm tầng hai của dinh thự cho công chúng, bổ sung quán cà phê và khôi phục khu vườn thành một ốc đảo xanh giữa lòng đô thị.\n\n Đây là luồng sinh khí mới cho một khu phố vốn yên ắng, và mọi thứ chưa dừng lại ở đó. Ba nhà hàng mới gia nhập danh sách những điểm đến khó đặt bàn nhất Manhattan: Café Commerce – phiên bản tái sinh của một nhà hàng huyền thoại ở West Village – bảo tồn những bức tranh tường cổ và phục vụ món gà quay lừng danh cùng bánh dừa cao tầng của bếp trưởng Harold Moore. Chez Fifi, từ đội ngũ đứng sau Sushi Noz (nơi thực đơn omakase có giá 550 USD), mang đến trải nghiệm ẩm thực Pháp cổ điển với sự chỉn chu tuyệt đối. Trong khi đó, Le Veau d’Or – chốn lui tới của giới tinh hoa từ thập niên 1930 – được tái sinh dưới bàn tay của Lee Hanson và Riad Nasr, hai đầu bếp đứng sau những không gian ẩm thực Pháp đình đám như Le Rock và Frenchette. Ngay cả nhà hàng tại tầng trệt The Surrey cũng đầy sức hút: Casa Tua, địa điểm yêu thích của giới thượng lưu Miami, nay xuất hiện tại New York với thực khách là những nhà thiết kế, doanh nhân và nhân vật xã hội nổi bật gần như suốt ngày. ",
+      pointGo:
+        "Tháng 9 và tháng 10 là thời điểm lý tưởng để tránh cái nóng mùa Hè và đám đông du khách, đồng thời hòa mình vào chuỗi sự kiện địa phương như Tuần lễ Thời trang New York – cơ hội hoàn hảo để quan sát phong cách đường phố đỉnh cao.",
+      pointNotGo:
+        "Tháng 4 và tháng 5 có thời tiết thất thường, đôi khi lạnh và mưa nhiều. Cư dân New York vẫn chưa rời thành phố cho kỳ nghỉ Hè, khiến việc đặt bàn nhà hàng trở nên khó khăn hơn.",
+      contact: "Embark Beyond",
+      linkcontact: "https://www.embarkbeyond.com/",
+      prices: [526, 499, 632, 780, 817, 780, 651, 637, 903, 917, 855, 993],
+      bestMonths: ["Tháng 9", "Tháng 10"],
+      worstMonths: ["Tháng 4", "Tháng 5"],
+      note: " Giá khách sạn: Kayak đã xem xét các tìm kiếm từ ngày 1 tháng 5 năm 2023 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 11 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá trung bình mỗi đêm tại các khách sạn 4 và 5 sao cho một phòng đôi tiêu chuẩn trong khu vực chung của điểm đến. \n\n Giá chuyến bay: Kayak đã xem xét các tìm kiếm chuyến bay từ ngày 1 tháng 7 năm 2022 đến ngày 1 tháng 11 năm 2024 cho các chuyến đi từ ngày 1 tháng 1 năm 2023 đến ngày 31 tháng 12 năm 2024, có tính đến giá khứ hồi trung bình rẻ nhất ở hạng phổ thông. Các tìm kiếm về sân bay đích bao gồm: NYC, JFK, LGA, EWR, SWF và NYS.",
+    },
+  ];
+
+  const countries = [
+    {
+      name: "Algeria",
+      latitude: "36.737232",
+      longitude: "3.086472",
+    },
+    {
+      name: "Seychelles",
+      latitude: "-4.58333333",
+      longitude: "55.66666666",
+    },
+    {
+      name: "Los Angeles",
+      latitude: "34.052235",
+      longitude: "-118.243683",
+    },
+    {
+      name: "Portillo, Chile",
+      latitude: " -25.4667",
+      longitude: "-70.1167",
+    },
+    {
+      name: "Skåne, Thụy Điển",
+      latitude: "55.70466010",
+      longitude: "13.19100730",
+    },
+    {
+      name: "Costa Palmas, Mexico",
+      latitude: "18.650",
+      longitude: "-91.817",
+    },
+    {
+      name: "Japan",
+      latitude: "35.652832",
+      longitude: "139.839478",
+    },
+    {
+      name: "Quần đảo Canary",
+      latitude: "28.291565",
+      longitude: "-16.629129",
+    },
+    {
+      name: "Quần đảo Out Islands, Bahamas",
+      latitude: "25.025885",
+      longitude: "-78.035889",
+    },
+    {
+      name: "Ai Cập",
+      latitude: "30.033333",
+      longitude: "31.233334",
+    },
+    {
+      name: "Lexington, Kentucky",
+      latitude: "38.047989",
+      longitude: "-84.501640",
+    },
+    {
+      name: "Rotterdam",
+      latitude: "51.926517",
+      longitude: "4.462456",
+    },
+    {
+      name: "San Diego",
+      latitude: "32.71533",
+      longitude: "-117.15726",
+    },
+    {
+      name: "Cap Ferret, Pháp",
+      latitude: "44.795454",
+      longitude: "-1.147783",
+    },
+    {
+      name: "Antigua và Barbuda",
+      latitude: "17.087635",
+      longitude: "-61.772346",
+    },
+    {
+      name: "Rome",
+      latitude: "41.902782",
+      longitude: "12.496366",
+    },
+    {
+      name: "Bangkok",
+      latitude: "13.736717",
+      longitude: "100.523186",
+    },
+    {
+      name: "Amazon Colombia",
+      latitude: "-1.44291230",
+      longitude: "-71.57239530",
+    },
+    {
+      name: "Jaipur",
+      latitude: "26.922070",
+      longitude: "75.778885",
+    },
+    {
+      name: "Seville",
+      latitude: "37.392529",
+      longitude: "-5.994072",
+    },
+    {
+      name: "São Tomé và Príncipe",
+      latitude: "0.255436",
+      longitude: "6.602781",
+    },
+    {
+      name: "Tuyến Elizabeth – Hơi thở mới của London",
+      latitude: "51.509865",
+      longitude: "-0.118092",
+    },
+    {
+      name: "Paros và Antiparos – Hy Lạp",
+      latitude: "37.040340",
+      longitude: "25.081415",
+    },
+    {
+      name: "Greenland",
+      latitude: "67.010323",
+      longitude: "-50.712353",
+    },
+    {
+      name: "Khu Thượng Đông",
+      latitude: "25.830500",
+      longitude: "-80.180374",
+    },
+  ];
+</script>
+
+<script>
+  function createArticle(article) {
+    // Thay \n bằng <br> trong content
+    const displayedContent = article.content.replace(/\n\n/g, "<br>");
+    // Thay \n thành <br> trong content và chia thành các đoạn
+    const paragraphs = displayedContent.split("<br>");
+
+    // Chuyển đổi từng đoạn thành thẻ <p>
+    let formattedContent = paragraphs
+      .map((para, index) => {
+        if (index === 1) {
+          // Sau đoạn thứ 2, chèn biểu đồ
+          return `<p>${para}</p><br>${createBarChart(
+            article.prices,
+            article.bestMonths,
+            article.worstMonths,
+            article.note
+          )}`;
+        }
+        return `<p>${para}</p><br>`;
+      })
+      .join(""); // Kết hợp lại thành chuỗi HTML
+
+    return `
+                   <section class="container-location" id=${article.id}>
+                       <img class="location-image" data-country="${article.title}" src="${article.image}">
+                       <p class="container-caption">${article.caption}</p>
+                       <div class="container-content-25DiaDiem">
+                           <h2 class="container-name" data-country="${article.title}">${article.title}</h2>
+                           <div  style="font-size:19px !important; line-height: 1.875rem !important">
+                           <p>${formattedContent}</p>
+                           </div>
+                           <div style="font-size:19px !important; border-bottom:2px solid #000;padding-bottom:60px;margin-bottom: 40px;">
+                             <p class="time-content"><strong style="margin-top:20px ;background-color: #82ada8; display: table; margin-bottom:10px; padding: 6px;">Thời điểm lý tưởng</strong> ${article.pointGo}</p>
+                             <p class="time-content"><strong style="margin-top:20px ;background-color: #d6bcad; display: table; margin-bottom:10px; padding: 6px;">Thời điểm không nên đi</strong> ${article.pointNotGo}</p>
+                             <p class="container-contact-sub" data-country="${article.title}"> <strong style="margin-top:20px ;border:2px solid #000; display: table; margin-bottom:10px; padding: 6px;">Liên hệ</strong> <a href= "${article.linkcontact}" class= "resource-link" style="border-bottom:1px dotted #000; text-decoration: none; color: inherit;"> ${article.contact} </a></p>
+                           </div>
+                       </div>
+                   </section>
+               `;
+  }
+
+  // Render nội dung vào div
+  // Render nội dung vào div
+  const container = document.getElementById("content-container");
+  container.innerHTML = articles.map(createArticle).join("");
+</script>
+
+<!-- HANDLE SCRIPT GLOBE -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script>
+  const width = 125;
+  const height = 125;
+
+  let locations = [];
+
+  // setup globe
+  const svg = d3.select("#myglobe").attr("width", width).attr("height", height);
+  const markerGroup = svg.append("g");
+
+  const projection = d3
+    .geoOrthographic()
+    .scale(50) // Adjusted scale for 150x150
+    .translate([width / 2, height / 2]); // Center it properly
+  const initialScale = projection.scale();
+  const path = d3.geoPath().projection(projection);
+  const center = [width / 2, height / 2];
+
+  // get country select box and set on change event
+  const _countrySelect = document.getElementById("country");
+  _countrySelect.addEventListener("change", handleOnChange);
+
+  /**
+   * gCurrentLat and gCurrentLng are used to
+   * save the coordinates of the last selected country
+   * -> will be the inital viewpoint for the d3.interpolate in the showCountry() function
+   */
+  let [gCurrentLat, gCurrentLng] = projection.invert(center);
+
+  drawGlobe();
+  drawGraticule();
+  loadCountries();
+
+  /**
+   * draws the globe with polygon from https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/world-110m.json
+   */
+  function drawGlobe() {
+    d3.queue()
+      .defer(
+        d3.json,
+        "https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/world-110m.json"
+      )
+      .await((error, worldData, locationData) => {
+        svg
+          .append("circle")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", 60) // Adjust the radius based on your globe's scale
+          .style("stroke", "black") // Outline color
+          .style("stroke-width", "1.5px")
+          .style("fill", "#fff");
+        svg
+          .selectAll(".segment")
+          .data(
+            topojson.feature(worldData, worldData.objects.countries).features
+          )
+          .enter()
+          .append("path")
+          .attr("class", "segment")
+          .attr("d", path)
+          .style("stroke", "#101010")
+          .style("stroke-width", "1px")
+          .style("fill", (d, i) => "#000");
+        locations = locationData;
+      });
+  }
+
+  /**
+   * drows the graticule with the d3.geoGraticule() helper function
+   */
+  function drawGraticule() {
+    const graticule = d3.geoGraticule().step([10, 10]);
+
+    svg
+      .append("path")
+      .datum(graticule)
+      .attr("class", "graticule")
+      .attr("d", path)
+      .style("fill", "#fff")
+      .style("stroke", "#fff");
+  }
+
+  let rotationSpeed = 0.5; // Rotation speed
+  let rotation = [0, 0]; // Initial rotation
+  let autoRotateEnabled = true; // Control flag
+
+  // Auto-rotation function
+  function autoRotate() {
+    d3.timer(function () {
+      if (autoRotateEnabled) {
+        rotation[0] += rotationSpeed; // Rotate the globe
+        projection.rotate(rotation);
+        svg.selectAll("path").attr("d", path);
+      }
+    });
+  }
+
+  // Call auto-rotate
+  autoRotate();
+
+  // Function to handle country selection
+  /**
+   * rotates to the selected country and draw a marker
+   * @param {latitude of the selected country} lat
+   * @param {longitude of the selected country} lng
+   */
+  function showCountry(lat, lng, name, needScroll = true) {
+    autoRotateEnabled = false; // Stop auto-rotation
+
+    const selectElement = document.getElementById("country");
+    const currentRotation = projection.rotate();
+    const r = d3.interpolate(currentRotation, [-lng, -lat]);
+
+    if (!needScroll) selectElement.value = name;
+
+    const btnClose = document.getElementById("button-close");
+    btnClose.style.visibility = "visible";
+    btnClose.addEventListener("click", () => {
+      autoRotateEnabled = true;
+      btnClose.style.visibility = "hidden";
+      selectElement.selectedIndex = 0;
+    });
+
+    d3.transition()
+      .duration(1000)
+      .tween("rotate", function () {
+        return function (t) {
+          projection.rotate(r(t));
+          svg.selectAll("path").attr("d", path);
+        };
+      })
+      .on("end", () => {
+        drawMarker(lat, lng);
+        gCurrentLat = lat;
+        gCurrentLng = lng;
+
+        if (needScroll) {
+          // Scroll to corresponding section, aligning at the top
+          const targetSection = document.querySelector(
+            `.container-name[data-country="${name}"]`
+          );
+          if (targetSection) {
+            targetSection.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }
+      });
+  }
+
+  /**
+   * draws a marker (red circle) at the coordinates from the params
+   * @param {latitude of the selected country} lat
+   * @param {longitude of the selected country} lng
+   */
+  function drawMarker(lat, lng) {
+    svg
+      .append("circle")
+      .attr("cx", projection([lng, lat])[0])
+      .attr("cy", projection([lng, lat])[1])
+      .attr("fill", "white")
+      .style("stroke", "#000")
+      .attr("r", 5);
+  }
+
+  /**
+   * load all countries as option in the select box
+   */
+  function loadCountries() {
+    countries.map(
+      (country) =>
+        (_countrySelect.innerHTML += `<option value="${country.name}">${country.name}</option>`)
+    );
+  }
+
+  /**
+   * on change handler for the select box
+   * @param {latitude of the selected country} e
+   */
+  function handleOnChange(e) {
+    if (!e || !e.target || !e.target.value) {
+      return;
+    }
+
+    const selectedCountry = countries.find(
+      (country) => country.name === e.target.value
+    );
+
+    if (!selectedCountry) {
+      alert("Country not found!");
+      return;
+    }
+
+    showCountry(
+      selectedCountry.latitude,
+      selectedCountry.longitude,
+      selectedCountry.name
+    );
+  }
+</script>
+
+<script>
+  const barProgressItems = document.querySelectorAll(".bar-progress");
+  const labelMonthItems = document.querySelectorAll(".label-month");
+
+  barProgressItems.forEach((bar, index) => {
+    bar.addEventListener("mouseenter", () => {
+      if (labelMonthItems[index]) {
+        labelMonthItems[index].style.borderColor = "black";
+        labelMonthItems[index].style.borderRight = "0";
+      }
+    });
+    bar.addEventListener("mouseleave", () => {
+      if (labelMonthItems[index]) {
+        labelMonthItems[index].style.borderColor = "";
+        labelMonthItems[index].style.borderRight = "";
+      }
+    });
+  });
+
+  labelMonthItems.forEach((label, index) => {
+    label.addEventListener("mouseenter", () => {
+      if (barProgressItems[index]) {
+        barProgressItems[index].style.borderColor = "black";
+        barProgressItems[index].style.borderLeft = "0";
+      }
+    });
+    label.addEventListener("mouseleave", () => {
+      if (barProgressItems[index]) {
+        barProgressItems[index].style.borderColor = "";
+        barProgressItems[index].style.borderLeft = "";
+      }
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll(".location-image");
+    const contactSections = document.querySelectorAll(".container-contact-sub");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            countries.find((country) => {
+              if (country.name === entry.target.dataset.country) {
+                showCountry(
+                  country.latitude,
+                  country.longitude,
+                  country.name,
+                  false
+                );
+              }
+            });
+          }
+        });
+      },
+      {
+        root: null, // Viewport
+        threshold: 0, // Trigger when 50% is visible
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    contactSections.forEach((section) => observer.observe(section));
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const barElements = document.querySelectorAll(".bar-showInfor");
+
+    barElements.forEach((bar) => {
+      bar.addEventListener("click", function () {
+        this.classList.toggle("active");
+      });
+    });
+  });
+</script>
+<script>
+  document
+    .getElementById("bloomberg-pursuits")
+    .addEventListener("click", function () {
+      window.location.href = "https://www.bloomberg.com/pursuits";
+    });
+
+  document
+    .getElementById("bloomberg-pursuits")
+    .addEventListener("mouseover", function () {
+      this.style.borderBottom = "1px solid currentColor";
+    });
+  document
+    .getElementById("bloomberg-pursuits")
+    .addEventListener("mouseout", function () {
+      this.style.borderBottom = "1px dotted currentColor";
+    });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const elements = document.querySelectorAll(".resource-link");
+
+    elements.forEach((element) => {
+      element.addEventListener("mouseover", function () {
+        this.style.borderBottom = "1px solid currentColor";
+      });
+
+      element.addEventListener("mouseout", function () {
+        this.style.borderBottom = "1px dotted currentColor";
+      });
+    });
+  });
+</script>

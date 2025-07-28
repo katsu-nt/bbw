@@ -1,0 +1,30 @@
+/*---------- Custom css ----------*/
+
+.bg-ptx {
+  background-color: #38d430;
+}
+
+
+@media (min-width: 912px) {
+  .container-content{
+    max-width: 898px;
+  }
+}
+
+@media (min-width: 912px) {
+  .container-content{
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1125px) {
+  .container-content{
+    max-width: 1111px;
+  }
+}
+
+@media (min-width: 1335px) {
+  .container-content{
+    max-width: 1326px;
+  }
+}
