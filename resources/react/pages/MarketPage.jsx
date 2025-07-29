@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import GoldContent from "../components/goldContent";
+import GoldContent from "../components/GoldContent";
 
 export default function MarketPage() {
   return (

@@ -31,8 +31,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
     <!-- Styles -->
     <link href="{{ asset('css/style.css') }}?v=1" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}?v=3.3" rel="stylesheet">

@@ -1,4 +1,4 @@
-import GoldChart from "./goldChart";
+import GoldChart from "./GoldChart";
 export default function GoldContent() {
   return (
     <>

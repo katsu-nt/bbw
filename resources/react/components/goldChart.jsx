@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Search } from "lucide-react";
 import { fetchGoldChart } from "../store/market/goldSlice";
-import Chart from "./chart";
+import ChartHigh from "./ChartHigh";
 
 const goldTypes = [
   { value: "sjc", label: "SJC" },
@@ -68,6 +68,8 @@ export default function GoldChart() {
   const [range, setRange] = useState("30d");
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.gold);
+  const days = getDaysFromRange(range);
+
 
   useEffect(() => {
     const days = getDaysFromRange(range);
@@ -142,14 +144,18 @@ export default function GoldChart() {
         <TabsContent value={range}>
           {loading && <p className="text-gray-500">Đang tải dữ liệu...</p>}
           {error && <p className="text-red-500">Lỗi: {error}</p>}
-          {!loading && !error && (
-            <Chart
-              data={data}
-              selectedTypes={selectedTypes}
-              setSelectedTypes={setSelectedTypes}
-              range={range}
-            />
-          )}
+          {!loading &&
+            !error &&
+            (Object.values(data).some((d) => d?.[days]?.length > 0) ? (
+              <ChartHigh
+                data={data}
+                selectedTypes={selectedTypes}
+                setSelectedTypes={setSelectedTypes}
+                range={range}
+              />
+            ) : (
+              <p className="text-gray-500">Dữ liệu đang được cập nhật...</p>
+            ))}
         </TabsContent>
       </Tabs>
     </div>
