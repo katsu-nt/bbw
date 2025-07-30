@@ -186,16 +186,16 @@ var suppressOthers = function (originalTarget, parentNode, markerName) {
 
 /***/ }),
 
-/***/ "./resources/react/components/ChartHigh.jsx":
-/*!**************************************************!*\
-  !*** ./resources/react/components/ChartHigh.jsx ***!
-  \**************************************************/
+/***/ "./resources/react/components/data/market/GoldChart.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/react/components/data/market/GoldChart.jsx ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ChartHigh)
+/* harmony export */   "default": () => (/* binding */ GoldChart)
 /* harmony export */ });
 /* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
 /* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_0__);
@@ -203,6 +203,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -217,14 +223,38 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-var colors = ["#000000", "#3b82f6", "#ef4444", "#22c55e", "#a855f7", "#f59e0b", "#14b8a6", "#6366f1", "#f43f5e", "#10b981"];
+var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
+var displayNameMap = {
+  pnj: "PNJ",
+  sjc: "SJC",
+  nhẫn_trơn_pnj_9999: "Nhẫn Trơn PNJ 999.9",
+  vàng_kim_bảo_9999: "Vàng Kim Bảo 999.9",
+  vàng_phúc_lộc_tài_9999: "Vàng Phúc Lộc Tài 999.9",
+  vàng_nữ_trang_9999: "Nữ Trang 999.9",
+  vàng_nữ_trang_999: "Nữ Trang 999",
+  vàng_nữ_trang_9920: "Nữ Trang 9920",
+  vàng_nữ_trang_99: "Nữ Trang 99",
+  vàng_916_22k: "Vàng 916 (22K)",
+  vàng_750_18k: "Vàng 750 (18K)",
+  vàng_680_163k: "Vàng 680 (16.3K)",
+  vàng_650_156k: "Vàng 650 (15.6K)",
+  vàng_610_146k: "Vàng 610 (14.6K)",
+  vàng_585_14k: "Vàng 585 (14K)",
+  vàng_416_10k: "Vàng 416 (10K)",
+  vàng_375_9k: "Vàng 375 (9K)",
+  vàng_333_8k: "Vàng 333 (8K)"
+};
 var formatPrice = function formatPrice(value) {
-  return value === null || value === void 0 ? void 0 : value.toLocaleString("vi-VN", {
+  var _value;
+  if (value) {
+    value *= 1000;
+  }
+  return (_value = value) === null || _value === void 0 ? void 0 : _value.toLocaleString("vi-VN", {
     maximumFractionDigits: 0
   });
 };
 var formatPercent = function formatPercent(value) {
-  return "".concat(value.toFixed(1), "%");
+  return "".concat(value.toFixed(2), "%");
 };
 var getDaysFromRange = function getDaysFromRange(range) {
   switch (range) {
@@ -248,32 +278,42 @@ var getDaysFromRange = function getDaysFromRange(range) {
       return 30;
   }
 };
-function ChartHigh(_ref) {
+function GoldChart(_ref) {
   var data = _ref.data,
-    selectedTypes = _ref.selectedTypes,
-    setSelectedTypes = _ref.setSelectedTypes,
+    selectedItems = _ref.selectedItems,
+    setSelectedItems = _ref.setSelectedItems,
     range = _ref.range;
   var days = getDaysFromRange(range);
-  var isComparisonMode = selectedTypes.length > 1;
+  var isComparisonMode = selectedItems.length > 1;
   var allDates = [];
-  var series = selectedTypes.map(function (type, index) {
-    var _data$type;
-    var goldData = ((_data$type = data[type]) === null || _data$type === void 0 ? void 0 : _data$type[days]) || [];
+  var series = selectedItems.map(function (item, index) {
+    var _data$key;
+    var key = "".concat(item.gold_type, "-").concat(item.location);
+    var goldData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
     if (goldData.length === 0) return null;
     var basePrice = goldData[0].price;
     var color = colors[index % colors.length];
-    var seriesData = goldData.map(function (item) {
-      var timestamp = new Date(item.date).getTime();
+    var seriesData = goldData.map(function (entry) {
+      var timestamp = new Date(entry.date).getTime();
       allDates.push(timestamp);
-      return [timestamp, isComparisonMode ? (item.price - basePrice) / basePrice * 100 : item.price];
+      return [timestamp, isComparisonMode ? (entry.price - basePrice) / basePrice * 100 : entry.price];
     });
     return {
-      name: type,
+      name: displayNameMap[item.gold_type] || item.gold_type,
       data: seriesData,
       color: color,
       tooltip: {
-        valueSuffix: isComparisonMode ? "%" : "₫",
+        valueSuffix: isComparisonMode ? "%" : "",
         valueDecimals: isComparisonMode ? 1 : 0
+      },
+      marker: {
+        enabled: false,
+        states: {
+          hover: {
+            enabled: true,
+            radius: 4
+          }
+        }
       }
     };
   }).filter(Boolean);
@@ -282,11 +322,7 @@ function ChartHigh(_ref) {
   });
   var minDate = sortedDates[0];
   var maxDate = sortedDates[sortedDates.length - 1];
-  var yearStart = new Date(minDate).getFullYear();
-  var yearEnd = new Date(maxDate).getFullYear();
-  var spanYears = yearEnd - yearStart;
-
-  // 👉 Custom Y ticks: ±max(abs(min), abs(max)), làm tròn lên gần nhất 10
+  var spanYears = new Date(maxDate).getFullYear() - new Date(minDate).getFullYear();
   var yTickPositions;
   if (isComparisonMode) {
     var allY = series.flatMap(function (s) {
@@ -300,7 +336,7 @@ function ChartHigh(_ref) {
     var yMin = Math.min.apply(Math, _toConsumableArray(allY));
     var yMax = Math.max.apply(Math, _toConsumableArray(allY));
     var absMax = Math.max(Math.abs(yMin), Math.abs(yMax));
-    var rounded = Math.ceil(absMax / 10) * 10; // làm tròn lên mốc gần nhất chia hết cho 10
+    var rounded = Math.ceil(absMax / 10) * 10;
     yTickPositions = [-rounded, 0, rounded];
   }
   var options = {
@@ -315,7 +351,12 @@ function ChartHigh(_ref) {
     xAxis: {
       type: "datetime",
       title: {
-        text: "Thời gian"
+        text: null
+      },
+      crosshair: {
+        width: 1,
+        color: "#ccc",
+        dashStyle: "ShortDot"
       },
       min: spanYears < 4 ? minDate : undefined,
       max: spanYears < 4 ? maxDate : undefined,
@@ -341,64 +382,112 @@ function ChartHigh(_ref) {
     yAxis: {
       opposite: isComparisonMode,
       title: {
-        text: isComparisonMode ? "Thay đổi (%)" : "Đơn vị: nghìn đồng/lượng"
+        text: null
       },
       labels: {
         formatter: function formatter() {
-          return isComparisonMode ? "".concat(this.value.toFixed(1), "%") : "".concat((this.value / 1000).toFixed(0), "K");
+          return isComparisonMode ? "".concat(this.value.toFixed(0), "%") : this.value.toLocaleString("vi-VN");
         }
       },
-      tickPositions: isComparisonMode ? yTickPositions : undefined
+      tickPositions: function () {
+        if (isComparisonMode) return yTickPositions;
+        var allY = series.flatMap(function (s) {
+          return s.data.map(function (_ref4) {
+            var _ref5 = _slicedToArray(_ref4, 2),
+              _ = _ref5[0],
+              y = _ref5[1];
+            return y;
+          });
+        });
+        if (allY.length === 0) return undefined;
+        var yMin = Math.min.apply(Math, _toConsumableArray(allY));
+        var yMax = Math.max.apply(Math, _toConsumableArray(allY));
+        var range = yMax - yMin;
+        if (range === 0) {
+          var _rounded = Math.round(yMin / 100) * 100;
+          return [_rounded - 100, _rounded, _rounded + 100];
+        }
+        var step = Math.ceil(range / 4 / 100) * 100;
+        var start = Math.floor(yMin / 100) * 100;
+        return Array.from({
+          length: 5
+        }, function (_, i) {
+          return start + i * step;
+        });
+      }()
     },
     tooltip: {
       shared: true,
-      xDateFormat: "%d/%m/%Y"
+      xDateFormat: "%d/%m/%Y",
+      formatter: function formatter() {
+        var isComparison = isComparisonMode;
+        var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
+        tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", this.x), "</b><br/>");
+        this.points.forEach(function (point) {
+          var value = isComparison ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : (point.y * 1000).toLocaleString("vi-VN");
+          var valueColor = isComparison ? "#595959" : "#000000";
+          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(point.series.name, ": </b>\n            <b style=\"color:").concat(valueColor, "\">").concat(value).concat(isComparison ? "" : " ₫", "</b><br/>\n          ");
+        });
+        tooltip += "</div>";
+        return tooltip;
+      }
     },
     legend: {
       enabled: false
     },
-    series: series,
     credits: {
       enabled: false
-    }
+    },
+    series: series.map(function (s) {
+      return _objectSpread(_objectSpread({}, s), {}, {
+        marker: {
+          enabled: false
+        }
+      });
+    })
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full",
+    className: "w-full min-h-[440px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "flex flex-wrap gap-4 items-center mb-4",
-      children: selectedTypes.map(function (type, index) {
-        var _data$type2, _goldData$, _goldData$at;
+      children: selectedItems.map(function (item, index) {
+        var _data$key2, _goldData$, _goldData$at;
+        var key = "".concat(item.gold_type, "-").concat(item.location);
         var color = colors[index % colors.length];
-        var goldData = ((_data$type2 = data[type]) === null || _data$type2 === void 0 ? void 0 : _data$type2[days]) || [];
+        var goldData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
         var basePrice = (_goldData$ = goldData[0]) === null || _goldData$ === void 0 ? void 0 : _goldData$.price;
         var lastPrice = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
         var change = basePrice && lastPrice ? (lastPrice - basePrice) / basePrice * 100 : null;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex items-center gap-1 px-3 py-1 rounded-full border text-sm",
-          style: {
-            borderColor: color
-          },
+          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7]",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-sm",
+            className: "inline-block w-2 h-2 rounded-full",
             style: {
-              color: color
-            },
-            children: type
+              backgroundColor: color
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "font-medium",
-            children: change !== null ? isComparisonMode ? formatPercent(change) : formatPrice(lastPrice) + "₫" : "-"
+            className: "text-sm text-black",
+            children: displayNameMap[item.gold_type] || item.gold_type
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: isComparisonMode ? "text-[#595959]" : "text-black",
+            children: change !== null ? isComparisonMode ? change >= 0 ? "+".concat(formatPercent(change)) : formatPercent(change) : formatPrice(lastPrice) + "đ" : "-"
           }), isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: function onClick() {
-              return setSelectedTypes(selectedTypes.filter(function (t) {
-                return t !== type;
-              }));
+              return setSelectedItems(function (prev) {
+                return prev.filter(function (x) {
+                  return x.gold_type !== item.gold_type || x.location !== item.location;
+                });
+              });
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
               className: "w-4 h-4 ml-1 opacity-70 hover:opacity-100"
             })
           })]
-        }, type);
+        }, key);
       })
+    }), !isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "text-xs text-[#595959] mb-4",
+      children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
       highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
       options: options
@@ -408,26 +497,28 @@ function ChartHigh(_ref) {
 
 /***/ }),
 
-/***/ "./resources/react/components/GoldChart.jsx":
-/*!**************************************************!*\
-  !*** ./resources/react/components/GoldChart.jsx ***!
-  \**************************************************/
+/***/ "./resources/react/components/data/market/GoldContainer.jsx":
+/*!******************************************************************!*\
+  !*** ./resources/react/components/data/market/GoldContainer.jsx ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ GoldChart)
+/* harmony export */   "default": () => (/* binding */ GoldContainer)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
 /* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
-/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
-/* harmony import */ var _ChartHigh__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ChartHigh */ "./resources/react/components/ChartHigh.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
+/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
+/* harmony import */ var _GoldChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoldChart */ "./resources/react/components/data/market/GoldChart.jsx");
+/* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 "use client";
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -448,51 +539,67 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-var goldTypes = [{
-  value: "sjc",
-  label: "SJC"
+
+var simplifiedGoldOptions = [{
+  code: "sjc",
+  name: "SJC",
+  location: "hcm"
 }, {
-  value: "pnj",
-  label: "PNJ"
+  code: "pnj",
+  name: "PNJ",
+  location: "hcm"
 }, {
-  value: "pnj_nhan",
-  label: "PNJ Nhẫn"
+  code: "vàng_nữ_trang_9999",
+  name: "Nữ Trang 999.9",
+  location: "tq"
 }, {
-  value: "vàng_kim_bảo_9999",
-  label: "Kim Bảo 9999"
+  code: "vàng_nữ_trang_999",
+  name: "Nữ Trang 999",
+  location: "tq"
 }, {
-  value: "vàng_phúc_lộc_tài_9999",
-  label: "Phúc Lộc Tài 9999"
+  code: "vàng_nữ_trang_9920",
+  name: "Nữ Trang 9920",
+  location: "tq"
 }, {
-  value: "pnj_nutrang",
-  label: "PNJ Nữ Trang"
+  code: "vàng_nữ_trang_99",
+  name: "Nữ Trang 99",
+  location: "tq"
 }, {
-  value: "vàng_916_(22k)",
-  label: "Vàng 916 (22K)"
+  code: "vàng_916_22k",
+  name: "Vàng 916 (22K)",
+  location: "tq"
 }, {
-  value: "vàng_750_(18k)",
-  label: "Vàng 750 (18K)"
+  code: "vàng_750_18k",
+  name: "Vàng 750 (18K)",
+  location: "tq"
 }, {
-  value: "vàng_680_(163k)",
-  label: "Vàng 680 (16.3K)"
+  code: "vàng_680_163k",
+  name: "Vàng 680 (16.3K)",
+  location: "tq"
 }, {
-  value: "vàng_650_(156k)",
-  label: "Vàng 650 (15.6K)"
+  code: "vàng_650_156k",
+  name: "Vàng 650 (15.6K)",
+  location: "tq"
 }, {
-  value: "vàng_610_(146k)",
-  label: "Vàng 610 (14.6K)"
+  code: "vàng_610_146k",
+  name: "Vàng 610 (14.6K)",
+  location: "tq"
 }, {
-  value: "vàng_585_(14k)",
-  label: "Vàng 585 (14K)"
+  code: "vàng_585_14k",
+  name: "Vàng 585 (14K)",
+  location: "tq"
 }, {
-  value: "vàng_416_(10k)",
-  label: "Vàng 416 (10K)"
+  code: "vàng_416_10k",
+  name: "Vàng 416 (10K)",
+  location: "tq"
 }, {
-  value: "vàng_375_(9k)",
-  label: "Vàng 375 (9K)"
+  code: "vàng_375_9k",
+  name: "Vàng 375 (9K)",
+  location: "tq"
 }, {
-  value: "vàng_333_(8k)",
-  label: "Vàng 333 (8K)"
+  code: "vàng_333_8k",
+  name: "Vàng 333 (8K)",
+  location: "tq"
 }];
 var ranges = [{
   label: "1 Tuần",
@@ -528,25 +635,27 @@ function getDaysFromRange(range) {
       return 365 * 5;
     case "ytd":
       {
-        var startOfYear = new Date(today.getFullYear(), 0, 1);
-        var diff = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
-        return diff + 1;
+        var start = new Date(today.getFullYear(), 0, 1);
+        return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
       }
     default:
       return 30;
   }
 }
-function GoldChart() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["sjc"]),
+function GoldContainer() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+      gold_type: "sjc",
+      location: "hcm"
+    }]),
     _useState2 = _slicedToArray(_useState, 2),
-    selectedTypes = _useState2[0],
-    setSelectedTypes = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("30d"),
+    selectedItems = _useState2[0],
+    setSelectedItems = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
     _useState4 = _slicedToArray(_useState3, 2),
     range = _useState4[0],
     setRange = _useState4[1];
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
+  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
       return state.gold;
     }),
     data = _useSelector.data,
@@ -554,93 +663,112 @@ function GoldChart() {
     error = _useSelector.error;
   var days = getDaysFromRange(range);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var days = getDaysFromRange(range);
-    var goldToFetch = selectedTypes.filter(function (type) {
-      return !data[type] || !data[type][days];
+    var needFetch = selectedItems.filter(function (_ref) {
+      var gold_type = _ref.gold_type,
+        location = _ref.location;
+      var key = "".concat(gold_type, "-").concat(location);
+      return !data[key] || !data[key][days];
     });
-    if (goldToFetch.length > 0) {
+    if (needFetch.length > 0) {
+      var gold_types = needFetch.map(function (item) {
+        return item.gold_type;
+      });
+      var locations = needFetch.map(function (item) {
+        return item.location;
+      });
       dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
-        gold_types: goldToFetch,
+        gold_types: gold_types,
+        locations: locations,
         days: days
       }));
     }
-  }, [selectedTypes, range, data, dispatch]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+  }, [selectedItems, range, data, dispatch]);
+  var filteredOptions = simplifiedGoldOptions.filter(function (item) {
+    return !selectedItems.some(function (s) {
+      return s.gold_type === item.code && s.location === item.location;
+    });
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
       className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
-          className: "bg-[#FAFAFA] border border-[#E7E7E7] rounded-lg p-0 h-[40px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
+          className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
           children: ranges.map(function (tab) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
               value: tab.value,
-              className: "text-sm font-medium px-4 py-2 rounded-md data-[state=active]:bg-white data-[state=active]:text-black text-[#989898] focus:outline-none",
+              className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
               children: tab.label
             }, tab.value);
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
             asChild: true,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
-              className: "relative flex items-center gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#989898] text-sm w-[200px] bg-white",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                className: "w-4 h-4"
-              }), "Th\xEAm so s\xE1nh", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
-                className: "ml-auto w-4 h-4",
-                fill: "none",
-                stroke: "currentColor",
-                strokeWidth: 2,
-                viewBox: "0 0 24 24",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
-                  strokeLinecap: "round",
-                  strokeLinejoin: "round",
-                  d: "M19 9l-7 7-7-7"
-                })
+            className: "min-w-[280px] h-[36px]",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+              className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "flex items-center gap-2 text-base",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                  className: "w-4 h-4 text-[#A4A7AE]"
+                }), "Th\xEAm so s\xE1nh"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                className: "w-4 h-4 text-[#BBBBBB]"
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
             align: "end",
             sideOffset: 4,
-            className: "z-50 mt-1 min-w-[200px] rounded-md border border-[#E7E7E7] bg-white shadow",
-            children: goldTypes.map(function (item) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+            className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+            children: filteredOptions.map(function (item) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
                 onClick: function onClick() {
-                  if (!selectedTypes.includes(item.value)) {
-                    setSelectedTypes(function (prev) {
-                      return [].concat(_toConsumableArray(prev), [item.value]);
-                    });
-                  }
+                  setSelectedItems(function (prev) {
+                    return [].concat(_toConsumableArray(prev), [{
+                      gold_type: item.code,
+                      location: item.location
+                    }]);
+                  });
                 },
                 className: "text-sm px-3 py-2 cursor-pointer",
-                children: item.label
-              }, item.value);
+                children: item.name
+              }, item.code);
             })
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
         value: range,
-        children: [loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
-          className: "text-gray-500",
-          children: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
-        }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
-          className: "text-red-500",
-          children: ["L\u1ED7i: ", error]
-        }), !loading && !error && (Object.values(data).some(function (d) {
-          var _d$days;
-          return (d === null || d === void 0 || (_d$days = d[days]) === null || _d$days === void 0 ? void 0 : _d$days.length) > 0;
-        }) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ChartHigh__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          data: data,
-          selectedTypes: selectedTypes,
-          setSelectedTypes: setSelectedTypes,
-          range: range
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
-          className: "text-gray-500",
-          children: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c c\u1EADp nh\u1EADt..."
-        }))]
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          className: "w-full transition-all",
+          children: loading || error ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "w-full space-y-6",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              className: "flex flex-wrap gap-3 items-center",
+              children: _toConsumableArray(Array(3)).map(function (_, i) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                  className: "h-8 w-32 rounded-full bg-gray-200"
+                }, i);
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
+              children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+                status: "loading",
+                message: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i v\u1EC1..."
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+                status: "error"
+              })
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            data: data,
+            selectedItems: selectedItems,
+            setSelectedItems: setSelectedItems,
+            range: range
+          })
+        })
       })]
     })
   });
@@ -648,10 +776,10 @@ function GoldChart() {
 
 /***/ }),
 
-/***/ "./resources/react/components/GoldContent.jsx":
-/*!****************************************************!*\
-  !*** ./resources/react/components/GoldContent.jsx ***!
-  \****************************************************/
+/***/ "./resources/react/components/data/market/GoldContent.jsx":
+/*!****************************************************************!*\
+  !*** ./resources/react/components/data/market/GoldContent.jsx ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -659,7 +787,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GoldContent)
 /* harmony export */ });
-/* harmony import */ var _GoldChart__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GoldChart */ "./resources/react/components/GoldChart.jsx");
+/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -700,7 +828,7 @@ function GoldContent() {
       className: "flex w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "basis-2/3 p-2 pl-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_0__["default"], {})
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_0__["default"], {})
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "basis-1/3 p-2",
         children: "Tab"
@@ -1056,6 +1184,57 @@ function DropdownMenuSubContent(_ref9) {
 
 /***/ }),
 
+/***/ "./resources/react/components/ui/responseStatus.jsx":
+/*!**********************************************************!*\
+  !*** ./resources/react/components/ui/responseStatus.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ResponseStatus: () => (/* binding */ ResponseStatus)
+/* harmony export */ });
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-alert.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function ResponseStatus(_ref) {
+  var status = _ref.status,
+    message = _ref.message;
+  var isLoading = status === "loading";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    className: "flex flex-col items-center space-y-2",
+    children: [isLoading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      role: "status",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("svg", {
+        "aria-hidden": "true",
+        className: "w-8 h-8 text-gray-200 animate-spin fill-gray-600",
+        viewBox: "0 0 100 101",
+        fill: "none",
+        xmlns: "http://www.w3.org/2000/svg",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
+          d: "M100 50.5908C100 78.2051 77.6142 100.591 \r 50 100.591C22.3858 100.591 0 78.2051 0 \r 50.5908C0 22.9766 22.3858 0.59082 50 \r 0.59082C77.6142 0.59082 100 22.9766 100 \r 50.5908ZM9.08144 50.5908C9.08144 73.1895 \r 27.4013 91.5094 50 91.5094C72.5987 91.5094 \r 90.9186 73.1895 90.9186 50.5908C90.9186 \r 27.9921 72.5987 9.67226 50 9.67226C27.4013 \r 9.67226 9.08144 27.9921 9.08144 50.5908Z",
+          fill: "currentColor"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
+          d: "M93.9676 39.0409C96.393 38.4038 \r 97.8624 35.9116 97.0079 33.5539C95.2932 \r 28.8227 92.871 24.3692 89.8167 20.348C85.8452 \r 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 \r 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 \r 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 \r 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 \r 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 \r 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 \r 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 \r 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 \r 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 \r 38.2158 91.5421 39.6781 93.9676 39.0409Z",
+          fill: "currentFill"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        className: "sr-only",
+        children: "Loading..."
+      })]
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      className: "w-8 h-8 text-red-500"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+      className: "text-sm text-gray-500 font-medium text-center px-2",
+      children: message || (isLoading ? "Đang kết nối đến máy chủ, vui lòng chờ trong giây lát..." : "Không thể kết nối đến máy chủ. Vui lòng thử lại sau.")
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/react/components/ui/tabs.jsx":
 /*!************************************************!*\
   !*** ./resources/react/components/ui/tabs.jsx ***!
@@ -1194,7 +1373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_DataLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../layouts/DataLayout */ "./resources/react/layouts/DataLayout.jsx");
 /* harmony import */ var _components_ui_breadcrumb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/breadcrumb */ "./resources/react/components/ui/breadcrumb.jsx");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
-/* harmony import */ var _components_GoldContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/GoldContent */ "./resources/react/components/GoldContent.jsx");
+/* harmony import */ var _components_data_market_GoldContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/data/market/GoldContent */ "./resources/react/components/data/market/GoldContent.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -1233,16 +1412,19 @@ function MarketPage() {
         defaultValue: "gold",
         className: "w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsList, {
+          className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden mt-4 mb-2",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "gold",
+            className: "!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
             children: "Gi\xE1 v\xE0ng"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "exchange",
+            className: "!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
             children: "T\u1EF7 gi\xE1"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
           value: "gold",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_GoldContent__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_data_market_GoldContent__WEBPACK_IMPORTED_MODULE_4__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
           value: "exchange",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -1313,60 +1495,61 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 
-// Async thunk
+// ✅ API call với gold_types và locations tách riêng
 var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("gold/fetchChart", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref, _ref2) {
-    var _ref$gold_types, gold_types, _ref$days, days, rejectWithValue, params, res, json;
+    var _ref$gold_types, gold_types, _ref$locations, locations, _ref$days, days, rejectWithValue, params, res, json;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _ref$gold_types = _ref.gold_types, gold_types = _ref$gold_types === void 0 ? ["sjc"] : _ref$gold_types, _ref$days = _ref.days, days = _ref$days === void 0 ? 30 : _ref$days;
+          _ref$gold_types = _ref.gold_types, gold_types = _ref$gold_types === void 0 ? ["sjc"] : _ref$gold_types, _ref$locations = _ref.locations, locations = _ref$locations === void 0 ? ["hcm"] : _ref$locations, _ref$days = _ref.days, days = _ref$days === void 0 ? 7 : _ref$days;
           rejectWithValue = _ref2.rejectWithValue;
           _context.prev = 2;
           params = new URLSearchParams();
           gold_types.forEach(function (type) {
             return params.append("gold_types", type);
           });
+          locations.forEach(function (loc) {
+            return params.append("locations", loc);
+          });
           params.append("days", days);
-          _context.next = 8;
-          return fetch("https://market-chart-v2.onrender.com/gold/chart?".concat(params.toString()));
-        case 8:
+          _context.next = 9;
+          return fetch("http://127.0.0.1:8003/gold/chart?".concat(params.toString()));
+        case 9:
           res = _context.sent;
-          _context.next = 11;
+          _context.next = 12;
           return res.json();
-        case 11:
+        case 12:
           json = _context.sent;
           if (!(!res.ok || !json.data)) {
-            _context.next = 14;
+            _context.next = 15;
             break;
           }
           return _context.abrupt("return", rejectWithValue(json.message || "No data returned"));
-        case 14:
+        case 15:
           return _context.abrupt("return", {
             days: days,
             result: json.data
           });
-        case 17:
-          _context.prev = 17;
+        case 18:
+          _context.prev = 18;
           _context.t0 = _context["catch"](2);
           return _context.abrupt("return", rejectWithValue(_context.t0.message));
-        case 20:
+        case 21:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 17]]);
+    }, _callee, null, [[2, 18]]);
   }));
   return function (_x, _x2) {
     return _ref3.apply(this, arguments);
   };
 }());
-
-// Slice
 var goldSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: "gold",
   initialState: {
     data: {},
-    // dạng: { sjc: { 30: [...] }, pnj: { 30: [...] } }
+    // key = `${gold_type}-${location}`
     loading: false,
     error: null
   },
@@ -1386,12 +1569,12 @@ var goldSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
         result = _action$payload.result;
       for (var _i = 0, _Object$entries = Object.entries(result); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          goldType = _Object$entries$_i[0],
+          comboKey = _Object$entries$_i[0],
           prices = _Object$entries$_i[1];
-        if (!state.data[goldType]) {
-          state.data[goldType] = {};
+        if (!state.data[comboKey]) {
+          state.data[comboKey] = {};
         }
-        state.data[goldType][days] = prices;
+        state.data[comboKey][days] = prices;
       }
     }).addCase(fetchGoldChart.rejected, function (state, action) {
       state.loading = false;
@@ -1641,6 +1824,37 @@ const Check = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("
 
 /***/ }),
 
+/***/ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/chevron-down.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
+/* harmony export */   "default": () => (/* binding */ ChevronDown)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.525.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("chevron-down", __iconNode);
+
+
+//# sourceMappingURL=chevron-down.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/lucide-react/dist/esm/icons/chevron-right.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/lucide-react/dist/esm/icons/chevron-right.js ***!
@@ -1668,6 +1882,41 @@ const ChevronRight = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["defau
 
 
 //# sourceMappingURL=chevron-right.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/circle-alert.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/circle-alert.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
+/* harmony export */   "default": () => (/* binding */ CircleAlert)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.525.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+];
+const CircleAlert = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("circle-alert", __iconNode);
+
+
+//# sourceMappingURL=circle-alert.js.map
 
 
 /***/ }),

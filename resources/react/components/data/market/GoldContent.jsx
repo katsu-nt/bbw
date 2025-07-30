@@ -1,4 +1,4 @@
-import GoldChart from "./GoldChart";
+import GoldContainer from "./GoldContainer";
 export default function GoldContent() {
   return (
     <>
@@ -22,7 +22,7 @@ export default function GoldContent() {
         </div>
       </div>
       <div className="flex w-full">
-        <div className="basis-2/3 p-2 pl-0"><GoldChart/></div>
+        <div className="basis-2/3 p-2 pl-0"><GoldContainer/></div>
         <div className="basis-1/3 p-2">Tab</div>
       </div>
     </>

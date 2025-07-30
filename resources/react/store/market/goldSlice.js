@@ -1,16 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Async thunk
+// ✅ API call với gold_types và locations tách riêng
 export const fetchGoldChart = createAsyncThunk(
   "gold/fetchChart",
-  async ({ gold_types = ["sjc"], days = 30 }, { rejectWithValue }) => {
+  async ({ gold_types = ["sjc"], locations = ["hcm"], days = 7 }, { rejectWithValue }) => {
     try {
       const params = new URLSearchParams();
       gold_types.forEach((type) => params.append("gold_types", type));
+      locations.forEach((loc) => params.append("locations", loc));
       params.append("days", days);
 
       const res = await fetch(
-        `https://market-chart-v2.onrender.com/gold/chart?${params.toString()}`
+        `http://127.0.0.1:8003/gold/chart?${params.toString()}`
       );
 
       const json = await res.json();
@@ -19,7 +20,6 @@ export const fetchGoldChart = createAsyncThunk(
         return rejectWithValue(json.message || "No data returned");
       }
 
-      // Trả về days và data dạng { sjc: [...], pnj: [...] }
       return { days, result: json.data };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -27,11 +27,10 @@ export const fetchGoldChart = createAsyncThunk(
   }
 );
 
-// Slice
 const goldSlice = createSlice({
   name: "gold",
   initialState: {
-    data: {}, // dạng: { sjc: { 30: [...] }, pnj: { 30: [...] } }
+    data: {}, // key = `${gold_type}-${location}`
     loading: false,
     error: null,
   },
@@ -51,11 +50,11 @@ const goldSlice = createSlice({
 
         const { days, result } = action.payload;
 
-        for (const [goldType, prices] of Object.entries(result)) {
-          if (!state.data[goldType]) {
-            state.data[goldType] = {};
+        for (const [comboKey, prices] of Object.entries(result)) {
+          if (!state.data[comboKey]) {
+            state.data[comboKey] = {};
           }
-          state.data[goldType][days] = prices;
+          state.data[comboKey][days] = prices;
         }
       })
       .addCase(fetchGoldChart.rejected, (state, action) => {
