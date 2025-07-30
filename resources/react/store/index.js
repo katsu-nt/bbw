@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import goldReducer from "./market/goldSlice";
-// import exchangeReducer from "./market/exchangeSlice"; 
+import goldTableReducer from "./market/goldTableSlice";
 
 export const store = configureStore({
   reducer: {
     gold: goldReducer,
+    goldTable: goldTableReducer,
   },
 });
