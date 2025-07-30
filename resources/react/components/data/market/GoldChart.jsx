@@ -260,7 +260,7 @@ export default function GoldChart({
           return (
             <div
               key={key}
-              className="flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7]"
+              className="flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md"
             >
               <span
                 className="inline-block w-2 h-2 rounded-full"

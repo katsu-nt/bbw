@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Search, ChevronDown } from "lucide-react";
-import { fetchGoldChart } from "../../../store/market/goldSlice";
+import { fetchGoldChart } from "../../../store/market/goldSlice"; 
 import GoldChart from "./GoldChart";
 import { ResponseStatus } from "@/components/ui/responseStatus";
 
@@ -69,7 +69,7 @@ export default function GoldContainer() {
   ]);
   const [range, setRange] = useState("7d");
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.gold);
+  const { chart: data, loading, error } = useSelector((state) => state.gold); // ✅ Dùng `chart` từ slice gộp
   const days = getDaysFromRange(range);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export default function GoldContainer() {
 
         <TabsContent value={range}>
           <div className="w-full transition-all">
-            {loading || error ? (
+            {loading.chart || error.chart ? ( // ✅ Dùng loading.chart và error.chart
               <div className="w-full space-y-6">
                 <div className="flex flex-wrap gap-3 items-center">
                   {[...Array(3)].map((_, i) => (
@@ -155,7 +155,7 @@ export default function GoldContainer() {
                 </div>
 
                 <div className="relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center">
-                  {loading ? (
+                  {loading.chart ? (
                     <ResponseStatus
                       status="loading"
                       message="Dữ liệu đang được tải về..."

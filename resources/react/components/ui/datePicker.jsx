@@ -4,15 +4,23 @@ import "dayjs/locale/vi";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 dayjs.locale("vi");
 
-const now = dayjs();
 const yearsPerPage = 12;
 
-export default function DatePicker() {
+export default function DatePicker({ value, onChange }) {
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("day");
-  const [selectedDate, setSelectedDate] = useState(now);
-  const [viewDate, setViewDate] = useState(now);
+  const [selectedDate, setSelectedDate] = useState(dayjs(value));
+  const [viewDate, setViewDate] = useState(dayjs(value));
   const pickerRef = useRef(null);
+
+  // Cập nhật khi prop value thay đổi
+  useEffect(() => {
+    const newDate = dayjs(value);
+    setSelectedDate(newDate);
+    setViewDate(newDate);
+  }, [value]);
+
+  // Đóng khi click bên ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (pickerRef.current && !pickerRef.current.contains(event.target)) {
@@ -21,42 +29,21 @@ export default function DatePicker() {
     };
     if (showPicker) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showPicker]);
+
   const handleSelectDate = (date) => {
     setSelectedDate(date);
     setViewDate(date);
     setShowPicker(false);
     setMode("day");
+    if (onChange) {
+      onChange(date.toDate()); // Trả về JS Date cho component cha
+    }
   };
-
-  const renderHeader = () => (
-    <div className="flex justify-between items-center p-4 text-[#414651]">
-      <button
-        onClick={handlePrev}
-        className="text-[#A4A7AE] hover:text-black transition-colors"
-      >
-        <ChevronLeft size={18} />
-      </button>
-      <div className="flex gap-2 text-sm font-medium">
-        <button onClick={() => setMode("month")}>
-          Tháng {viewDate.month() + 1}
-        </button>
-        <button onClick={() => setMode("year")}>{viewDate.year()}</button>
-      </div>
-      <button
-        onClick={handleNext}
-        className="text-[#A4A7AE] hover:text-black transition-colors"
-      >
-        <ChevronRight size={18} />
-      </button>
-    </div>
-  );
 
   const handlePrev = () => {
     if (mode === "year") {
@@ -78,20 +65,32 @@ export default function DatePicker() {
     }
   };
 
+  const renderHeader = () => (
+    <div className="flex justify-between items-center p-4 text-[#414651]">
+      <button onClick={handlePrev} className="text-[#A4A7AE] hover:text-black transition-colors">
+        <ChevronLeft size={18} />
+      </button>
+      <div className="flex gap-2 text-sm font-medium">
+        <button onClick={() => setMode("month")}>Tháng {viewDate.month() + 1}</button>
+        <button onClick={() => setMode("year")}>{viewDate.year()}</button>
+      </div>
+      <button onClick={handleNext} className="text-[#A4A7AE] hover:text-black transition-colors">
+        <ChevronRight size={18} />
+      </button>
+    </div>
+  );
+
   const renderDays = () => {
     const startOfMonth = viewDate.startOf("month");
-    const startDay = (startOfMonth.day() + 6) % 7;
+    const startDay = (startOfMonth.day() + 6) % 7; // Bắt đầu từ T2
     const daysInMonth = viewDate.daysInMonth();
-
     const prevMonth = viewDate.subtract(1, "month");
     const prevDays = prevMonth.daysInMonth();
-
     const totalCells = 42;
     const days = [];
 
     for (let i = 0; i < totalCells; i++) {
-      let day,
-        currentMonth = true;
+      let day, currentMonth = true;
       if (i < startDay) {
         day = prevMonth.date(prevDays - (startDay - i) + 1);
         currentMonth = false;
@@ -107,15 +106,15 @@ export default function DatePicker() {
           key={i}
           disabled={!currentMonth}
           onClick={() => handleSelectDate(day)}
-          className={`w-8 h-8 flex items-center justify-center text-sm text rounded-full transition-colors duration-150
-  ${currentMonth ? "" : "cursor-default"}
-  ${
-    day.isSame(selectedDate, "date")
-      ? "bg-[#6E6E6E] text-white"
-      : currentMonth
-      ? "text-[#414651] hover:bg-gray-200"
-      : "text-[#717680]"
-  }`}
+          className={`w-8 h-8 flex items-center justify-center text-sm rounded-full transition-colors duration-150
+            ${currentMonth ? "" : "cursor-default"}
+            ${
+              day.isSame(selectedDate, "date")
+                ? "bg-[#6E6E6E] text-white"
+                : currentMonth
+                ? "text-[#414651] hover:bg-gray-200"
+                : "text-[#717680]"
+            }`}
         >
           {day.date()}
         </button>
@@ -148,8 +147,7 @@ export default function DatePicker() {
           }}
           className={`text-sm px-2 py-4 rounded transition-colors duration-150
             ${
-              i === selectedDate.month() &&
-              viewDate.year() === selectedDate.year()
+              i === selectedDate.month() && viewDate.year() === selectedDate.year()
                 ? "bg-[#6E6E6E] text-white"
                 : "text-[#414651] hover:bg-gray-200 hover:text-[#414651]"
             }`}
@@ -203,7 +201,7 @@ export default function DatePicker() {
       </button>
 
       {showPicker && (
-        <div className="absolute z-50 mt-2 bg-white shadow-xs min-w-72 w-full border rounded-md border-[#D5D7DA] shadowborder rounded-md border-[#D5D7DA] shadow">
+        <div className="absolute z-50 mt-2 bg-white shadow-xs min-w-72 w-full border rounded-md border-[#D5D7DA]">
           {renderHeader()}
           {mode === "year" && renderYears()}
           {mode === "month" && renderMonths()}

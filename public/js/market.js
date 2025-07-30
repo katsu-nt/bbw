@@ -459,7 +459,7 @@ function GoldChart(_ref) {
         var lastPrice = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
         var change = basePrice && lastPrice ? (lastPrice - basePrice) / basePrice * 100 : null;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7]",
+          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: "inline-block w-2 h-2 rounded-full",
             style: {
@@ -658,9 +658,9 @@ function GoldContainer() {
   var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
       return state.gold;
     }),
-    data = _useSelector.data,
+    data = _useSelector.chart,
     loading = _useSelector.loading,
-    error = _useSelector.error;
+    error = _useSelector.error; // ✅ Dùng `chart` từ slice gộp
   var days = getDaysFromRange(range);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var needFetch = selectedItems.filter(function (_ref) {
@@ -744,7 +744,10 @@ function GoldContainer() {
         value: range,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "w-full transition-all",
-          children: loading || error ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: loading.chart || error.chart ?
+          /*#__PURE__*/
+          // ✅ Dùng loading.chart và error.chart
+          (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "w-full space-y-6",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
@@ -755,7 +758,7 @@ function GoldContainer() {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+              children: loading.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
                 status: "loading",
                 message: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i v\u1EC1..."
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
@@ -787,53 +790,122 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GoldContent)
 /* harmony export */ });
-/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
-/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/GoldTable.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
+/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
+/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/GoldTable.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
 
 
 
 function GoldContent() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "flex flex-col",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useDispatch)();
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
+      gold_type: "xau_usd",
+      location: "global"
+    }));
+    dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
+      gold_type: "sjc",
+      location: "hcm"
+    }));
+  }, [dispatch]);
+  var xau = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    return state.gold.current["xau_usd-global"];
+  });
+  var sjc = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    return state.gold.current["sjc-hcm"];
+  });
+  var formatPriceVND = function formatPriceVND(price) {
+    return typeof price === "number" ? price.toLocaleString("vi-VN") : "Đang cập nhật";
+  };
+  var formatPriceUSD = function formatPriceUSD(price) {
+    return typeof price === "number" ? price.toLocaleString("en-US") : "Đang cập nhật";
+  };
+  var formatPercent = function formatPercent(delta) {
+    return typeof delta === "number" ? "".concat(delta > 0 ? "+" : "").concat(delta.toFixed(2), "%") : "";
+  };
+  var formatVietnamDateTime = function formatVietnamDateTime(isoString) {
+    if (!isoString) return "";
+    var date = new Date(isoString);
+    return date.toLocaleString("vi-VN", {
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      timeZone: "Asia/Ho_Chi_Minh" // Thêm timezone nếu muốn đúng giờ Việt Nam
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "flex flex-col mb-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "flex gap-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "text-sm font-semibold",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng th\u1EBF gi\u1EDBi"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            children: "XAU/USD 107,500,000 0.51%"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: "XAU/USD"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: formatPriceUSD(xau === null || xau === void 0 ? void 0 : xau.sell_price)
+            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_percent) === "number" && xau.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+              className: "flex items-center ".concat(xau.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                className: "text-sm inline-block -translate-y-2 transform",
+                children: xau.delta_percent > 0 ? "▲" : "▼"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                children: formatPercent(xau.delta_percent)
+              })]
+            })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "w-px bg-[#323232] opacity-100"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "w-px bg-[#191919] opacity-100"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            className: "text-sm font-semibold",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng trong n\u01B0\u1EDBc"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            children: "XAU/USD 107,500,000 0.51%"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: "SJC/VND"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: formatPriceVND(sjc ? sjc.sell_price * 1000 : undefined)
+            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_percent) === "number" && sjc.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+              className: "flex items-center ".concat(sjc.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                className: "text-sm inline-block -translate-y-2 transform",
+                children: sjc.delta_percent > 0 ? "▲" : "▼"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                children: formatPercent(sjc.delta_percent)
+              })]
+            })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "flex flex-col",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          children: "14 th\xE1ng 7,2025"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          children: "\u0110\u01A1n v\u1ECB: ngh\xECn \u0111\u1ED3ng/l\u01B0\u1EE3ng"
-        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "text-[#595959] text-sm mt-2",
+        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", " ", formatVietnamDateTime(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "flex w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "basis-2/3 p-2 pl-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_0__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "basis-1/3 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_1__["default"], {})
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})
       })]
     })]
   });
@@ -855,7 +927,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_ui_datePicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/datePicker */ "./resources/react/components/ui/datePicker.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
+/* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -865,17 +941,224 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+
+
+
+
+function formatPrice(value) {
+  return typeof value === "number" ? value.toLocaleString("vi-VN") : "Đang cập nhật";
+}
+function formatDelta(delta) {
+  if (delta === null || delta === undefined) return null;
+  var value = Math.round(delta);
+  return value > 0 ? "+".concat(value.toLocaleString("vi-VN")) : value.toLocaleString("vi-VN");
+}
+var FIXED_BRANDS = ["PNJ - HCM", "SJC - HCM", "PNJ - HN", "SJC - HN", "Nhẫn Trơn PNJ 999.9", "Vàng Kim Bảo 999.9", "Vàng Phúc Lộc Tài 999.9", "Vàng nữ trang 999.9", "Vàng nữ trang 999", "Vàng nữ trang 9920", "Vàng nữ trang 99", "Vàng 916 (22K)", "Vàng 750 (18K)", "Vàng 680 (16.3K)", "Vàng 650 (15.6K)", "Vàng 610 (14.6K)", "Vàng 585 (14K)", "Vàng 416 (10K)", "Vàng 375 (9K)", "Vàng 333 (8K)"];
+var BRAND_MAPPING = {
+  "PNJ - HCM": {
+    gold_type: "pnj",
+    location: "hcm"
+  },
+  "SJC - HCM": {
+    gold_type: "sjc",
+    location: "hcm"
+  },
+  "PNJ - HN": {
+    gold_type: "pnj",
+    location: "hn"
+  },
+  "SJC - HN": {
+    gold_type: "sjc",
+    location: "hn"
+  },
+  "Nhẫn Trơn PNJ 999.9": {
+    gold_type: "nhẫn_trơn_pnj_9999",
+    location: "tq"
+  },
+  "Vàng Kim Bảo 999.9": {
+    gold_type: "vàng_kim_bảo_9999",
+    location: "tq"
+  },
+  "Vàng Phúc Lộc Tài 999.9": {
+    gold_type: "vàng_phúc_lộc_tài_9999",
+    location: "tq"
+  },
+  "Vàng nữ trang 999.9": {
+    gold_type: "vàng_nữ_trang_9999",
+    location: "tq"
+  },
+  "Vàng nữ trang 999": {
+    gold_type: "vàng_nữ_trang_999",
+    location: "tq"
+  },
+  "Vàng nữ trang 9920": {
+    gold_type: "vàng_nữ_trang_9920",
+    location: "tq"
+  },
+  "Vàng nữ trang 99": {
+    gold_type: "vàng_nữ_trang_99",
+    location: "tq"
+  },
+  "Vàng 916 (22K)": {
+    gold_type: "vàng_916_22k",
+    location: "tq"
+  },
+  "Vàng 750 (18K)": {
+    gold_type: "vàng_750_18k",
+    location: "tq"
+  },
+  "Vàng 680 (16.3K)": {
+    gold_type: "vàng_680_163k",
+    location: "tq"
+  },
+  "Vàng 650 (15.6K)": {
+    gold_type: "vàng_650_156k",
+    location: "tq"
+  },
+  "Vàng 610 (14.6K)": {
+    gold_type: "vàng_610_146k",
+    location: "tq"
+  },
+  "Vàng 585 (14K)": {
+    gold_type: "vàng_585_14k",
+    location: "tq"
+  },
+  "Vàng 416 (10K)": {
+    gold_type: "vàng_416_10k",
+    location: "tq"
+  },
+  "Vàng 375 (9K)": {
+    gold_type: "vàng_375_9k",
+    location: "tq"
+  },
+  "Vàng 333 (8K)": {
+    gold_type: "vàng_333_8k",
+    location: "tq"
+  }
+};
+function formatDateLocal(date) {
+  var tzOffset = date.getTimezoneOffset() * 60000;
+  var localISO = new Date(date.getTime() - tzOffset).toISOString();
+  return localISO.split("T")[0];
+}
 function GoldTable() {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
     _useState2 = _slicedToArray(_useState, 2),
     selectedDate = _useState2[0],
     setSelectedDate = _useState2[1];
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ui_datePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      value: selectedDate,
-      onChange: setSelectedDate
-    })
+  var tableData = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+    return state.gold.table;
+  });
+  var loading = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+    return state.gold.loading.table;
+  });
+  var error = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+    return state.gold.error.table;
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var dateStr = formatDateLocal(selectedDate);
+    dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_4__.fetchGoldTable)(dateStr));
+  }, [dispatch, selectedDate]);
+  var findPrice = function findPrice(brand) {
+    var config = BRAND_MAPPING[brand];
+    if (!config) return null;
+    return tableData.find(function (item) {
+      return item.gold_type === config.gold_type && item.location === config.location;
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "flex flex-col gap-3",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_datePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        value: selectedDate,
+        onChange: setSelectedDate
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "border rounded-md border-[#E7E7E7] shadow overflow-hidden",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "grid grid-cols-[1.5fr_1fr_1fr] items-center bg-[#FAFAFA] text-left text-black text-sm font-semibold p-4 pr-6 border-b border-[#D5D7DA]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "py-2 sticky top-0 z-10 flex items-center",
+          children: "Th\u01B0\u01A1ng hi\u1EC7u"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "py-2 sticky top-0 z-10",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "flex flex-col",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: "Gi\xE1 mua v\xE0o"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              className: "text-xs text-[#595959] font-medium",
+              children: "ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "py-2 sticky top-0 z-10",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "flex flex-col",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: "Gi\xE1 b\xE1n ra"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              className: "text-xs text-[#595959] font-medium",
+              children: "ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
+            })]
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "max-h-[445px] min-h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
+        style: {
+          scrollbarWidth: "thin",
+          scrollbarColor: "#ECECEC transparent"
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("style", {
+          children: "\n            div::-webkit-scrollbar {\n              width: 6px;\n            }\n            div::-webkit-scrollbar-thumb {\n              background-color: #ececec;\n              border-radius: 4px;\n            }\n            div::-webkit-scrollbar-button {\n              display: none;\n              height: 0;\n            }\n          "
+        }), loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "absolute inset-0 flex items-center justify-center text-sm text-[#595959]",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_3__.ResponseStatus, {
+            status: "loading",
+            message: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
+          })
+        }) : error ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "absolute inset-0 flex items-center justify-center text-sm text-[#B51001]",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_3__.ResponseStatus, {
+            status: "error",
+            message: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7"
+          })
+        }) : FIXED_BRANDS.map(function (brand) {
+          var item = findPrice(brand);
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "grid grid-cols-[1.5fr_1fr_1fr] min-h-[86px] text-[#191919] text-sm text-left px-4 py-2 items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "truncate hover:cursor-pointer pr-2",
+              title: brand,
+              children: brand
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "text-left",
+              children: item ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+                children: [formatPrice(item.buy_price), item.delta_buy !== 0 && item.delta_buy != null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  className: item.delta_buy > 0 ? "text-[#0032F0]" : "text-[#B51001]",
+                  children: formatDelta(item.delta_buy)
+                })]
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                size: "8px",
+                color: "#191919"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "text-left",
+              children: item ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+                children: [formatPrice(item.sell_price), item.delta_sell !== 0 && item.delta_sell != null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  className: item.delta_sell > 0 ? "text-[#0032F0]" : "text-[#B51001]",
+                  children: formatDelta(item.delta_sell)
+                })]
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                size: "8px",
+                color: "#191919"
+              })
+            })]
+          }, brand);
+        })]
+      })]
+    })]
   });
 }
 
@@ -1055,9 +1338,10 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 dayjs__WEBPACK_IMPORTED_MODULE_1___default().locale("vi");
-var now = dayjs__WEBPACK_IMPORTED_MODULE_1___default()();
 var yearsPerPage = 12;
-function DatePicker() {
+function DatePicker(_ref) {
+  var value = _ref.value,
+    onChange = _ref.onChange;
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
     showPicker = _useState2[0],
@@ -1066,15 +1350,24 @@ function DatePicker() {
     _useState4 = _slicedToArray(_useState3, 2),
     mode = _useState4[0],
     setMode = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(now),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(dayjs__WEBPACK_IMPORTED_MODULE_1___default()(value)),
     _useState6 = _slicedToArray(_useState5, 2),
     selectedDate = _useState6[0],
     setSelectedDate = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(now),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(dayjs__WEBPACK_IMPORTED_MODULE_1___default()(value)),
     _useState8 = _slicedToArray(_useState7, 2),
     viewDate = _useState8[0],
     setViewDate = _useState8[1];
   var pickerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  // Cập nhật khi prop value thay đổi
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var newDate = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(value);
+    setSelectedDate(newDate);
+    setViewDate(newDate);
+  }, [value]);
+
+  // Đóng khi click bên ngoài
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var handleClickOutside = function handleClickOutside(event) {
       if (pickerRef.current && !pickerRef.current.contains(event.target)) {
@@ -1083,8 +1376,6 @@ function DatePicker() {
     };
     if (showPicker) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
     return function () {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -1095,6 +1386,27 @@ function DatePicker() {
     setViewDate(date);
     setShowPicker(false);
     setMode("day");
+    if (onChange) {
+      onChange(date.toDate()); // Trả về JS Date cho component cha
+    }
+  };
+  var handlePrev = function handlePrev() {
+    if (mode === "year") {
+      setViewDate(viewDate.subtract(yearsPerPage, "year"));
+    } else if (mode === "month") {
+      setViewDate(viewDate.subtract(1, "year"));
+    } else {
+      setViewDate(viewDate.subtract(1, "month"));
+    }
+  };
+  var handleNext = function handleNext() {
+    if (mode === "year") {
+      setViewDate(viewDate.add(yearsPerPage, "year"));
+    } else if (mode === "month") {
+      setViewDate(viewDate.add(1, "year"));
+    } else {
+      setViewDate(viewDate.add(1, "month"));
+    }
   };
   var renderHeader = function renderHeader() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -1127,27 +1439,9 @@ function DatePicker() {
       })]
     });
   };
-  var handlePrev = function handlePrev() {
-    if (mode === "year") {
-      setViewDate(viewDate.subtract(yearsPerPage, "year"));
-    } else if (mode === "month") {
-      setViewDate(viewDate.subtract(1, "year"));
-    } else {
-      setViewDate(viewDate.subtract(1, "month"));
-    }
-  };
-  var handleNext = function handleNext() {
-    if (mode === "year") {
-      setViewDate(viewDate.add(yearsPerPage, "year"));
-    } else if (mode === "month") {
-      setViewDate(viewDate.add(1, "year"));
-    } else {
-      setViewDate(viewDate.add(1, "month"));
-    }
-  };
   var renderDays = function renderDays() {
     var startOfMonth = viewDate.startOf("month");
-    var startDay = (startOfMonth.day() + 6) % 7;
+    var startDay = (startOfMonth.day() + 6) % 7; // Bắt đầu từ T2
     var daysInMonth = viewDate.daysInMonth();
     var prevMonth = viewDate.subtract(1, "month");
     var prevDays = prevMonth.daysInMonth();
@@ -1170,7 +1464,7 @@ function DatePicker() {
         onClick: function onClick() {
           return handleSelectDate(day);
         },
-        className: "w-8 h-8 flex items-center justify-center text-sm text rounded-full transition-colors duration-150\n  ".concat(currentMonth ? "" : "cursor-default", "\n  ").concat(day.isSame(selectedDate, "date") ? "bg-[#6E6E6E] text-white" : currentMonth ? "text-[#414651] hover:bg-gray-200" : "text-[#717680]"),
+        className: "w-8 h-8 flex items-center justify-center text-sm rounded-full transition-colors duration-150\n            ".concat(currentMonth ? "" : "cursor-default", "\n            ").concat(day.isSame(selectedDate, "date") ? "bg-[#6E6E6E] text-white" : currentMonth ? "text-[#414651] hover:bg-gray-200" : "text-[#717680]"),
         children: day.date()
       }, i));
     };
@@ -1240,7 +1534,7 @@ function DatePicker() {
         })
       })]
     }), showPicker && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "absolute z-50 mt-2 bg-white shadow-xs min-w-72 w-full border rounded-md border-[#D5D7DA] shadowborder rounded-md border-[#D5D7DA] shadow",
+      className: "absolute z-50 mt-2 bg-white shadow-xs min-w-72 w-full border rounded-md border-[#D5D7DA]",
       children: [renderHeader(), mode === "year" && renderYears(), mode === "month" && renderMonths(), mode === "day" && renderDays()]
     })]
   });
@@ -1576,6 +1870,43 @@ function TabsContent(_ref4) {
 
 /***/ }),
 
+/***/ "./resources/react/components/ui/threeDotsWave.jsx":
+/*!*********************************************************!*\
+  !*** ./resources/react/components/ui/threeDotsWave.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ThreeDotsWave)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+function ThreeDotsWave(_ref) {
+  var _ref$size = _ref.size,
+    size = _ref$size === void 0 ? "16px" : _ref$size,
+    _ref$color = _ref.color,
+    color = _ref$color === void 0 ? "#A0A0A0" : _ref$color;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    className: "flex justify-end gap-[3px] pr-1",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      className: "dot dot1",
+      children: "\u25CF"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      className: "dot dot2",
+      children: "\u25CF"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      className: "dot dot3",
+      children: "\u25CF"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("style", {
+      children: "\n        .dot {\n          font-size: ".concat(size, ";\n          color: ").concat(color, ";\n          animation: pulse 1.2s infinite ease-in-out;\n          display: inline-block;\n          transform-origin: center;\n        }\n        .dot1 {\n          animation-delay: 0s;\n        }\n        .dot2 {\n          animation-delay: 0.2s;\n        }\n        .dot3 {\n          animation-delay: 0.4s;\n        }\n\n        @keyframes pulse {\n          0%, 80%, 100% {\n            transform: scale(1);\n            opacity: 0.8;\n          }\n          40% {\n            transform: scale(1.5);\n            opacity: 1;\n          }\n        }\n      ")
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/react/layouts/DataLayout.jsx":
 /*!************************************************!*\
   !*** ./resources/react/layouts/DataLayout.jsx ***!
@@ -1723,16 +2054,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   store: () => (/* binding */ store)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
 /* harmony import */ var _market_goldSlice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./market/goldSlice */ "./resources/react/store/market/goldSlice.js");
-/* harmony import */ var _market_goldTableSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./market/goldTableSlice */ "./resources/react/store/market/goldTableSlice.js");
 
 
-
-var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__.configureStore)({
+var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.configureStore)({
   reducer: {
-    gold: _market_goldSlice__WEBPACK_IMPORTED_MODULE_0__["default"],
-    goldTable: _market_goldTableSlice__WEBPACK_IMPORTED_MODULE_1__["default"]
+    gold: _market_goldSlice__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -1747,24 +2075,38 @@ var store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__.configureStore)({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   clearGoldCurrent: () => (/* binding */ clearGoldCurrent),
 /* harmony export */   clearGoldData: () => (/* binding */ clearGoldData),
+/* harmony export */   clearGoldTable: () => (/* binding */ clearGoldTable),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   fetchGoldChart: () => (/* binding */ fetchGoldChart)
+/* harmony export */   fetchGoldChart: () => (/* binding */ fetchGoldChart),
+/* harmony export */   fetchGoldCurrent: () => (/* binding */ fetchGoldCurrent),
+/* harmony export */   fetchGoldTable: () => (/* binding */ fetchGoldTable)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["key"];
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (e.indexOf(n) >= 0) continue; t[n] = r[n]; } return t; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 
-// ✅ API call với gold_types và locations tách riêng
+// ─────────────────────────────────────────
+// 🎯 /gold/chart
+// ─────────────────────────────────────────
 var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("gold/fetchChart", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref, _ref2) {
     var _ref$gold_types, gold_types, _ref$locations, locations, _ref$days, days, rejectWithValue, params, res, json;
@@ -1814,25 +2156,136 @@ var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
     return _ref3.apply(this, arguments);
   };
 }());
+
+// ─────────────────────────────────────────
+// 🎯 /gold/current
+// ─────────────────────────────────────────
+var fetchGoldCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("gold/fetchCurrent", /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref4, _ref5) {
+    var gold_type, location, rejectWithValue, params, res, json;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          gold_type = _ref4.gold_type, location = _ref4.location;
+          rejectWithValue = _ref5.rejectWithValue;
+          _context2.prev = 2;
+          params = new URLSearchParams({
+            gold_type: gold_type,
+            location: location
+          });
+          _context2.next = 6;
+          return fetch("http://127.0.0.1:8003/gold/current?".concat(params.toString()));
+        case 6:
+          res = _context2.sent;
+          _context2.next = 9;
+          return res.json();
+        case 9:
+          json = _context2.sent;
+          if (!(!res.ok || !json.data)) {
+            _context2.next = 12;
+            break;
+          }
+          return _context2.abrupt("return", rejectWithValue(json.message || "Không có dữ liệu"));
+        case 12:
+          return _context2.abrupt("return", _objectSpread({
+            key: "".concat(gold_type, "-").concat(location)
+          }, json.data));
+        case 15:
+          _context2.prev = 15;
+          _context2.t0 = _context2["catch"](2);
+          return _context2.abrupt("return", rejectWithValue(_context2.t0.message));
+        case 18:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2, null, [[2, 15]]);
+  }));
+  return function (_x3, _x4) {
+    return _ref6.apply(this, arguments);
+  };
+}());
+
+// ─────────────────────────────────────────
+// 🎯 /gold/table
+// ─────────────────────────────────────────
+var fetchGoldTable = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("gold/fetchTable", /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(selectedDate, _ref7) {
+    var rejectWithValue, res, json;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          rejectWithValue = _ref7.rejectWithValue;
+          _context3.prev = 1;
+          _context3.next = 4;
+          return fetch("http://127.0.0.1:8003/gold/table?selected_date=".concat(selectedDate));
+        case 4:
+          res = _context3.sent;
+          _context3.next = 7;
+          return res.json();
+        case 7:
+          json = _context3.sent;
+          if (!(!res.ok || !json.data)) {
+            _context3.next = 10;
+            break;
+          }
+          return _context3.abrupt("return", rejectWithValue(json.message || "Không có dữ liệu"));
+        case 10:
+          return _context3.abrupt("return", json.data);
+        case 13:
+          _context3.prev = 13;
+          _context3.t0 = _context3["catch"](1);
+          return _context3.abrupt("return", rejectWithValue(_context3.t0.message));
+        case 16:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, null, [[1, 13]]);
+  }));
+  return function (_x5, _x6) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+
+// ─────────────────────────────────────────
+// 🔁 Slice gộp chung
+// ─────────────────────────────────────────
 var goldSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: "gold",
   initialState: {
-    data: {},
-    // key = `${gold_type}-${location}`
-    loading: false,
-    error: null
+    chart: {},
+    // { [comboKey]: { [days]: [...] } }
+    current: {},
+    // { [comboKey]: { timestamp, sell_price, delta_percent, ... } }
+    table: [],
+    loading: {
+      chart: false,
+      current: false,
+      table: false
+    },
+    error: {
+      chart: null,
+      current: null,
+      table: null
+    }
   },
   reducers: {
     clearGoldData: function clearGoldData(state) {
-      state.data = {};
+      state.chart = {};
+    },
+    clearGoldCurrent: function clearGoldCurrent(state) {
+      state.current = {};
+    },
+    clearGoldTable: function clearGoldTable(state) {
+      state.table = [];
     }
   },
   extraReducers: function extraReducers(builder) {
+    // ───── chart ─────
     builder.addCase(fetchGoldChart.pending, function (state) {
-      state.loading = true;
-      state.error = null;
+      state.loading.chart = true;
+      state.error.chart = null;
     }).addCase(fetchGoldChart.fulfilled, function (state, action) {
-      state.loading = false;
+      state.loading.chart = false;
       var _action$payload = action.payload,
         days = _action$payload.days,
         result = _action$payload.result;
@@ -1840,100 +2293,50 @@ var goldSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
         var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
           comboKey = _Object$entries$_i[0],
           prices = _Object$entries$_i[1];
-        if (!state.data[comboKey]) {
-          state.data[comboKey] = {};
+        if (!state.chart[comboKey]) {
+          state.chart[comboKey] = {};
         }
-        state.data[comboKey][days] = prices;
+        state.chart[comboKey][days] = prices;
       }
     }).addCase(fetchGoldChart.rejected, function (state, action) {
-      state.loading = false;
-      state.error = action.payload || "Đã có lỗi xảy ra";
+      state.loading.chart = false;
+      state.error.chart = action.payload;
+    });
+
+    // ───── current ─────
+    builder.addCase(fetchGoldCurrent.pending, function (state) {
+      state.loading.current = true;
+      state.error.current = null;
+    }).addCase(fetchGoldCurrent.fulfilled, function (state, action) {
+      state.loading.current = false;
+      var _action$payload2 = action.payload,
+        key = _action$payload2.key,
+        data = _objectWithoutProperties(_action$payload2, _excluded);
+      state.current[key] = data;
+    }).addCase(fetchGoldCurrent.rejected, function (state, action) {
+      state.loading.current = false;
+      state.error.current = action.payload;
+    });
+
+    // ───── table ─────
+    builder.addCase(fetchGoldTable.pending, function (state) {
+      state.loading.table = true;
+      state.error.table = null;
+    }).addCase(fetchGoldTable.fulfilled, function (state, action) {
+      state.loading.table = false;
+      state.table = action.payload;
+    }).addCase(fetchGoldTable.rejected, function (state, action) {
+      state.loading.table = false;
+      state.error.table = action.payload;
     });
   }
 });
-var clearGoldData = goldSlice.actions.clearGoldData;
+var _goldSlice$actions = goldSlice.actions,
+  clearGoldData = _goldSlice$actions.clearGoldData,
+  clearGoldCurrent = _goldSlice$actions.clearGoldCurrent,
+  clearGoldTable = _goldSlice$actions.clearGoldTable;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (goldSlice.reducer);
-
-/***/ }),
-
-/***/ "./resources/react/store/market/goldTableSlice.js":
-/*!********************************************************!*\
-  !*** ./resources/react/store/market/goldTableSlice.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   fetchGoldTable: () => (/* binding */ fetchGoldTable)
-/* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-
-var fetchGoldTable = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("goldTable/fetch", /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(selectedDate, _ref) {
-    var rejectWithValue, res, json;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
-        case 0:
-          rejectWithValue = _ref.rejectWithValue;
-          _context.prev = 1;
-          _context.next = 4;
-          return fetch("http://127.0.0.1:8003/gold/table?selected_date=".concat(selectedDate));
-        case 4:
-          res = _context.sent;
-          _context.next = 7;
-          return res.json();
-        case 7:
-          json = _context.sent;
-          if (!(!res.ok || !json.data)) {
-            _context.next = 10;
-            break;
-          }
-          return _context.abrupt("return", rejectWithValue(json.message || "Không có dữ liệu"));
-        case 10:
-          return _context.abrupt("return", json.data);
-        case 13:
-          _context.prev = 13;
-          _context.t0 = _context["catch"](1);
-          return _context.abrupt("return", rejectWithValue(_context.t0.message));
-        case 16:
-        case "end":
-          return _context.stop();
-      }
-    }, _callee, null, [[1, 13]]);
-  }));
-  return function (_x, _x2) {
-    return _ref2.apply(this, arguments);
-  };
-}());
-var goldTableSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: "goldTable",
-  initialState: {
-    data: [],
-    loading: false,
-    error: null
-  },
-  reducers: {},
-  extraReducers: function extraReducers(builder) {
-    builder.addCase(fetchGoldTable.pending, function (state) {
-      state.loading = true;
-      state.error = null;
-    }).addCase(fetchGoldTable.fulfilled, function (state, action) {
-      state.loading = false;
-      state.data = action.payload;
-    }).addCase(fetchGoldTable.rejected, function (state, action) {
-      state.loading = false;
-      state.error = action.payload || "Lỗi không xác định";
-    });
-  }
-});
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (goldTableSlice.reducer);
 
 /***/ }),
 
