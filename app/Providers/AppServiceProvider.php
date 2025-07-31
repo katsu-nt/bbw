@@ -33,4 +33,10 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceScheme('https');
         }
     }
+    // public function boot()
+    // {
+    //     Schema::defaultStringLength(191);
+    //     // LUÔN force HTTPS (vì tunnel, ngrok, cloudflared, localhost.run đều là HTTPS)
+    //     \URL::forceScheme('https');
+    // }
 }

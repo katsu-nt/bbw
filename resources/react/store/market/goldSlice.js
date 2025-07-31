@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
+// const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
+const GOLD_URL = 'http://localhost:8003/api/gold'
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart

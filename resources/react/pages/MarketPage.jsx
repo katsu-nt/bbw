@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import GoldContent from "../components/data/market/GoldContent";
+import ExchangeContent from "../components/data/market/ExchangeContent";
 
 export default function MarketPage() {
   return (
@@ -74,10 +75,7 @@ export default function MarketPage() {
           </TabsContent>
 
           <TabsContent value="exchange">
-            <div className="mt-4 p-4 bg-gray-100 rounded-md">
-              <h2 className="text-lg font-bold">Tỷ giá ngoại tệ</h2>
-              <p>Hiển thị bảng tỷ giá tại đây...</p>
-            </div>
+            <ExchangeContent />
           </TabsContent>
         </Tabs>
       </div>

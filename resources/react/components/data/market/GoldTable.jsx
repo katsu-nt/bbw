@@ -187,7 +187,7 @@ export default function GoldTable() {
                         )}
                       </>
                     ) : (
-                      <ThreeDotsWave size="8px" color="#191919" />
+                      <div className="w-full flex justify-center"><ThreeDotsWave size="8px" color="#191919" /></div>
                     )}
                   </div>
 
@@ -208,7 +208,7 @@ export default function GoldTable() {
                         )}
                       </>
                     ) : (
-                      <ThreeDotsWave size="8px" color="#191919" />
+                      <div className="w-full flex justify-center"><ThreeDotsWave size="8px" color="#191919" /></div>
                     )}
                   </div>
                 </div>

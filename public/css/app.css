@@ -1459,6 +1459,9 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-\[200px\] {
+  width: 200px;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -1483,6 +1486,9 @@ video {
 .min-w-max {
   min-width: -moz-max-content;
   min-width: max-content;
+}
+.min-w-\[220px\] {
+  min-width: 220px;
 }
 .max-w-lg {
   max-width: 32rem;
@@ -1715,6 +1721,9 @@ video {
 }
 .grid-cols-\[1\.5fr_1fr_1fr\] {
   grid-template-columns: 1.5fr 1fr 1fr;
+}
+.grid-cols-\[1\.5fr_1fr\] {
+  grid-template-columns: 1.5fr 1fr;
 }
 .flex-row {
   flex-direction: row;
