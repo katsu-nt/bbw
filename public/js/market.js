@@ -186,6 +186,232 @@ var suppressOthers = function (originalTarget, parentNode, markerName) {
 
 /***/ }),
 
+/***/ "./resources/react/components/data/market/CurrencyConverter.jsx":
+/*!**********************************************************************!*\
+  !*** ./resources/react/components/data/market/CurrencyConverter.jsx ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CurrencyConverter)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
+/* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/repeat-2.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+
+var currencyOptions = [{
+  code: "USD",
+  name: "USD",
+  flag: "/images/upload/united-states.png"
+}, {
+  code: "VND",
+  name: "VND",
+  flag: "/images/upload/vietnam.png"
+}, {
+  code: "EUR",
+  name: "EUR",
+  flag: "/images/upload/european-union.png"
+}, {
+  code: "JPY",
+  name: "JPY",
+  flag: "/images/upload/japan.png"
+}, {
+  code: "CNY",
+  name: "CNY",
+  flag: "/images/upload/china.png"
+}, {
+  code: "AUD",
+  name: "AUD",
+  flag: "/images/upload/australia.png"
+}];
+function formatAmount(val) {
+  if (typeof val !== "number" || isNaN(val)) return "";
+  // Format ngăn cách bằng . giống Việt Nam (tuỳ yêu cầu)
+  return val.toLocaleString("vi-VN");
+}
+function InputCurrencyField(_ref) {
+  var value = _ref.value,
+    onValueChange = _ref.onValueChange,
+    currency = _ref.currency,
+    onSelectCurrency = _ref.onSelectCurrency,
+    disabled = _ref.disabled,
+    readOnly = _ref.readOnly;
+  // Focus input khi click vào vùng input, không dropdown
+  var inputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "flex items-center w-full max-h-[44px] rounded-lg px-2 py-0 bg-white focus-within:border-[#181D27] transition border rounded-md border-[#E7E7E7] shadow overflow-hidden",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      ref: inputRef,
+      type: "text",
+      pattern: "[0-9.,]*",
+      inputMode: "decimal",
+      disabled: disabled,
+      readOnly: readOnly,
+      className: "flex-1 py-3 px-2 text-base font-medium outline-none border-none bg-transparent text-[#181D27]",
+      value: value,
+      onChange: function onChange(e) {
+        var v = e.target.value.replace(/\./g, "").replace(/,/g, "");
+        if (v === "") onValueChange("");else onValueChange(Number(v));
+      },
+      onFocus: function onFocus(e) {
+        return e.target.select();
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+        asChild: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+          type: "button",
+          className: "flex items-center gap-2 py-1 pl-3 pr-2 rounded-md select-none hover:bg-gray-100 focus:bg-gray-100 focus:outline-none",
+          tabIndex: 0,
+          style: {
+            minWidth: 70
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: currency.flag,
+            alt: "Vi\u1EC7t Nam",
+            className: "inline-block w-6 h-6 rounded-full"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            className: "font-semibold text-base ml-1",
+            children: currency.code
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            className: "w-4 h-4 ml-1 text-[#888]"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+        align: "end",
+        sideOffset: 4,
+        className: "min-w-[120px] rounded-md border z-[9999] bg-white shadow-lg",
+        style: {
+          maxHeight: 180,
+          overflowY: "auto",
+          scrollbarWidth: "thin",
+          scrollbarColor: "#ECECEC transparent"
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("style", {
+          children: "\n    [data-slot=\"dropdown-menu-content\"]::-webkit-scrollbar { width: 6px; }\n    [data-slot=\"dropdown-menu-content\"]::-webkit-scrollbar-thumb { background-color: #ececec; border-radius: 4px; }\n    [data-slot=\"dropdown-menu-content\"]::-webkit-scrollbar-button { display: none; height: 0; }\n  "
+        }), currencyOptions.map(function (c) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+            onClick: function onClick() {
+              onSelectCurrency(c.code);
+              setTimeout(function () {
+                var _inputRef$current;
+                return (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.focus();
+              }, 100);
+            },
+            disabled: c.code === currency.code,
+            className: "flex gap-3 items-center px-4 py-1 font-medium text-base hover:bg-gray-100 hover:outline-none hover:cursor-pointer hover:shadow focus:outline-none",
+            style: {
+              minHeight: 60
+            },
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: c.flag,
+              alt: "Vi\u1EC7t Nam",
+              className: "inline-block w-6 h-6 rounded-full"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              className: "font-medium",
+              children: c.code
+            })]
+          }, c.code);
+        })]
+      })]
+    })]
+  });
+}
+function CurrencyConverter() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("USD"),
+    _useState2 = _slicedToArray(_useState, 2),
+    from = _useState2[0],
+    setFrom = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("VND"),
+    _useState4 = _slicedToArray(_useState3, 2),
+    to = _useState4[0],
+    setTo = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1000),
+    _useState6 = _slicedToArray(_useState5, 2),
+    amount = _useState6[0],
+    setAmount = _useState6[1];
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useDispatch)();
+  var key = "".concat(from, "-").concat(to);
+  var exchange = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    return state.exchange.current[key];
+  });
+  var loading = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    return state.exchange.loading.current;
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (from !== to) {
+      dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
+        base_currency: from,
+        quote_currency: to
+      }));
+    }
+  }, [dispatch, from, to]);
+  var handleReverse = function handleReverse() {
+    setFrom(to);
+    setTo(from);
+  };
+  var result = "";
+  if (exchange && typeof exchange.rate === "number" && !loading) {
+    result = amount * exchange.rate;
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "bg-white py-2 rounded-t-md flex flex-col gap-2 mb-4",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "font-medium text-lg mb-1 pl-1",
+      children: "Chuy\u1EC3n \u0111\u1ED5i ti\u1EC1n t\u1EC7"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(InputCurrencyField, {
+      value: formatAmount(amount),
+      onValueChange: setAmount,
+      currency: currencyOptions.find(function (x) {
+        return x.code === from;
+      }),
+      onSelectCurrency: setFrom,
+      disabled: false,
+      readOnly: false
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex items-center justify-center my-0",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        onClick: handleReverse,
+        className: "rounded-full border border-[#E7E7E7] bg-white p-2 flex items-center shadow hover:bg-gray-100 transition",
+        "aria-label": "\u0110\u1ED5i chi\u1EC1u",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          className: "w-4 h-4 text-[#191919]"
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(InputCurrencyField, {
+      value: loading ? "..." : result !== "" && !isNaN(result) ? formatAmount(Math.round(result)) : "",
+      onValueChange: function onValueChange() {} // Không cho user nhập vào result
+      ,
+      currency: currencyOptions.find(function (x) {
+        return x.code === to;
+      }),
+      onSelectCurrency: setTo,
+      disabled: false,
+      readOnly: true
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/react/components/data/market/ExchangeChart.jsx":
 /*!******************************************************************!*\
   !*** ./resources/react/components/data/market/ExchangeChart.jsx ***!
@@ -758,12 +984,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
 /* harmony import */ var _ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExchangeContainer */ "./resources/react/components/data/market/ExchangeContainer.jsx");
 /* harmony import */ var _ExchangeTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ExchangeTable */ "./resources/react/components/data/market/ExchangeTable.jsx");
 /* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _CurrencyConverter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CurrencyConverter */ "./resources/react/components/data/market/CurrencyConverter.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -772,7 +1000,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ExchangeContent() {
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
   // Ví dụ mặc định USD/VND và EUR/VND, bạn có thể đổi
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
@@ -784,16 +1012,16 @@ function ExchangeContent() {
       quote_currency: "VND"
     }));
   }, [dispatch]);
-  var usdVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var usdVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
     return state.exchange.current["USD-VND"];
   });
-  var eurVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var eurVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
     return state.exchange.current["EUR-VND"];
   });
   var formatPrice = function formatPrice(rate) {
     return typeof rate === "number" ? rate.toLocaleString("vi-VN", {
       maximumFractionDigits: 2
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__["default"], {
       size: "8px",
       color: "#191919"
     });
@@ -815,70 +1043,73 @@ function ExchangeContent() {
       timeZone: "Asia/Ho_Chi_Minh"
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      className: "flex flex-col mb-4",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "flex gap-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-lg font-normal text-[#191919]",
-            children: "T\u1EF7 gi\xE1 USD/VND"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: "USD/VND"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: formatPrice(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate)
-            }), typeof (usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.delta_percent) === "number" && usdVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(usdVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "text-sm inline-block -translate-y-2 transform",
-                children: usdVnd.delta_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(usdVnd.delta_percent)
-              })]
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w-px bg-[#191919] opacity-100"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-lg font-normal text-[#191919]",
-            children: "T\u1EF7 gi\xE1 EUR/VND"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: "EUR/VND"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: formatPrice(eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate)
-            }), typeof (eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.delta_percent) === "number" && eurVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(eurVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "text-sm inline-block -translate-y-2 transform",
-                children: eurVnd.delta_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(eurVnd.delta_percent)
-              })]
-            })]
-          })]
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "text-[#595959] text-sm mt-2",
-        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", formatVietnamDateTime(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.timestamp)]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "flex w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "basis-2/3 p-2 pl-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "basis-1/3 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_ExchangeTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        className: "basis-2/3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "flex flex-col mb-4 ",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "flex gap-4",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "flex flex-col",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "text-lg font-normal text-[#191919]",
+                children: "T\u1EF7 gi\xE1 USD/VND"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  children: "USD/VND"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  children: formatPrice(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate)
+                }), typeof (usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.delta_percent) === "number" && usdVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+                  className: "flex items-center ".concat(usdVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                    className: "text-sm inline-block -translate-y-2 transform",
+                    children: usdVnd.delta_percent > 0 ? "▲" : "▼"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                    children: formatPercent(usdVnd.delta_percent)
+                  })]
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              className: "w-px bg-[#191919] opacity-100"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "flex flex-col",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "text-lg font-normal text-[#191919]",
+                children: "T\u1EF7 gi\xE1 EUR/VND"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  children: "EUR/VND"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  children: formatPrice(eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate)
+                }), typeof (eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.delta_percent) === "number" && eurVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+                  className: "flex items-center ".concat(eurVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                    className: "text-sm inline-block -translate-y-2 transform",
+                    children: eurVnd.delta_percent > 0 ? "▲" : "▼"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                    children: formatPercent(eurVnd.delta_percent)
+                  })]
+                })]
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "text-[#595959] text-sm mt-2",
+            children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", formatVietnamDateTime(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.timestamp)]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          className: "",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        className: "basis-1/3 p-2 pt-0",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_CurrencyConverter__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ExchangeTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})]
       })]
-    })]
+    })
   });
 }
 
@@ -989,7 +1220,7 @@ function ExchangeTable() {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "max-h-[445px] min-h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
+        className: "h-[340px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
         style: {
           scrollbarWidth: "thin",
           scrollbarColor: "#ECECEC transparent"
@@ -1960,7 +2191,7 @@ function GoldTable() {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "max-h-[445px] min-h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
+        className: "h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
         style: {
           scrollbarWidth: "thin",
           scrollbarColor: "#ECECEC transparent"
@@ -3942,6 +4173,42 @@ const Ellipsis = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"]
 
 
 //# sourceMappingURL=ellipsis.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/repeat-2.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/repeat-2.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
+/* harmony export */   "default": () => (/* binding */ Repeat2)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.525.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "m2 9 3-3 3 3", key: "1ltn5i" }],
+  ["path", { d: "M13 18H7a2 2 0 0 1-2-2V6", key: "1r6tfw" }],
+  ["path", { d: "m22 15-3 3-3-3", key: "4rnwn2" }],
+  ["path", { d: "M11 6h6a2 2 0 0 1 2 2v10", key: "2f72bc" }]
+];
+const Repeat2 = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("repeat-2", __iconNode);
+
+
+//# sourceMappingURL=repeat-2.js.map
 
 
 /***/ }),

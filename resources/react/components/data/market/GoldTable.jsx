@@ -124,7 +124,7 @@ export default function GoldTable() {
         </div>
 
         <div
-          className="max-h-[445px] min-h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
+          className="h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "#ECECEC transparent",
