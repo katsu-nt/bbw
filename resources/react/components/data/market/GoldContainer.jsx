@@ -93,7 +93,7 @@ export default function GoldContainer() {
   );
 
   return (
-    <div className="border rounded-md border-[#E7E7E7] shadow p-6">
+    <div className="border rounded-md border-[#E7E7E7] shadow p-6  min-h-[586px]">
       <Tabs defaultValue={range} onValueChange={setRange} className="w-full">
         <div className="flex justify-between items-center mb-4">
           <TabsList className="inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden">
@@ -143,7 +143,7 @@ export default function GoldContainer() {
 
         <TabsContent value={range}>
           <div className="w-full transition-all">
-            {loading.chart || error.chart ? ( // ✅ Dùng loading.chart và error.chart
+            {loading.chart || error.chart ? ( 
               <div className="w-full space-y-6">
                 <div className="flex flex-wrap gap-3 items-center">
                   {[...Array(3)].map((_, i) => (

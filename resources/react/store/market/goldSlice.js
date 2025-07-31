@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart
@@ -12,7 +13,7 @@ export const fetchGoldChart = createAsyncThunk(
       locations.forEach((loc) => params.append("locations", loc));
       params.append("days", days);
 
-      const res = await fetch(`http://127.0.0.1:8003/gold/chart?${params.toString()}`);
+      const res = await fetch(`${GOLD_URL}/chart?${params.toString()}`);
       const json = await res.json();
 
       if (!res.ok || !json.data) {
@@ -34,7 +35,7 @@ export const fetchGoldCurrent = createAsyncThunk(
   async ({ gold_type, location }, { rejectWithValue }) => {
     try {
       const params = new URLSearchParams({ gold_type, location });
-      const res = await fetch(`http://127.0.0.1:8003/gold/current?${params.toString()}`);
+      const res = await fetch(`${GOLD_URL}/current?${params.toString()}`);
       const json = await res.json();
 
       if (!res.ok || !json.data) {
@@ -58,7 +59,7 @@ export const fetchGoldTable = createAsyncThunk(
   "gold/fetchTable",
   async (selectedDate, { rejectWithValue }) => {
     try {
-      const res = await fetch(`http://127.0.0.1:8003/gold/table?selected_date=${selectedDate}`);
+      const res = await fetch(`${GOLD_URL}/table?selected_date=${selectedDate}`);
       const json = await res.json();
 
       if (!res.ok || !json.data) {

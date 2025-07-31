@@ -689,7 +689,7 @@ function GoldContainer() {
     });
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-    className: "border rounded-md border-[#E7E7E7] shadow p-6",
+    className: "border rounded-md border-[#E7E7E7] shadow p-6  min-h-[586px]",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
@@ -744,10 +744,7 @@ function GoldContainer() {
         value: range,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "w-full transition-all",
-          children: loading.chart || error.chart ?
-          /*#__PURE__*/
-          // ✅ Dùng loading.chart và error.chart
-          (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: loading.chart || error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "w-full space-y-6",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
@@ -2125,7 +2122,7 @@ var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
           });
           params.append("days", days);
           _context.next = 9;
-          return fetch("http://127.0.0.1:8003/gold/chart?".concat(params.toString()));
+          return fetch("https://market-chart-v2.onrender.com/gold/chart?".concat(params.toString()));
         case 9:
           res = _context.sent;
           _context.next = 12;
@@ -2174,7 +2171,7 @@ var fetchGoldCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAs
             location: location
           });
           _context2.next = 6;
-          return fetch("http://127.0.0.1:8003/gold/current?".concat(params.toString()));
+          return fetch("https://market-chart-v2.onrender.com/gold/current?".concat(params.toString()));
         case 6:
           res = _context2.sent;
           _context2.next = 9;
@@ -2217,7 +2214,7 @@ var fetchGoldTable = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
           rejectWithValue = _ref7.rejectWithValue;
           _context3.prev = 1;
           _context3.next = 4;
-          return fetch("http://127.0.0.1:8003/gold/table?selected_date=".concat(selectedDate));
+          return fetch("https://market-chart-v2.onrender.com/gold/table?selected_date=".concat(selectedDate));
         case 4:
           res = _context3.sent;
           _context3.next = 7;
