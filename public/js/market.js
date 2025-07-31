@@ -2100,6 +2100,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
+var GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold';
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart
@@ -2122,7 +2123,7 @@ var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
           });
           params.append("days", days);
           _context.next = 9;
-          return fetch("https://market-chart-v2.onrender.com/gold/chart?".concat(params.toString()));
+          return fetch("".concat(GOLD_URL, "/chart?").concat(params.toString()));
         case 9:
           res = _context.sent;
           _context.next = 12;
@@ -2171,7 +2172,7 @@ var fetchGoldCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAs
             location: location
           });
           _context2.next = 6;
-          return fetch("https://market-chart-v2.onrender.com/gold/current?".concat(params.toString()));
+          return fetch("".concat(GOLD_URL, "/current?").concat(params.toString()));
         case 6:
           res = _context2.sent;
           _context2.next = 9;
@@ -2214,7 +2215,7 @@ var fetchGoldTable = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
           rejectWithValue = _ref7.rejectWithValue;
           _context3.prev = 1;
           _context3.next = 4;
-          return fetch("https://market-chart-v2.onrender.com/gold/table?selected_date=".concat(selectedDate));
+          return fetch("".concat(GOLD_URL, "/table?selected_date=").concat(selectedDate));
         case 4:
           res = _context3.sent;
           _context3.next = 7;

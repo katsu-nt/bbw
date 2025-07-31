@@ -1021,9 +1021,6 @@ video {
 .table-row {
   display: table-row;
 }
-.\!grid {
-  display: grid !important;
-}
 .grid {
   display: grid;
 }
@@ -1056,10 +1053,6 @@ video {
   width: 0.75rem;
   height: 0.75rem;
 }
-.size-3\.5 {
-  width: 0.875rem;
-  height: 0.875rem;
-}
 .size-4 {
   width: 1rem;
   height: 1rem;
@@ -1071,6 +1064,10 @@ video {
 .size-auto {
   width: auto;
   height: auto;
+}
+.size-3\.5 {
+  width: 0.875rem;
+  height: 0.875rem;
 }
 .h-0 {
   height: 0px;
@@ -1220,20 +1217,14 @@ video {
 .min-h-\[445px\] {
   min-height: 445px;
 }
+.min-h-\[586px\] {
+  min-height: 586px;
+}
 .min-h-\[86px\] {
   min-height: 86px;
 }
 .min-h-screen {
   min-height: 100vh;
-}
-.min-h-\[602px\] {
-  min-height: 602px;
-}
-.min-h-\[6586px\] {
-  min-height: 6586px;
-}
-.min-h-\[586px\] {
-  min-height: 586px;
 }
 .w-0 {
   width: 0px;
@@ -1537,9 +1528,6 @@ video {
 .rotate-90 {
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-.\!transform {
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
 }
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -3385,13 +3373,6 @@ video {
 .backdrop-filter {
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-}
-.\!transition {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter !important;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter !important;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transition-duration: 150ms !important;
 }
 .transition {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
