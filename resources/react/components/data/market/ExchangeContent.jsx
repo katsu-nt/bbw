@@ -8,22 +8,18 @@ import CurrencyConverter from "./CurrencyConverter";
 
 export default function ExchangeContent() {
   const dispatch = useDispatch();
-  // Ví dụ mặc định USD/VND và EUR/VND, bạn có thể đổi
+
   useEffect(() => {
-    dispatch(
-      fetchExchangeCurrent({ base_currency: "USD", quote_currency: "VND" })
-    );
-    dispatch(
-      fetchExchangeCurrent({ base_currency: "EUR", quote_currency: "VND" })
-    );
+    dispatch(fetchExchangeCurrent({ type: "market", code: "USD" }));
+    dispatch(fetchExchangeCurrent({ type: "market", code: "EUR" }));
   }, [dispatch]);
 
-  const usdVnd = useSelector((state) => state.exchange.current["USD-VND"]);
-  const eurVnd = useSelector((state) => state.exchange.current["EUR-VND"]);
+  const usdVnd = useSelector((state) => state.exchange.current["market-USD"]);
+  const eurVnd = useSelector((state) => state.exchange.current["market-EUR"]);
 
   const formatPrice = (rate) =>
     typeof rate === "number" ? (
-      rate.toLocaleString("vi-VN", { maximumFractionDigits: 2 })
+      rate.toLocaleString("vi-VN", { maximumFractionDigits: 2 }) + " VND"
     ) : (
       <ThreeDotsWave size="8px" color="#191919" />
     );
@@ -54,11 +50,8 @@ export default function ExchangeContent() {
           <div className="flex flex-col mb-4 ">
             <div className="flex gap-4">
               <div className="flex flex-col">
-                <div className="text-lg font-normal text-[#191919]">
-                  Tỷ giá USD/VND
-                </div>
                 <div className="text-2xl font-medium text-[#191919] flex gap-2 items-center">
-                  <span>USD/VND</span>
+                  <span>USD</span>
                   <span>{formatPrice(usdVnd?.rate)}</span>
                   {typeof usdVnd?.delta_percent === "number" &&
                     usdVnd.delta_percent !== 0 && (
@@ -79,11 +72,8 @@ export default function ExchangeContent() {
               </div>
               <div className="w-px bg-[#191919] opacity-100" />
               <div className="flex flex-col">
-                <div className="text-lg font-normal text-[#191919]">
-                  Tỷ giá EUR/VND
-                </div>
                 <div className="text-2xl font-medium text-[#191919] flex gap-2 items-center">
-                  <span>EUR/VND</span>
+                  <span>EUR</span>
                   <span>{formatPrice(eurVnd?.rate)}</span>
                   {typeof eurVnd?.delta_percent === "number" &&
                     eurVnd.delta_percent !== 0 && (

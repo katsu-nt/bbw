@@ -4,35 +4,36 @@ const EXCHANGE_URL = "http://localhost:8003/api/exchange";
 // GET /exchange/chart
 export const fetchExchangeChart = createAsyncThunk(
   "exchange/fetchChart",
-  async ({ base_currencies = ["USD"], quote_currencies = ["VND"], days = 30 }, { rejectWithValue }) => {
+  async ({ type = "market", code = ["USD"], days = 30 }, { rejectWithValue }) => {
     try {
       const params = new URLSearchParams();
-      base_currencies.forEach((code) => params.append("base_currencies", code));
-      quote_currencies.forEach((code) => params.append("quote_currencies", code));
+      params.append("type", type);
+      (Array.isArray(code) ? code : [code]).forEach((c) => params.append("code", c));
       params.append("days", days);
 
       const res = await fetch(`${EXCHANGE_URL}/chart?${params.toString()}`);
       const json = await res.json();
       if (!res.ok || !json.data) return rejectWithValue(json.message || "No data");
-      return { days, result: json.data };
+      return { type, code: Array.isArray(code) ? code : [code], days, result: json.data };
     } catch (err) {
       return rejectWithValue(err.message);
     }
   }
 );
 
-// GET /exchange/current
+// GET /exchange/crr
 export const fetchExchangeCurrent = createAsyncThunk(
   "exchange/fetchCurrent",
-  async ({ base_currency, quote_currency }, { rejectWithValue }) => {
+  async ({ type = "market", code = "USD" }, { rejectWithValue }) => {
     try {
-      const params = new URLSearchParams({ base_currency, quote_currency });
-      const res = await fetch(`${EXCHANGE_URL}/current?${params.toString()}`);
+      const params = new URLSearchParams({ type, code });
+      const res = await fetch(`${EXCHANGE_URL}/crr?${params.toString()}`);
       const json = await res.json();
       if (!res.ok || !json.data) return rejectWithValue(json.message || "No data");
+      // Chỉ trả về trường data để state.current[key] = { rate, delta_percent, ... }
       return {
-        key: `${base_currency}-${quote_currency}`,
-        ...json.data,
+        key: `${type}-${code}`,
+        data: json.data
       };
     } catch (err) {
       return rejectWithValue(err.message);
@@ -43,9 +44,14 @@ export const fetchExchangeCurrent = createAsyncThunk(
 // GET /exchange/table
 export const fetchExchangeTable = createAsyncThunk(
   "exchange/fetchTable",
-  async (selectedDate, { rejectWithValue }) => {
+  async ({ type = "market", date, code }, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${EXCHANGE_URL}/table?selected_date=${selectedDate}`);
+      const params = new URLSearchParams();
+      params.append("type", type);
+      if (code) params.append("code", code);
+      if (date) params.append("date", date);
+
+      const res = await fetch(`${EXCHANGE_URL}/table?${params.toString()}`);
       const json = await res.json();
       if (!res.ok || !json.data) return rejectWithValue(json.message || "No data");
       return json.data;
@@ -77,10 +83,10 @@ const exchangeSlice = createSlice({
       })
       .addCase(fetchExchangeChart.fulfilled, (state, action) => {
         state.loading.chart = false;
-        const { days, result } = action.payload;
-        for (const [comboKey, rates] of Object.entries(result)) {
-          if (!state.chart[comboKey]) state.chart[comboKey] = {};
-          state.chart[comboKey][days] = rates;
+        const { type, code, days, result } = action.payload;
+        for (const codeKey of code) {
+          if (!state.chart[`${type}-${codeKey}`]) state.chart[`${type}-${codeKey}`] = {};
+          state.chart[`${type}-${codeKey}`][days] = result[codeKey];
         }
       })
       .addCase(fetchExchangeChart.rejected, (state, action) => {
@@ -93,7 +99,7 @@ const exchangeSlice = createSlice({
       })
       .addCase(fetchExchangeCurrent.fulfilled, (state, action) => {
         state.loading.current = false;
-        const { key, ...data } = action.payload;
+        const { key, data } = action.payload;
         state.current[key] = data;
       })
       .addCase(fetchExchangeCurrent.rejected, (state, action) => {

@@ -186,6 +186,56 @@ var suppressOthers = function (originalTarget, parentNode, markerName) {
 
 /***/ }),
 
+/***/ "./resources/react/components/data/market/CompareSwitch.jsx":
+/*!******************************************************************!*\
+  !*** ./resources/react/components/data/market/CompareSwitch.jsx ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CompareSwitch)
+/* harmony export */ });
+/* harmony import */ var _components_ui_switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/switch */ "./resources/react/components/ui/switch.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function CompareSwitch(_ref) {
+  var checked = _ref.checked,
+    onChange = _ref.onChange,
+    _ref$label = _ref.label,
+    label = _ref$label === void 0 ? "So sánh" : _ref$label,
+    _ref$id = _ref.id,
+    id = _ref$id === void 0 ? "compare-switch" : _ref$id;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex flex-col items-center",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_switch__WEBPACK_IMPORTED_MODULE_0__.Switch, {
+      id: id,
+      checked: checked,
+      onCheckedChange: onChange,
+      className: "compare-switch"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+      htmlFor: id,
+      className: "compare-switch-label",
+      style: {
+        color: "#595959",
+        fontSize: "12px",
+        fontWeight: 500,
+        letterSpacing: "-1px",
+        textAlign: "center",
+        marginTop: "0.3rem",
+        marginBottom: 0
+      },
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+      children: "\n        .compare-switch {\n          background: #F5F5F5 !important;\n          border: none !important;\n          box-shadow: 0 2px 8px rgba(110,110,110,0.05);\n          width: 38px !important;\n          height: 20px !important;\n          padding: 2px !important;\n          display: inline-flex;\n          align-items: center;\n          transition: background 0.2s;\n        }\n        .compare-switch [data-slot=\"switch-thumb\"] {\n          background: #fff !important;\n          width: 18px !important;\n          height: 18px !important;\n          box-shadow: 0 2px 4px rgba(110,110,110,0.10);\n          transition: transform 0.2s;\n        }\n      "
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/react/components/data/market/CurrencyConverter.jsx":
 /*!**********************************************************************!*\
   !*** ./resources/react/components/data/market/CurrencyConverter.jsx ***!
@@ -243,9 +293,18 @@ var currencyOptions = [{
   flag: "/images/upload/australia.png"
 }];
 function formatAmount(val) {
+  var code = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "VND";
   if (typeof val !== "number" || isNaN(val)) return "";
-  // Format ngăn cách bằng . giống Việt Nam (tuỳ yêu cầu)
-  return val.toLocaleString("vi-VN");
+  // VND: dùng format Việt Nam, ngoại tệ: dùng quốc tế, làm tròn 3 số thập phân
+  if (code === "VND") {
+    return val.toLocaleString("vi-VN", {
+      maximumFractionDigits: 3
+    });
+  } else {
+    return val.toLocaleString("en-US", {
+      maximumFractionDigits: 3
+    });
+  }
 }
 function InputCurrencyField(_ref) {
   var value = _ref.value,
@@ -253,8 +312,9 @@ function InputCurrencyField(_ref) {
     currency = _ref.currency,
     onSelectCurrency = _ref.onSelectCurrency,
     disabled = _ref.disabled,
-    readOnly = _ref.readOnly;
-  // Focus input khi click vào vùng input, không dropdown
+    readOnly = _ref.readOnly,
+    showTooltip = _ref.showTooltip,
+    rawValue = _ref.rawValue;
   var inputRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "flex items-center w-full max-h-[44px] rounded-lg px-2 py-0 bg-white focus-within:border-[#181D27] transition border rounded-md border-[#E7E7E7] shadow overflow-hidden",
@@ -273,7 +333,11 @@ function InputCurrencyField(_ref) {
       },
       onFocus: function onFocus(e) {
         return e.target.select();
-      }
+      },
+      title: showTooltip && rawValue ? rawValue : undefined,
+      style: showTooltip ? {
+        textOverflow: "ellipsis"
+      } : {}
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
         asChild: true,
@@ -286,7 +350,7 @@ function InputCurrencyField(_ref) {
           },
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
             src: currency.flag,
-            alt: "Vi\u1EC7t Nam",
+            alt: currency.name,
             className: "inline-block w-6 h-6 rounded-full"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             className: "font-semibold text-base ml-1",
@@ -323,7 +387,7 @@ function InputCurrencyField(_ref) {
             },
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
               src: c.flag,
-              alt: "Vi\u1EC7t Nam",
+              alt: c.name,
               className: "inline-block w-6 h-6 rounded-full"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
               className: "font-medium",
@@ -349,18 +413,32 @@ function CurrencyConverter() {
     amount = _useState6[0],
     setAmount = _useState6[1];
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useDispatch)();
-  var key = "".concat(from, "-").concat(to);
-  var exchange = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
-    return state.exchange.current[key];
+
+  // Lấy tỷ giá từng đồng so với VND (key là market-USD, market-EUR, ...)
+  var rateFrom = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    var _state$exchange$curre;
+    return (_state$exchange$curre = state.exchange.current["market-".concat(from)]) === null || _state$exchange$curre === void 0 ? void 0 : _state$exchange$curre.rate;
+  });
+  var rateTo = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+    var _state$exchange$curre2;
+    return (_state$exchange$curre2 = state.exchange.current["market-".concat(to)]) === null || _state$exchange$curre2 === void 0 ? void 0 : _state$exchange$curre2.rate;
   });
   var loading = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
     return state.exchange.loading.current;
   });
+
+  // Gọi API cho từng đồng ngoại tệ (trừ VND, VND luôn là 1)
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (from !== to) {
+    if (from !== "VND") {
       dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
-        base_currency: from,
-        quote_currency: to
+        type: "market",
+        code: from
+      }));
+    }
+    if (to !== "VND") {
+      dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
+        type: "market",
+        code: to
       }));
     }
   }, [dispatch, from, to]);
@@ -368,17 +446,45 @@ function CurrencyConverter() {
     setFrom(to);
     setTo(from);
   };
+
+  // Tính toán giá trị chuyển đổi (dùng chuẩn logic chuyển đổi chéo)
   var result = "";
-  if (exchange && typeof exchange.rate === "number" && !loading) {
-    result = amount * exchange.rate;
+  if (!loading && amount && amount !== "" && !isNaN(amount)) {
+    if (from === to) {
+      result = amount;
+    } else if (from === "VND" && typeof rateTo === "number" && rateTo !== 0) {
+      // VND → ngoại tệ
+      result = amount / rateTo;
+    } else if (to === "VND" && typeof rateFrom === "number") {
+      // ngoại tệ → VND
+      result = amount * rateFrom;
+    } else if (typeof rateFrom === "number" && typeof rateTo === "number" && rateTo !== 0) {
+      // Ngoại tệ → ngoại tệ (chuyển đổi qua VND)
+      result = amount * rateFrom / rateTo;
+    } else {
+      result = "";
+    }
   }
+
+  // Làm tròn đúng 3 số thập phân
+  var displayResult = "";
+  if (result !== "" && !isNaN(result)) {
+    displayResult = to === "VND" ? formatAmount(Number(result), "VND") : formatAmount(Number(result), to);
+    // Nếu nhỏ hơn 0.001 thì hiện là "<0.001"
+    if (!isNaN(result) && Number(result) > 0 && Number(result) < 0.001) {
+      displayResult = "<0.001";
+    }
+  }
+
+  // Tooltip nếu quá dài
+  var showTooltip = typeof displayResult === "string" && displayResult.length > 10;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "bg-white py-2 rounded-t-md flex flex-col gap-2 mb-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "font-medium text-lg mb-1 pl-1",
       children: "Chuy\u1EC3n \u0111\u1ED5i ti\u1EC1n t\u1EC7"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(InputCurrencyField, {
-      value: formatAmount(amount),
+      value: formatAmount(amount, from),
       onValueChange: setAmount,
       currency: currencyOptions.find(function (x) {
         return x.code === from;
@@ -397,7 +503,9 @@ function CurrencyConverter() {
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(InputCurrencyField, {
-      value: loading ? "..." : result !== "" && !isNaN(result) ? formatAmount(Math.round(result)) : "",
+      value: loading ? "..." : displayResult,
+      rawValue: result !== "" && !isNaN(result) ? String(result) : "",
+      showTooltip: showTooltip,
       onValueChange: function onValueChange() {} // Không cho user nhập vào result
       ,
       currency: currencyOptions.find(function (x) {
@@ -449,15 +557,9 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+// Danh sách màu cho các line
+
 var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
-var displayNameMap = {
-  "USD-VND": "USD/VND",
-  "EUR-VND": "EUR/VND",
-  "JPY-VND": "JPY/VND",
-  "CNY-VND": "CNY/VND",
-  "USD-JPY": "USD/JPY",
-  "USD-CNY": "USD/CNY"
-};
 function getDaysFromRange(range) {
   var today = new Date();
   switch (range) {
@@ -481,32 +583,69 @@ function getDaysFromRange(range) {
   }
 }
 function ExchangeChart(_ref) {
-  var data = _ref.data,
-    selectedItems = _ref.selectedItems,
-    setSelectedItems = _ref.setSelectedItems,
-    range = _ref.range;
+  var _chartItems$;
+  var mode = _ref.mode,
+    selected = _ref.selected,
+    setSelected = _ref.setSelected,
+    compareItems = _ref.compareItems,
+    setCompareItems = _ref.setCompareItems,
+    data = _ref.data,
+    range = _ref.range,
+    _ref$options = _ref.options,
+    options = _ref$options === void 0 ? [] : _ref$options;
   var days = getDaysFromRange(range);
-  var isComparisonMode = selectedItems.length > 1;
+  var isComparisonMode = mode === "compare";
+
+  // Tạo mảng chartItems dạng [{code, type}]
+  var chartItems = [];
+  if (!isComparisonMode) {
+    chartItems = selected && selected.code ? [selected] : [{
+      code: "USD",
+      type: "market"
+    }];
+  } else {
+    chartItems = compareItems;
+  }
+
+  // Helper: Tìm tên hiển thị
+  function getDisplayName(item) {
+    var found = options.find(function (o) {
+      return o.code === item.code && o.type === item.type;
+    });
+    if (found) return found.name;
+    if (item.type && item.code) {
+      var typeLabel = "";
+      if (item.type === "market") typeLabel = "";else if (item.type === "central") typeLabel = " (SBVN)";else if (item.type === "index") typeLabel = "";
+      return "".concat(item.code).concat(typeLabel);
+    }
+    return item.code || "";
+  }
+
+  // Build chart data
   var allDates = [];
-  var series = selectedItems.map(function (item, index) {
+  var series = chartItems.map(function (item, index) {
     var _data$key;
-    var key = "".concat(item.base, "-").concat(item.quote);
+    var key = "".concat(item.type, "-").concat(item.code);
     var chartData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
     if (chartData.length === 0) return null;
-    var baseRate = chartData[0].rate;
+    // Dữ liệu: market/central dùng 'rate', index dùng 'value'
+    var getVal = function getVal(row) {
+      return row.rate !== undefined ? row.rate : row.value;
+    };
+    var baseVal = getVal(chartData[0]);
     var color = colors[index % colors.length];
     var seriesData = chartData.map(function (entry) {
-      var timestamp = new Date(entry.date).getTime();
+      var timestamp = new Date(entry.date || entry.timestamp).getTime();
       allDates.push(timestamp);
-      return [timestamp, isComparisonMode ? (entry.rate - baseRate) / baseRate * 100 : entry.rate];
+      return [timestamp, isComparisonMode ? (getVal(entry) - baseVal) / baseVal * 100 : getVal(entry)];
     });
     return {
-      name: displayNameMap[key] || key,
+      name: getDisplayName(item),
       data: seriesData,
       color: color,
       tooltip: {
         valueSuffix: isComparisonMode ? "%" : "",
-        valueDecimals: isComparisonMode ? 2 : 2
+        valueDecimals: 2
       },
       marker: {
         enabled: false,
@@ -524,9 +663,9 @@ function ExchangeChart(_ref) {
   });
   var minDate = sortedDates[0];
   var maxDate = sortedDates[sortedDates.length - 1];
-  var spanYears = new Date(maxDate).getFullYear() - new Date(minDate).getFullYear();
+  var spanYears = minDate && maxDate ? new Date(maxDate).getFullYear() - new Date(minDate).getFullYear() : 0;
   var yTickPositions;
-  if (isComparisonMode) {
+  if (isComparisonMode && series.length > 0) {
     var allY = series.flatMap(function (s) {
       return s.data.map(function (_ref2) {
         var _ref3 = _slicedToArray(_ref2, 2),
@@ -537,11 +676,18 @@ function ExchangeChart(_ref) {
     });
     var yMin = Math.min.apply(Math, _toConsumableArray(allY));
     var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-    var absMax = Math.max(Math.abs(yMin), Math.abs(yMax));
-    var rounded = Math.ceil(absMax / 2) * 2;
-    yTickPositions = [-rounded, 0, rounded];
+    var diff = yMax - yMin;
+    var roundedMin, roundedMax;
+    if (diff <= 10) {
+      roundedMin = Math.floor(yMin);
+      roundedMax = Math.ceil(yMax);
+    } else {
+      roundedMin = Math.floor(yMin / 3) * 3;
+      roundedMax = Math.ceil(yMax);
+    }
+    yTickPositions = [roundedMin, 0, roundedMax];
   }
-  var options = {
+  var optionsChart = {
     chart: {
       type: "line",
       zoomType: "x",
@@ -608,8 +754,8 @@ function ExchangeChart(_ref) {
         var yMax = Math.max.apply(Math, _toConsumableArray(allY));
         var range = yMax - yMin;
         if (range === 0) {
-          var _rounded = Math.round(yMin / 100) * 100;
-          return [_rounded - 100, _rounded, _rounded + 100];
+          var rounded = Math.round(yMin / 100) * 100;
+          return [rounded - 100, rounded, rounded + 100];
         }
         var step = Math.ceil(range / 4 / 100) * 100;
         var start = Math.floor(yMin / 100) * 100;
@@ -656,14 +802,17 @@ function ExchangeChart(_ref) {
     className: "w-full min-h-[440px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "flex flex-wrap gap-4 items-center mb-4",
-      children: selectedItems.map(function (item, index) {
-        var _data$key2, _chartData$, _chartData$at;
-        var key = "".concat(item.base, "-").concat(item.quote);
+      children: chartItems.map(function (item, index) {
+        var _data$key2;
+        var key = "".concat(item.type, "-").concat(item.code);
         var color = colors[index % colors.length];
         var chartData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
-        var baseRate = (_chartData$ = chartData[0]) === null || _chartData$ === void 0 ? void 0 : _chartData$.rate;
-        var lastRate = (_chartData$at = chartData.at(-1)) === null || _chartData$at === void 0 ? void 0 : _chartData$at.rate;
-        var change = baseRate && lastRate ? (lastRate - baseRate) / baseRate * 100 : null;
+        var getVal = function getVal(row) {
+          return row.rate !== undefined ? row.rate : row.value;
+        };
+        var baseVal = chartData[0] ? getVal(chartData[0]) : null;
+        var lastVal = chartData.at(-1) ? getVal(chartData.at(-1)) : null;
+        var change = baseVal && lastVal ? (lastVal - baseVal) / baseVal * 100 : null;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -673,17 +822,17 @@ function ExchangeChart(_ref) {
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: "text-sm text-black",
-            children: displayNameMap[key] || key
+            children: getDisplayName(item)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: isComparisonMode ? "text-[#595959]" : "text-black",
-            children: change !== null ? isComparisonMode ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : lastRate === null || lastRate === void 0 ? void 0 : lastRate.toLocaleString("vi-VN", {
+            children: change !== null ? isComparisonMode ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : lastVal === null || lastVal === void 0 ? void 0 : lastVal.toLocaleString("vi-VN", {
               maximumFractionDigits: 2
             }) : "-"
-          }), isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          }), isComparisonMode && chartItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: function onClick() {
-              return setSelectedItems(function (prev) {
+              return setCompareItems(function (prev) {
                 return prev.filter(function (x) {
-                  return x.base !== item.base || x.quote !== item.quote;
+                  return x.code !== item.code || x.type !== item.type;
                 });
               });
             },
@@ -695,10 +844,10 @@ function ExchangeChart(_ref) {
       })
     }), !isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "text-xs text-[#595959] mb-4",
-      children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng"
+      children: ((_chartItems$ = chartItems[0]) === null || _chartItems$ === void 0 ? void 0 : _chartItems$.type) === "index" ? "Đơn vị: điểm" : "Đơn vị: ngàn đồng"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
       highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
-      options: options
+      options: optionsChart
     })]
   });
 }
@@ -718,19 +867,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
 /* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
 /* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
 /* harmony import */ var _ExchangeChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ExchangeChart */ "./resources/react/components/data/market/ExchangeChart.jsx");
 /* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _CompareSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CompareSwitch */ "./resources/react/components/data/market/CompareSwitch.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -746,34 +897,27 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-// Các cặp tiền đơn giản, bạn có thể mở rộng
 
-var simplifiedExchangeOptions = [{
-  base: "USD",
-  quote: "VND",
-  name: "USD/VND"
+// Danh sách mã + loại cho Dropdown
+
+var exchangeOptions = [{
+  code: "USD",
+  type: "central",
+  name: "USD (SBVN)"
 }, {
-  base: "EUR",
-  quote: "VND",
-  name: "EUR/VND"
-}, {
-  base: "JPY",
-  quote: "VND",
-  name: "JPY/VND"
-}, {
-  base: "CNY",
-  quote: "VND",
-  name: "CNY/VND"
-}, {
-  base: "USD",
-  quote: "JPY",
-  name: "USD/JPY"
-}, {
-  base: "USD",
-  quote: "CNY",
-  name: "USD/CNY"
+  code: "USD",
+  type: "market",
+  name: "USD"
+},
+// { code: "EUR", type: "market", name: "EUR" },
+// { code: "JPY", type: "market", name: "JPY" },
+// { code: "CNY", type: "market", name: "CNY" },
+{
+  code: "DXY",
+  type: "index",
+  name: "DXY"
 }
-// ... Thêm các cặp tiền phổ biến
+// Thêm các mã khác nếu muốn
 ];
 var ranges = [{
   label: "1 Tuần",
@@ -817,151 +961,258 @@ function getDaysFromRange(range) {
   }
 }
 function ExchangeContainer() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-      base: "USD",
-      quote: "VND"
-    }]),
+  var _exchangeOptions$find;
+  // Chế độ: "single" | "compare"
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("single"),
     _useState2 = _slicedToArray(_useState, 2),
-    selectedItems = _useState2[0],
-    setSelectedItems = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
+    mode = _useState2[0],
+    setMode = _useState2[1];
+  // Single mode: chọn 1 mã (code, type)
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      code: "USD",
+      type: "market"
+    }),
     _useState4 = _slicedToArray(_useState3, 2),
-    range = _useState4[0],
-    setRange = _useState4[1];
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
+    selected = _useState4[0],
+    setSelected = _useState4[1];
+  // Compare mode: nhiều mã
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+      code: "USD",
+      type: "market"
+    }]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    compareItems = _useState6[0],
+    setCompareItems = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
+    _useState8 = _slicedToArray(_useState7, 2),
+    range = _useState8[0],
+    setRange = _useState8[1];
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
+  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
       return state.exchange;
     }),
     data = _useSelector.chart,
     loading = _useSelector.loading,
     error = _useSelector.error;
   var days = getDaysFromRange(range);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var needFetch = selectedItems.filter(function (_ref) {
-      var base = _ref.base,
-        quote = _ref.quote;
-      var key = "".concat(base, "-").concat(quote);
-      return !data[key] || !data[key][days];
-    });
-    if (needFetch.length > 0) {
-      var base_currencies = needFetch.map(function (item) {
-        return item.base;
-      });
-      var quote_currencies = needFetch.map(function (item) {
-        return item.quote;
-      });
-      dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
-        base_currencies: base_currencies,
-        quote_currencies: quote_currencies,
-        days: days
-      }));
-    }
-  }, [selectedItems, range, data, dispatch]);
-  var filteredOptions = simplifiedExchangeOptions.filter(function (item) {
-    return !selectedItems.some(function (s) {
-      return s.base === item.base && s.quote === item.quote;
+
+  // Filter cho dropdown: loại bỏ mã đang hiển thị
+  var singleOptions = exchangeOptions.filter(function (item) {
+    return item.code !== selected.code || item.type !== selected.type;
+  });
+  var compareFilteredOptions = exchangeOptions.filter(function (item) {
+    return !compareItems.some(function (s) {
+      return s.code === item.code && s.type === item.type;
     });
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+
+  // Fetch dữ liệu phù hợp cho từng chế độ
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (mode === "single") {
+      var key = "".concat(selected.type, "-").concat(selected.code);
+      if (!data[key] || !data[key][days]) {
+        dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
+          type: selected.type,
+          code: [selected.code],
+          days: days
+        }));
+      }
+    } else if (mode === "compare") {
+      // Chỉ fetch những dòng chưa có trong cache
+      var needFetch = compareItems.filter(function (_ref) {
+        var type = _ref.type,
+          code = _ref.code;
+        return !data["".concat(type, "-").concat(code)] || !data["".concat(type, "-").concat(code)][days];
+      });
+      if (needFetch.length > 0) {
+        var _iterator = _createForOfIteratorHelper(needFetch),
+          _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _step$value = _step.value,
+              type = _step$value.type,
+              code = _step$value.code;
+            dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
+              type: type,
+              code: [code],
+              days: days
+            }));
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+    }
+  }, [mode, selected, compareItems, range, data, dispatch, days]);
+
+  // Chuyển chế độ single/compare
+  function handleSwitchMode() {
+    if (mode === "single") {
+      setCompareItems([selected]);
+      setMode("compare");
+    } else {
+      setSelected(compareItems[0] || {
+        code: "USD",
+        type: "market"
+      });
+      setMode("single");
+    }
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
       className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
-          className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
+          className: "inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
           children: ranges.map(function (tab) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
               value: tab.value,
               className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
               children: tab.label
             }, tab.value);
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-            asChild: true,
-            className: "min-w-[280px] h-[36px]",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
-              className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[200px] bg-white",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "flex items-center gap-2 text-base",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  className: "w-4 h-4 text-[#A4A7AE]"
-                }), "Th\xEAm so s\xE1nh"]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                className: "w-4 h-4 text-[#BBBBBB]"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-            align: "end",
-            sideOffset: 4,
-            className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-            children: filteredOptions.map(function (item) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                onClick: function onClick() {
-                  setSelectedItems(function (prev) {
-                    return [].concat(_toConsumableArray(prev), [{
-                      base: item.base,
-                      quote: item.quote
-                    }]);
-                  });
-                },
-                className: "text-sm px-3 py-2 cursor-pointer",
-                children: item.name
-              }, item.name);
-            })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "flex items-center gap-2",
+          children: [mode === "single" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+              asChild: true,
+              className: "min-w-[220px] h-[40px]",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  className: "flex items-center gap-2 text-base",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    className: "w-4 h-4 text-[#A4A7AE]"
+                  }), ((_exchangeOptions$find = exchangeOptions.find(function (item) {
+                    return item.code === selected.code && item.type === selected.type;
+                  })) === null || _exchangeOptions$find === void 0 ? void 0 : _exchangeOptions$find.name) || "Chọn mã"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  className: "w-4 h-4 text-[#BBBBBB]"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+              align: "end",
+              sideOffset: 4,
+              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+              children: singleOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                disabled: true,
+                children: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
+              }) : singleOptions.map(function (item) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                  onClick: function onClick() {
+                    return setSelected({
+                      code: item.code,
+                      type: item.type
+                    });
+                  },
+                  className: "text-sm px-3 py-2 cursor-pointer",
+                  children: item.name
+                }, item.type + item.code);
+              })
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+              asChild: true,
+              className: "min-w-[220px] h-[40px]",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  className: "flex items-center gap-2 text-base",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    className: "w-4 h-4 text-[#A4A7AE]"
+                  }), "Th\xEAm so s\xE1nh"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  className: "w-4 h-4 text-[#BBBBBB]"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+              align: "end",
+              sideOffset: 4,
+              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+              children: compareFilteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                disabled: true,
+                children: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
+              }) : compareFilteredOptions.map(function (item) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                  onClick: function onClick() {
+                    return setCompareItems(function (prev) {
+                      return [].concat(_toConsumableArray(prev), [{
+                        code: item.code,
+                        type: item.type
+                      }]);
+                    });
+                  },
+                  className: "text-sm px-3 py-2 cursor-pointer",
+                  children: item.name
+                }, item.type + item.code);
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            checked: mode === "compare",
+            onChange: handleSwitchMode
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
         value: range,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "w-full transition-all",
-          children: error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
               children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "h-8 w-32 rounded-full bg-gray-200"
                 }, i);
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
                 status: "error",
                 message: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7"
               })
             })]
-          }) : loading.chart || selectedItems.every(function (_ref2) {
-            var _data$key;
-            var base = _ref2.base,
-              quote = _ref2.quote;
-            var key = "".concat(base, "-").concat(quote);
+          }) : loading.chart || (mode === "single" ? function (_data$key) {
+            var key = "".concat(selected.type, "-").concat(selected.code);
             var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
             return arr.length === 0;
-          }) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }() : compareItems.every(function (_ref2) {
+            var _data;
+            var code = _ref2.code,
+              type = _ref2.type;
+            var arr = ((_data = data["".concat(type, "-").concat(code)]) === null || _data === void 0 ? void 0 : _data[days]) || [];
+            return arr.length === 0;
+          })) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
               children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "h-8 w-32 rounded-full bg-gray-200"
                 }, i);
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
                 status: "loading",
                 message: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
               })
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ExchangeChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ExchangeChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            mode: mode,
+            selected: selected,
+            setSelected: setSelected,
+            compareItems: compareItems,
+            setCompareItems: setCompareItems,
             data: data,
-            selectedItems: selectedItems,
-            setSelectedItems: setSelectedItems,
-            range: range
+            range: range,
+            options: exchangeOptions
           })
         })
       })]
@@ -1001,27 +1252,26 @@ __webpack_require__.r(__webpack_exports__);
 
 function ExchangeContent() {
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
-  // Ví dụ mặc định USD/VND và EUR/VND, bạn có thể đổi
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
-      base_currency: "USD",
-      quote_currency: "VND"
+      type: "market",
+      code: "USD"
     }));
     dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
-      base_currency: "EUR",
-      quote_currency: "VND"
+      type: "market",
+      code: "EUR"
     }));
   }, [dispatch]);
   var usdVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
-    return state.exchange.current["USD-VND"];
+    return state.exchange.current["market-USD"];
   });
   var eurVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
-    return state.exchange.current["EUR-VND"];
+    return state.exchange.current["market-EUR"];
   });
   var formatPrice = function formatPrice(rate) {
     return typeof rate === "number" ? rate.toLocaleString("vi-VN", {
       maximumFractionDigits: 2
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }) + " VND" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__["default"], {
       size: "8px",
       color: "#191919"
     });
@@ -1052,15 +1302,12 @@ function ExchangeContent() {
           className: "flex flex-col mb-4 ",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "flex gap-4",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "flex flex-col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "text-lg font-normal text-[#191919]",
-                children: "T\u1EF7 gi\xE1 USD/VND"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                 className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: "USD/VND"
+                  children: "USD"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                   children: formatPrice(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate)
                 }), typeof (usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.delta_percent) === "number" && usdVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
@@ -1072,18 +1319,15 @@ function ExchangeContent() {
                     children: formatPercent(usdVnd.delta_percent)
                   })]
                 })]
-              })]
+              })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "w-px bg-[#191919] opacity-100"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "flex flex-col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "text-lg font-normal text-[#191919]",
-                children: "T\u1EF7 gi\xE1 EUR/VND"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                 className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: "EUR/VND"
+                  children: "EUR"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                   children: formatPrice(eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate)
                 }), typeof (eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.delta_percent) === "number" && eurVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
@@ -1095,7 +1339,7 @@ function ExchangeContent() {
                     children: formatPercent(eurVnd.delta_percent)
                   })]
                 })]
-              })]
+              })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "text-[#595959] text-sm mt-2",
@@ -1179,18 +1423,17 @@ function ExchangeTable() {
   });
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var dateStr = formatDateLocal(selectedDate);
-    dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_4__.fetchExchangeTable)(dateStr));
+    dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_4__.fetchExchangeTable)({
+      type: "market",
+      date: dateStr
+    }));
   }, [dispatch, selectedDate]);
 
-  // Danh sách cặp tiền
-  var allPairs = ["USD/VND", "EUR/VND", "JPY/VND", "CNY/VND", "USD/JPY", "USD/CNY"];
-  function findRate(pair) {
-    var _pair$split = pair.split("/"),
-      _pair$split2 = _slicedToArray(_pair$split, 2),
-      base = _pair$split2[0],
-      quote = _pair$split2[1];
+  // Chỉ hiện mã base, vì mặc định là VND
+  var allCodes = ["USD", "EUR", "JPY", "CNY"];
+  function findRate(code) {
     return tableData.find(function (item) {
-      return item.base_currency === base && item.quote_currency === quote;
+      return item.code === code;
     });
   }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -1239,13 +1482,13 @@ function ExchangeTable() {
             status: "error",
             message: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7"
           })
-        }) : allPairs.map(function (pair) {
-          var item = findRate(pair);
+        }) : allCodes.map(function (code) {
+          var item = findRate(code);
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "grid grid-cols-[1.5fr_1fr] min-h-[86px] text-[#191919] text-sm text-left px-4 py-2 items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "truncate pr-2",
-              children: pair
+              children: code
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               children: item ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                 className: "flex flex-col gap-1",
@@ -1266,7 +1509,7 @@ function ExchangeTable() {
                 })
               })
             })]
-          }, pair);
+          }, code);
         })]
       })]
     })]
@@ -1316,6 +1559,7 @@ var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cf
 var displayNameMap = {
   pnj: "PNJ",
   sjc: "SJC",
+  xau_usd: "Vàng thế giới",
   nhẫn_trơn_pnj_9999: "Nhẫn Trơn PNJ 999.9",
   vàng_kim_bảo_9999: "Vàng Kim Bảo 999.9",
   vàng_phúc_lộc_tài_9999: "Vàng Phúc Lộc Tài 999.9",
@@ -1368,14 +1612,27 @@ var getDaysFromRange = function getDaysFromRange(range) {
   }
 };
 function GoldChart(_ref) {
-  var data = _ref.data,
-    selectedItems = _ref.selectedItems,
-    setSelectedItems = _ref.setSelectedItems,
+  var _chartItems$;
+  var mode = _ref.mode,
+    selected = _ref.selected,
+    setSelected = _ref.setSelected,
+    compareItems = _ref.compareItems,
+    setCompareItems = _ref.setCompareItems,
+    data = _ref.data,
     range = _ref.range;
   var days = getDaysFromRange(range);
-  var isComparisonMode = selectedItems.length > 1;
+  var isComparisonMode = mode === "compare";
   var allDates = [];
-  var series = selectedItems.map(function (item, index) {
+  var chartItems = [];
+  if (!isComparisonMode) {
+    chartItems = selected && selected.gold_type ? [selected] : [{
+      gold_type: "sjc",
+      location: "hcm"
+    }];
+  } else {
+    chartItems = compareItems;
+  }
+  var series = chartItems.map(function (item, index) {
     var _data$key;
     var key = "".concat(item.gold_type, "-").concat(item.location);
     var goldData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
@@ -1424,9 +1681,16 @@ function GoldChart(_ref) {
     });
     var yMin = Math.min.apply(Math, _toConsumableArray(allY));
     var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-    var absMax = Math.max(Math.abs(yMin), Math.abs(yMax));
-    var rounded = Math.ceil(absMax / 10) * 10;
-    yTickPositions = [-rounded, 0, rounded];
+    var diff = yMax - yMin;
+    var roundedMin, roundedMax;
+    if (diff <= 10) {
+      roundedMin = Math.floor(yMin);
+      roundedMax = Math.ceil(yMax);
+    } else {
+      roundedMin = Math.floor(yMin / 3) * 3;
+      roundedMax = Math.ceil(yMax);
+    }
+    yTickPositions = [roundedMin, 0, roundedMax];
   }
   var options = {
     chart: {
@@ -1493,8 +1757,8 @@ function GoldChart(_ref) {
         var yMax = Math.max.apply(Math, _toConsumableArray(allY));
         var range = yMax - yMin;
         if (range === 0) {
-          var _rounded = Math.round(yMin / 100) * 100;
-          return [_rounded - 100, _rounded, _rounded + 100];
+          var rounded = Math.round(yMin / 100) * 100;
+          return [rounded - 100, rounded, rounded + 100];
         }
         var step = Math.ceil(range / 4 / 100) * 100;
         var start = Math.floor(yMin / 100) * 100;
@@ -1539,7 +1803,7 @@ function GoldChart(_ref) {
     className: "w-full min-h-[440px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "flex flex-wrap gap-4 items-center mb-4",
-      children: selectedItems.map(function (item, index) {
+      children: isComparisonMode ? compareItems.map(function (item, index) {
         var _data$key2, _goldData$, _goldData$at;
         var key = "".concat(item.gold_type, "-").concat(item.location);
         var color = colors[index % colors.length];
@@ -1558,11 +1822,11 @@ function GoldChart(_ref) {
             className: "text-sm text-black",
             children: displayNameMap[item.gold_type] || item.gold_type
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: isComparisonMode ? "text-[#595959]" : "text-black",
-            children: change !== null ? isComparisonMode ? change >= 0 ? "+".concat(formatPercent(change)) : formatPercent(change) : formatPrice(lastPrice) + "đ" : "-"
-          }), isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "text-[#595959]",
+            children: change !== null ? change >= 0 ? "+".concat(formatPercent(change)) : formatPercent(change) : "-"
+          }), compareItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: function onClick() {
-              return setSelectedItems(function (prev) {
+              return setCompareItems(function (prev) {
                 return prev.filter(function (x) {
                   return x.gold_type !== item.gold_type || x.location !== item.location;
                 });
@@ -1573,10 +1837,33 @@ function GoldChart(_ref) {
             })
           })]
         }, key);
+      }) : chartItems.map(function (item, index) {
+        var _data$key3, _goldData$at2;
+        var key = "".concat(item.gold_type, "-").concat(item.location);
+        var color = colors[index % colors.length];
+        var goldData = ((_data$key3 = data[key]) === null || _data$key3 === void 0 ? void 0 : _data$key3[days]) || [];
+        var lastPrice = (_goldData$at2 = goldData.at(-1)) === null || _goldData$at2 === void 0 ? void 0 : _goldData$at2.price;
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "inline-block w-2 h-2 rounded-full",
+            style: {
+              backgroundColor: color
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "text-sm text-black",
+            children: displayNameMap[item.gold_type] || item.gold_type
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "text-black",
+            children: item.gold_type === "xau_usd" ? lastPrice ? lastPrice.toLocaleString("en-US", {
+              maximumFractionDigits: 2
+            }) + " USD" : "-" : lastPrice ? formatPrice(lastPrice) + "VND" : "-"
+          })]
+        }, key);
       })
     }), !isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "text-xs text-[#595959] mb-4",
-      children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
+      children: ((_chartItems$ = chartItems[0]) === null || _chartItems$ === void 0 ? void 0 : _chartItems$.gold_type) === "xau_usd" ? "Đơn vị: USD/Ounce" : "Đơn vị: ngàn đồng/lượng"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
       highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
       options: options
@@ -1599,15 +1886,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
 /* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
 /* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
 /* harmony import */ var _GoldChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoldChart */ "./resources/react/components/data/market/GoldChart.jsx");
 /* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _CompareSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CompareSwitch */ "./resources/react/components/data/market/CompareSwitch.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 "use client";
 
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
@@ -1629,67 +1917,34 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+
 var simplifiedGoldOptions = [{
   code: "sjc",
   name: "SJC",
   location: "hcm"
 }, {
+  code: "xau_usd",
+  name: "Vàng thế giới",
+  location: "global"
+}, {
   code: "pnj",
   name: "PNJ",
   location: "hcm"
-}, {
-  code: "vàng_nữ_trang_9999",
-  name: "Nữ Trang 999.9",
-  location: "tq"
-}, {
-  code: "vàng_nữ_trang_999",
-  name: "Nữ Trang 999",
-  location: "tq"
-}, {
-  code: "vàng_nữ_trang_9920",
-  name: "Nữ Trang 9920",
-  location: "tq"
-}, {
-  code: "vàng_nữ_trang_99",
-  name: "Nữ Trang 99",
-  location: "tq"
-}, {
-  code: "vàng_916_22k",
-  name: "Vàng 916 (22K)",
-  location: "tq"
-}, {
-  code: "vàng_750_18k",
-  name: "Vàng 750 (18K)",
-  location: "tq"
-}, {
-  code: "vàng_680_163k",
-  name: "Vàng 680 (16.3K)",
-  location: "tq"
-}, {
-  code: "vàng_650_156k",
-  name: "Vàng 650 (15.6K)",
-  location: "tq"
-}, {
-  code: "vàng_610_146k",
-  name: "Vàng 610 (14.6K)",
-  location: "tq"
-}, {
-  code: "vàng_585_14k",
-  name: "Vàng 585 (14K)",
-  location: "tq"
-}, {
-  code: "vàng_416_10k",
-  name: "Vàng 416 (10K)",
-  location: "tq"
-}, {
-  code: "vàng_375_9k",
-  name: "Vàng 375 (9K)",
-  location: "tq"
-}, {
-  code: "vàng_333_8k",
-  name: "Vàng 333 (8K)",
-  location: "tq"
-}];
+}
+// { code: "vàng_nữ_trang_9999", name: "Nữ Trang 999.9", location: "tq" },
+// { code: "vàng_nữ_trang_999", name: "Nữ Trang 999", location: "tq" },
+// { code: "vàng_nữ_trang_9920", name: "Nữ Trang 9920", location: "tq" },
+// { code: "vàng_nữ_trang_99", name: "Nữ Trang 99", location: "tq" },
+// { code: "vàng_916_22k", name: "Vàng 916 (22K)", location: "tq" },
+// { code: "vàng_750_18k", name: "Vàng 750 (18K)", location: "tq" },
+// { code: "vàng_680_163k", name: "Vàng 680 (16.3K)", location: "tq" },
+// { code: "vàng_650_156k", name: "Vàng 650 (15.6K)", location: "tq" },
+// { code: "vàng_610_146k", name: "Vàng 610 (14.6K)", location: "tq" },
+// { code: "vàng_585_14k", name: "Vàng 585 (14K)", location: "tq" },
+// { code: "vàng_416_10k", name: "Vàng 416 (10K)", location: "tq" },
+// { code: "vàng_375_9k", name: "Vàng 375 (9K)", location: "tq" },
+// { code: "vàng_333_8k", name: "Vàng 333 (8K)", location: "tq" },
+];
 var ranges = [{
   label: "1 Tuần",
   value: "7d"
@@ -1732,129 +1987,223 @@ function getDaysFromRange(range) {
   }
 }
 function GoldContainer() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  var _simplifiedGoldOption;
+  // 2 mode: "single" | "compare"
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("single"),
+    _useState2 = _slicedToArray(_useState, 2),
+    mode = _useState2[0],
+    setMode = _useState2[1];
+  // Chế độ đơn: chỉ 1 selected item
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      gold_type: "sjc",
+      location: "hcm"
+    }),
+    _useState4 = _slicedToArray(_useState3, 2),
+    selected = _useState4[0],
+    setSelected = _useState4[1];
+  // Chế độ so sánh: nhiều item, mặc định có SJC
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       gold_type: "sjc",
       location: "hcm"
     }]),
-    _useState2 = _slicedToArray(_useState, 2),
-    selectedItems = _useState2[0],
-    setSelectedItems = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
-    _useState4 = _slicedToArray(_useState3, 2),
-    range = _useState4[0],
-    setRange = _useState4[1];
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
+    _useState6 = _slicedToArray(_useState5, 2),
+    compareItems = _useState6[0],
+    setCompareItems = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
+    _useState8 = _slicedToArray(_useState7, 2),
+    range = _useState8[0],
+    setRange = _useState8[1];
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
+  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
       return state.gold;
     }),
     data = _useSelector.chart,
     loading = _useSelector.loading,
-    error = _useSelector.error; // ✅ Dùng `chart` từ slice gộp
+    error = _useSelector.error;
   var days = getDaysFromRange(range);
+
+  // Fetch chart data theo mode
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var needFetch = selectedItems.filter(function (_ref) {
-      var gold_type = _ref.gold_type,
-        location = _ref.location;
-      var key = "".concat(gold_type, "-").concat(location);
-      return !data[key] || !data[key][days];
-    });
-    if (needFetch.length > 0) {
-      var gold_types = needFetch.map(function (item) {
-        return item.gold_type;
+    if (mode === "single") {
+      var key = "".concat(selected.gold_type, "-").concat(selected.location);
+      if (!data[key] || !data[key][days]) {
+        dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
+          gold_types: [selected.gold_type],
+          locations: [selected.location],
+          days: days
+        }));
+      }
+    } else if (mode === "compare") {
+      var needFetch = compareItems.filter(function (_ref) {
+        var gold_type = _ref.gold_type,
+          location = _ref.location;
+        var key = "".concat(gold_type, "-").concat(location);
+        return !data[key] || !data[key][days];
       });
-      var locations = needFetch.map(function (item) {
-        return item.location;
-      });
-      dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
-        gold_types: gold_types,
-        locations: locations,
-        days: days
-      }));
+      if (needFetch.length > 0) {
+        dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
+          gold_types: needFetch.map(function (i) {
+            return i.gold_type;
+          }),
+          locations: needFetch.map(function (i) {
+            return i.location;
+          }),
+          days: days
+        }));
+      }
     }
-  }, [selectedItems, range, data, dispatch]);
-  var filteredOptions = simplifiedGoldOptions.filter(function (item) {
-    return !selectedItems.some(function (s) {
+  }, [mode, selected, compareItems, days, data, dispatch]);
+
+  // Dropdown options theo mode: ẩn những item đã chọn
+  var singleOptions = simplifiedGoldOptions.filter(function (item) {
+    return item.code !== selected.gold_type || item.location !== selected.location;
+  });
+  var compareFilteredOptions = simplifiedGoldOptions.filter(function (item) {
+    return !compareItems.some(function (s) {
       return s.gold_type === item.code && s.location === item.location;
     });
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-    className: "border rounded-md border-[#E7E7E7] shadow p-6  min-h-[586px]",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
+
+  // Xử lý chuyển đổi chế độ
+  function handleSwitchMode() {
+    if (mode === "single") {
+      setCompareItems([selected]);
+      setMode("compare");
+    } else {
+      setSelected(compareItems[0] || {
+        gold_type: "sjc",
+        location: "hcm"
+      });
+      setMode("single");
+    }
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+    className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
       className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
-          className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
+          className: "inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
           children: ranges.map(function (tab) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
               value: tab.value,
               className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
               children: tab.label
             }, tab.value);
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-            asChild: true,
-            className: "min-w-[280px] h-[36px]",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
-              className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "flex items-center gap-2 text-base",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  className: "w-4 h-4 text-[#A4A7AE]"
-                }), "Th\xEAm so s\xE1nh"]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                className: "w-4 h-4 text-[#BBBBBB]"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-            align: "end",
-            sideOffset: 4,
-            className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-            children: filteredOptions.map(function (item) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                onClick: function onClick() {
-                  setSelectedItems(function (prev) {
-                    return [].concat(_toConsumableArray(prev), [{
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "flex items-center gap-2",
+          children: [mode === "single" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+              asChild: true,
+              className: "min-w-[220px] h-[40px]",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  className: "flex items-center gap-2 text-base",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    className: "w-4 h-4 text-[#A4A7AE]"
+                  }), ((_simplifiedGoldOption = simplifiedGoldOptions.find(function (item) {
+                    return item.code === selected.gold_type && item.location === selected.location;
+                  })) === null || _simplifiedGoldOption === void 0 ? void 0 : _simplifiedGoldOption.name) || "Chọn loại vàng"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  className: "w-4 h-4 text-[#BBBBBB]"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+              align: "end",
+              sideOffset: 4,
+              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+              children: singleOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                disabled: true,
+                children: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
+              }) : singleOptions.map(function (item) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                  onClick: function onClick() {
+                    return setSelected({
                       gold_type: item.code,
                       location: item.location
-                    }]);
-                  });
-                },
-                className: "text-sm px-3 py-2 cursor-pointer",
-                children: item.name
-              }, item.code);
-            })
+                    });
+                  },
+                  className: "text-sm px-3 py-2 cursor-pointer",
+                  children: item.name
+                }, item.code);
+              })
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
+              asChild: true,
+              className: "min-w-[220px] h-[40px]",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                  className: "flex items-center gap-2 text-base",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    className: "w-4 h-4 text-[#A4A7AE]"
+                  }), "Th\xEAm so s\xE1nh"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  className: "w-4 h-4 text-[#BBBBBB]"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
+              align: "end",
+              sideOffset: 4,
+              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+              children: compareFilteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                disabled: true,
+                children: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
+              }) : compareFilteredOptions.map(function (item) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+                  onClick: function onClick() {
+                    return setCompareItems(function (prev) {
+                      return [].concat(_toConsumableArray(prev), [{
+                        gold_type: item.code,
+                        location: item.location
+                      }]);
+                    });
+                  },
+                  className: "text-sm px-3 py-2 cursor-pointer",
+                  children: item.name
+                }, item.code);
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            checked: mode === "compare",
+            onChange: handleSwitchMode
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
         value: range,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "w-full transition-all",
-          children: loading.chart || error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: loading.chart || error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
               children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                   className: "h-8 w-32 rounded-full bg-gray-200"
                 }, i);
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: loading.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+              children: loading.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
                 status: "loading",
                 message: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i v\u1EC1..."
-              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
                 status: "error"
               })
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            mode: mode,
+            selected: selected,
+            setSelected: setSelected,
+            compareItems: compareItems,
+            setCompareItems: setCompareItems,
             data: data,
-            selectedItems: selectedItems,
-            setSelectedItems: setSelectedItems,
             range: range
           })
         })
@@ -1878,11 +2227,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
-/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
-/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/GoldTable.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
+/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
+/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/GoldTable.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -1890,7 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function GoldContent() {
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useDispatch)();
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "xau_usd",
@@ -1901,17 +2252,23 @@ function GoldContent() {
       location: "hcm"
     }));
   }, [dispatch]);
-  var xau = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+  var xau = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
     return state.gold.current["xau_usd-global"];
   });
-  var sjc = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useSelector)(function (state) {
+  var sjc = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
     return state.gold.current["sjc-hcm"];
   });
   var formatPriceVND = function formatPriceVND(price) {
-    return typeof price === "number" ? price.toLocaleString("vi-VN") : "Đang cập nhật";
+    return typeof price === "number" ? price.toLocaleString("vi-VN") + " VND" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      size: "8px",
+      color: "#191919"
+    });
   };
   var formatPriceUSD = function formatPriceUSD(price) {
-    return typeof price === "number" ? price.toLocaleString("en-US") : "Đang cập nhật";
+    return typeof price === "number" ? price.toLocaleString("en-US") + " USD" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      size: "8px",
+      color: "#191919"
+    });
   };
   var formatPercent = function formatPercent(delta) {
     return typeof delta === "number" ? "".concat(delta > 0 ? "+" : "").concat(delta.toFixed(2), "%") : "";
@@ -1927,71 +2284,71 @@ function GoldContent() {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh" // Thêm timezone nếu muốn đúng giờ Việt Nam
+      timeZone: "Asia/Ho_Chi_Minh"
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "flex flex-col mb-4",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "flex gap-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng th\u1EBF gi\u1EDBi"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: "XAU/USD"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: formatPriceUSD(xau === null || xau === void 0 ? void 0 : xau.sell_price)
-            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_percent) === "number" && xau.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_percent) === "number" && xau.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
               className: "flex items-center ".concat(xau.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 className: "text-sm inline-block -translate-y-2 transform",
                 children: xau.delta_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 children: formatPercent(xau.delta_percent)
               })]
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "w-px bg-[#191919] opacity-100"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng trong n\u01B0\u1EDBc"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-              children: "SJC/VND"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: "SJC"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: formatPriceVND(sjc ? sjc.sell_price * 1000 : undefined)
-            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_percent) === "number" && sjc.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_percent) === "number" && sjc.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
               className: "flex items-center ".concat(sjc.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 className: "text-sm inline-block -translate-y-2 transform",
                 children: sjc.delta_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 children: formatPercent(sjc.delta_percent)
               })]
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "text-[#595959] text-sm mt-2",
         children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", " ", formatVietnamDateTime(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "flex w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "basis-2/3 p-2 pl-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "basis-1/3 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_4__["default"], {})
       })]
     })]
   });
@@ -2889,6 +3246,54 @@ function ResponseStatus(_ref) {
 
 /***/ }),
 
+/***/ "./resources/react/components/ui/switch.jsx":
+/*!**************************************************!*\
+  !*** ./resources/react/components/ui/switch.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Switch: () => (/* binding */ Switch)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _radix_ui_react_switch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @radix-ui/react-switch */ "./node_modules/@radix-ui/react-switch/dist/index.mjs");
+/* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/lib/utils */ "./resources/react/lib/utils.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+"use client";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["className"];
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (e.indexOf(n) >= 0) continue; t[n] = r[n]; } return t; }
+
+
+
+
+function Switch(_ref) {
+  var className = _ref.className,
+    props = _objectWithoutProperties(_ref, _excluded);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_radix_ui_react_switch__WEBPACK_IMPORTED_MODULE_3__.Root, _objectSpread(_objectSpread({
+    "data-slot": "switch",
+    className: (0,_lib_utils__WEBPACK_IMPORTED_MODULE_1__.cn)("peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50", className)
+  }, props), {}, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_radix_ui_react_switch__WEBPACK_IMPORTED_MODULE_3__.Thumb, {
+      "data-slot": "switch-thumb",
+      className: (0,_lib_utils__WEBPACK_IMPORTED_MODULE_1__.cn)("bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0")
+    })
+  }));
+}
+
+
+/***/ }),
+
 /***/ "./resources/react/components/ui/tabs.jsx":
 /*!************************************************!*\
   !*** ./resources/react/components/ui/tabs.jsx ***!
@@ -3174,20 +3579,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["key"];
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (e.indexOf(n) >= 0) continue; t[n] = r[n]; } return t; }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -3197,19 +3591,17 @@ var EXCHANGE_URL = "http://localhost:8003/api/exchange";
 // GET /exchange/chart
 var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchChart", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref, _ref2) {
-    var _ref$base_currencies, base_currencies, _ref$quote_currencies, quote_currencies, _ref$days, days, rejectWithValue, params, res, json;
+    var _ref$type, type, _ref$code, code, _ref$days, days, rejectWithValue, params, res, json;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          _ref$base_currencies = _ref.base_currencies, base_currencies = _ref$base_currencies === void 0 ? ["USD"] : _ref$base_currencies, _ref$quote_currencies = _ref.quote_currencies, quote_currencies = _ref$quote_currencies === void 0 ? ["VND"] : _ref$quote_currencies, _ref$days = _ref.days, days = _ref$days === void 0 ? 30 : _ref$days;
+          _ref$type = _ref.type, type = _ref$type === void 0 ? "market" : _ref$type, _ref$code = _ref.code, code = _ref$code === void 0 ? ["USD"] : _ref$code, _ref$days = _ref.days, days = _ref$days === void 0 ? 30 : _ref$days;
           rejectWithValue = _ref2.rejectWithValue;
           _context.prev = 2;
           params = new URLSearchParams();
-          base_currencies.forEach(function (code) {
-            return params.append("base_currencies", code);
-          });
-          quote_currencies.forEach(function (code) {
-            return params.append("quote_currencies", code);
+          params.append("type", type);
+          (Array.isArray(code) ? code : [code]).forEach(function (c) {
+            return params.append("code", c);
           });
           params.append("days", days);
           _context.next = 9;
@@ -3227,6 +3619,8 @@ var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.create
           return _context.abrupt("return", rejectWithValue(json.message || "No data"));
         case 15:
           return _context.abrupt("return", {
+            type: type,
+            code: Array.isArray(code) ? code : [code],
             days: days,
             result: json.data
           });
@@ -3245,22 +3639,22 @@ var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.create
   };
 }());
 
-// GET /exchange/current
+// GET /exchange/crr
 var fetchExchangeCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchCurrent", /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref4, _ref5) {
-    var base_currency, quote_currency, rejectWithValue, params, res, json;
+    var _ref4$type, type, _ref4$code, code, rejectWithValue, params, res, json;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          base_currency = _ref4.base_currency, quote_currency = _ref4.quote_currency;
+          _ref4$type = _ref4.type, type = _ref4$type === void 0 ? "market" : _ref4$type, _ref4$code = _ref4.code, code = _ref4$code === void 0 ? "USD" : _ref4$code;
           rejectWithValue = _ref5.rejectWithValue;
           _context2.prev = 2;
           params = new URLSearchParams({
-            base_currency: base_currency,
-            quote_currency: quote_currency
+            type: type,
+            code: code
           });
           _context2.next = 6;
-          return fetch("".concat(EXCHANGE_URL, "/current?").concat(params.toString()));
+          return fetch("".concat(EXCHANGE_URL, "/crr?").concat(params.toString()));
         case 6:
           res = _context2.sent;
           _context2.next = 9;
@@ -3273,9 +3667,10 @@ var fetchExchangeCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.crea
           }
           return _context2.abrupt("return", rejectWithValue(json.message || "No data"));
         case 12:
-          return _context2.abrupt("return", _objectSpread({
-            key: "".concat(base_currency, "-").concat(quote_currency)
-          }, json.data));
+          return _context2.abrupt("return", {
+            key: "".concat(type, "-").concat(code),
+            data: json.data
+          });
         case 15:
           _context2.prev = 15;
           _context2.t0 = _context2["catch"](2);
@@ -3293,40 +3688,45 @@ var fetchExchangeCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.crea
 
 // GET /exchange/table
 var fetchExchangeTable = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchTable", /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(selectedDate, _ref7) {
-    var rejectWithValue, res, json;
+  var _ref9 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_ref7, _ref8) {
+    var _ref7$type, type, date, code, rejectWithValue, params, res, json;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          rejectWithValue = _ref7.rejectWithValue;
-          _context3.prev = 1;
-          _context3.next = 4;
-          return fetch("".concat(EXCHANGE_URL, "/table?selected_date=").concat(selectedDate));
-        case 4:
+          _ref7$type = _ref7.type, type = _ref7$type === void 0 ? "market" : _ref7$type, date = _ref7.date, code = _ref7.code;
+          rejectWithValue = _ref8.rejectWithValue;
+          _context3.prev = 2;
+          params = new URLSearchParams();
+          params.append("type", type);
+          if (code) params.append("code", code);
+          if (date) params.append("date", date);
+          _context3.next = 9;
+          return fetch("".concat(EXCHANGE_URL, "/table?").concat(params.toString()));
+        case 9:
           res = _context3.sent;
-          _context3.next = 7;
+          _context3.next = 12;
           return res.json();
-        case 7:
+        case 12:
           json = _context3.sent;
           if (!(!res.ok || !json.data)) {
-            _context3.next = 10;
+            _context3.next = 15;
             break;
           }
           return _context3.abrupt("return", rejectWithValue(json.message || "No data"));
-        case 10:
+        case 15:
           return _context3.abrupt("return", json.data);
-        case 13:
-          _context3.prev = 13;
-          _context3.t0 = _context3["catch"](1);
+        case 18:
+          _context3.prev = 18;
+          _context3.t0 = _context3["catch"](2);
           return _context3.abrupt("return", rejectWithValue(_context3.t0.message));
-        case 16:
+        case 21:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[1, 13]]);
+    }, _callee3, null, [[2, 18]]);
   }));
   return function (_x5, _x6) {
-    return _ref8.apply(this, arguments);
+    return _ref9.apply(this, arguments);
   };
 }());
 var exchangeSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
@@ -3366,14 +3766,22 @@ var exchangeSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
     }).addCase(fetchExchangeChart.fulfilled, function (state, action) {
       state.loading.chart = false;
       var _action$payload = action.payload,
+        type = _action$payload.type,
+        code = _action$payload.code,
         days = _action$payload.days,
         result = _action$payload.result;
-      for (var _i = 0, _Object$entries = Object.entries(result); _i < _Object$entries.length; _i++) {
-        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          comboKey = _Object$entries$_i[0],
-          rates = _Object$entries$_i[1];
-        if (!state.chart[comboKey]) state.chart[comboKey] = {};
-        state.chart[comboKey][days] = rates;
+      var _iterator = _createForOfIteratorHelper(code),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var codeKey = _step.value;
+          if (!state.chart["".concat(type, "-").concat(codeKey)]) state.chart["".concat(type, "-").concat(codeKey)] = {};
+          state.chart["".concat(type, "-").concat(codeKey)][days] = result[codeKey];
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
     }).addCase(fetchExchangeChart.rejected, function (state, action) {
       state.loading.chart = false;
@@ -3388,7 +3796,7 @@ var exchangeSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
       state.loading.current = false;
       var _action$payload2 = action.payload,
         key = _action$payload2.key,
-        data = _objectWithoutProperties(_action$payload2, _excluded);
+        data = _action$payload2.data;
       state.current[key] = data;
     }).addCase(fetchExchangeCurrent.rejected, function (state, action) {
       state.loading.current = false;
@@ -39748,6 +40156,188 @@ function getElementRef(element) {
 
 /***/ }),
 
+/***/ "./node_modules/@radix-ui/react-switch/dist/index.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-switch/dist/index.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Root: () => (/* binding */ Root),
+/* harmony export */   Switch: () => (/* binding */ Switch),
+/* harmony export */   SwitchThumb: () => (/* binding */ SwitchThumb),
+/* harmony export */   Thumb: () => (/* binding */ Thumb),
+/* harmony export */   createSwitchScope: () => (/* binding */ createSwitchScope)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _radix_ui_primitive__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @radix-ui/primitive */ "./node_modules/@radix-ui/primitive/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @radix-ui/react-compose-refs */ "./node_modules/@radix-ui/react-compose-refs/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @radix-ui/react-context */ "./node_modules/@radix-ui/react-context/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_controllable_state__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @radix-ui/react-use-controllable-state */ "./node_modules/@radix-ui/react-use-controllable-state/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_previous__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @radix-ui/react-use-previous */ "./node_modules/@radix-ui/react-use-previous/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_use_size__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @radix-ui/react-use-size */ "./node_modules/@radix-ui/react-use-size/dist/index.mjs");
+/* harmony import */ var _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @radix-ui/react-primitive */ "./node_modules/@radix-ui/react-primitive/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+"use client";
+
+// src/switch.tsx
+
+
+
+
+
+
+
+
+
+var SWITCH_NAME = "Switch";
+var [createSwitchContext, createSwitchScope] = (0,_radix_ui_react_context__WEBPACK_IMPORTED_MODULE_2__.createContextScope)(SWITCH_NAME);
+var [SwitchProvider, useSwitchContext] = createSwitchContext(SWITCH_NAME);
+var Switch = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  (props, forwardedRef) => {
+    const {
+      __scopeSwitch,
+      name,
+      checked: checkedProp,
+      defaultChecked,
+      required,
+      disabled,
+      value = "on",
+      onCheckedChange,
+      form,
+      ...switchProps
+    } = props;
+    const [button, setButton] = react__WEBPACK_IMPORTED_MODULE_0__.useState(null);
+    const composedRefs = (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_3__.useComposedRefs)(forwardedRef, (node) => setButton(node));
+    const hasConsumerStoppedPropagationRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
+    const isFormControl = button ? form || !!button.closest("form") : true;
+    const [checked, setChecked] = (0,_radix_ui_react_use_controllable_state__WEBPACK_IMPORTED_MODULE_4__.useControllableState)({
+      prop: checkedProp,
+      defaultProp: defaultChecked ?? false,
+      onChange: onCheckedChange,
+      caller: SWITCH_NAME
+    });
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(SwitchProvider, { scope: __scopeSwitch, checked, disabled, children: [
+      /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+        _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__.Primitive.button,
+        {
+          type: "button",
+          role: "switch",
+          "aria-checked": checked,
+          "aria-required": required,
+          "data-state": getState(checked),
+          "data-disabled": disabled ? "" : void 0,
+          disabled,
+          value,
+          ...switchProps,
+          ref: composedRefs,
+          onClick: (0,_radix_ui_primitive__WEBPACK_IMPORTED_MODULE_6__.composeEventHandlers)(props.onClick, (event) => {
+            setChecked((prevChecked) => !prevChecked);
+            if (isFormControl) {
+              hasConsumerStoppedPropagationRef.current = event.isPropagationStopped();
+              if (!hasConsumerStoppedPropagationRef.current) event.stopPropagation();
+            }
+          })
+        }
+      ),
+      isFormControl && /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+        SwitchBubbleInput,
+        {
+          control: button,
+          bubbles: !hasConsumerStoppedPropagationRef.current,
+          name,
+          value,
+          checked,
+          required,
+          disabled,
+          form,
+          style: { transform: "translateX(-100%)" }
+        }
+      )
+    ] });
+  }
+);
+Switch.displayName = SWITCH_NAME;
+var THUMB_NAME = "SwitchThumb";
+var SwitchThumb = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  (props, forwardedRef) => {
+    const { __scopeSwitch, ...thumbProps } = props;
+    const context = useSwitchContext(THUMB_NAME, __scopeSwitch);
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      _radix_ui_react_primitive__WEBPACK_IMPORTED_MODULE_5__.Primitive.span,
+      {
+        "data-state": getState(context.checked),
+        "data-disabled": context.disabled ? "" : void 0,
+        ...thumbProps,
+        ref: forwardedRef
+      }
+    );
+  }
+);
+SwitchThumb.displayName = THUMB_NAME;
+var BUBBLE_INPUT_NAME = "SwitchBubbleInput";
+var SwitchBubbleInput = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(
+  ({
+    __scopeSwitch,
+    control,
+    checked,
+    bubbles = true,
+    ...props
+  }, forwardedRef) => {
+    const ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef(null);
+    const composedRefs = (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_3__.useComposedRefs)(ref, forwardedRef);
+    const prevChecked = (0,_radix_ui_react_use_previous__WEBPACK_IMPORTED_MODULE_7__.usePrevious)(checked);
+    const controlSize = (0,_radix_ui_react_use_size__WEBPACK_IMPORTED_MODULE_8__.useSize)(control);
+    react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+      const input = ref.current;
+      if (!input) return;
+      const inputProto = window.HTMLInputElement.prototype;
+      const descriptor = Object.getOwnPropertyDescriptor(
+        inputProto,
+        "checked"
+      );
+      const setChecked = descriptor.set;
+      if (prevChecked !== checked && setChecked) {
+        const event = new Event("click", { bubbles });
+        setChecked.call(input, checked);
+        input.dispatchEvent(event);
+      }
+    }, [prevChecked, checked, bubbles]);
+    return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
+      "input",
+      {
+        type: "checkbox",
+        "aria-hidden": true,
+        defaultChecked: checked,
+        ...props,
+        tabIndex: -1,
+        ref: composedRefs,
+        style: {
+          ...props.style,
+          ...controlSize,
+          position: "absolute",
+          pointerEvents: "none",
+          opacity: 0,
+          margin: 0
+        }
+      }
+    );
+  }
+);
+SwitchBubbleInput.displayName = BUBBLE_INPUT_NAME;
+function getState(checked) {
+  return checked ? "checked" : "unchecked";
+}
+var Root = Switch;
+var Thumb = SwitchThumb;
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@radix-ui/react-tabs/dist/index.mjs":
 /*!**********************************************************!*\
   !*** ./node_modules/@radix-ui/react-tabs/dist/index.mjs ***!
@@ -40244,6 +40834,36 @@ __webpack_require__.r(__webpack_exports__);
 
 var useLayoutEffect2 = globalThis?.document ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : () => {
 };
+
+//# sourceMappingURL=index.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@radix-ui/react-use-previous/dist/index.mjs":
+/*!******************************************************************!*\
+  !*** ./node_modules/@radix-ui/react-use-previous/dist/index.mjs ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   usePrevious: () => (/* binding */ usePrevious)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+// packages/react/use-previous/src/use-previous.tsx
+
+function usePrevious(value) {
+  const ref = react__WEBPACK_IMPORTED_MODULE_0__.useRef({ value, previous: value });
+  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
+    if (ref.current.value !== value) {
+      ref.current.previous = ref.current.value;
+      ref.current.value = value;
+    }
+    return ref.current.previous;
+  }, [value]);
+}
 
 //# sourceMappingURL=index.mjs.map
 

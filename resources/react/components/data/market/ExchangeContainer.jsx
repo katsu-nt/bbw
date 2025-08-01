@@ -11,16 +11,17 @@ import { Search, ChevronDown } from "lucide-react";
 import { fetchExchangeChart } from "@/store/market/exchangeSlice";
 import ExchangeChart from "./ExchangeChart";
 import { ResponseStatus } from "@/components/ui/responseStatus";
+import CompareSwitch from "./CompareSwitch";
 
-// Các cặp tiền đơn giản, bạn có thể mở rộng
-const simplifiedExchangeOptions = [
-  { base: "USD", quote: "VND", name: "USD/VND" },
-  { base: "EUR", quote: "VND", name: "EUR/VND" },
-  { base: "JPY", quote: "VND", name: "JPY/VND" },
-  { base: "CNY", quote: "VND", name: "CNY/VND" },
-  { base: "USD", quote: "JPY", name: "USD/JPY" },
-  { base: "USD", quote: "CNY", name: "USD/CNY" },
-  // ... Thêm các cặp tiền phổ biến
+// Danh sách mã + loại cho Dropdown
+const exchangeOptions = [
+  { code: "USD", type: "central", name: "USD (SBVN)" },
+  { code: "USD", type: "market", name: "USD" },
+  // { code: "EUR", type: "market", name: "EUR" },
+  // { code: "JPY", type: "market", name: "JPY" },
+  // { code: "CNY", type: "market", name: "CNY" },
+  { code: "DXY", type: "index", name: "DXY" },
+  // Thêm các mã khác nếu muốn
 ];
 
 const ranges = [
@@ -55,10 +56,16 @@ function getDaysFromRange(range) {
 }
 
 export default function ExchangeContainer() {
-  const [selectedItems, setSelectedItems] = useState([
-    { base: "USD", quote: "VND" },
+  // Chế độ: "single" | "compare"
+  const [mode, setMode] = useState("single");
+  // Single mode: chọn 1 mã (code, type)
+  const [selected, setSelected] = useState({ code: "USD", type: "market" });
+  // Compare mode: nhiều mã
+  const [compareItems, setCompareItems] = useState([
+    { code: "USD", type: "market" },
   ]);
   const [range, setRange] = useState("7d");
+
   const dispatch = useDispatch();
   const {
     chart: data,
@@ -67,28 +74,66 @@ export default function ExchangeContainer() {
   } = useSelector((state) => state.exchange);
   const days = getDaysFromRange(range);
 
-  useEffect(() => {
-    const needFetch = selectedItems.filter(({ base, quote }) => {
-      const key = `${base}-${quote}`;
-      return !data[key] || !data[key][days];
-    });
-    if (needFetch.length > 0) {
-      const base_currencies = needFetch.map((item) => item.base);
-      const quote_currencies = needFetch.map((item) => item.quote);
-      dispatch(fetchExchangeChart({ base_currencies, quote_currencies, days }));
-    }
-  }, [selectedItems, range, data, dispatch]);
-
-  const filteredOptions = simplifiedExchangeOptions.filter(
+  // Filter cho dropdown: loại bỏ mã đang hiển thị
+  const singleOptions = exchangeOptions.filter(
     (item) =>
-      !selectedItems.some((s) => s.base === item.base && s.quote === item.quote)
+      item.code !== selected.code || item.type !== selected.type
   );
+  const compareFilteredOptions = exchangeOptions.filter(
+    (item) =>
+      !compareItems.some(
+        (s) => s.code === item.code && s.type === item.type
+      )
+  );
+
+  // Fetch dữ liệu phù hợp cho từng chế độ
+  useEffect(() => {
+    if (mode === "single") {
+      const key = `${selected.type}-${selected.code}`;
+      if (!data[key] || !data[key][days]) {
+        dispatch(
+          fetchExchangeChart({
+            type: selected.type,
+            code: [selected.code],
+            days,
+          })
+        );
+      }
+    } else if (mode === "compare") {
+      // Chỉ fetch những dòng chưa có trong cache
+      const needFetch = compareItems.filter(
+        ({ type, code }) => !data[`${type}-${code}`] || !data[`${type}-${code}`][days]
+      );
+      if (needFetch.length > 0) {
+        for (const { type, code } of needFetch) {
+          dispatch(
+            fetchExchangeChart({
+              type,
+              code: [code],
+              days,
+            })
+          );
+        }
+      }
+    }
+  }, [mode, selected, compareItems, range, data, dispatch, days]);
+
+  // Chuyển chế độ single/compare
+  function handleSwitchMode() {
+    if (mode === "single") {
+      setCompareItems([selected]);
+      setMode("compare");
+    } else {
+      setSelected(compareItems[0] || { code: "USD", type: "market" });
+      setMode("single");
+    }
+  }
 
   return (
     <div className="border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]">
       <Tabs defaultValue={range} onValueChange={setRange} className="w-full">
         <div className="flex justify-between items-center mb-4">
-          <TabsList className="inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden">
+          <TabsList className="inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden">
             {ranges.map((tab) => (
               <TabsTrigger
                 key={tab.value}
@@ -99,40 +144,95 @@ export default function ExchangeContainer() {
               </TabsTrigger>
             ))}
           </TabsList>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="min-w-[280px] h-[36px]">
-              <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[200px] bg-white">
-                <div className="flex items-center gap-2 text-base">
-                  <Search className="w-4 h-4 text-[#A4A7AE]" />
-                  Thêm so sánh
-                </div>
-                <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
-              </button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              sideOffset={4}
-              className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
-            >
-              {filteredOptions.map((item) => (
-                <DropdownMenuItem
-                  key={item.name}
-                  onClick={() => {
-                    setSelectedItems((prev) => [
-                      ...prev,
-                      { base: item.base, quote: item.quote },
-                    ]);
-                  }}
-                  className="text-sm px-3 py-2 cursor-pointer"
+          <div className="flex items-center gap-2">
+            {/* Dropdown chọn mã */}
+            {mode === "single" ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
+                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
+                    <div className="flex items-center gap-2 text-base">
+                      <Search className="w-4 h-4 text-[#A4A7AE]" />
+                      {exchangeOptions.find(
+                        (item) =>
+                          item.code === selected.code &&
+                          item.type === selected.type
+                      )?.name || "Chọn mã"}
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={4}
+                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
                 >
-                  {item.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  {singleOptions.length === 0 ? (
+                    <DropdownMenuItem disabled>
+                      Không còn mã nào
+                    </DropdownMenuItem>
+                  ) : (
+                    singleOptions.map((item) => (
+                      <DropdownMenuItem
+                        key={item.type + item.code}
+                        onClick={() =>
+                          setSelected({
+                            code: item.code,
+                            type: item.type,
+                          })
+                        }
+                        className="text-sm px-3 py-2 cursor-pointer"
+                      >
+                        {item.name}
+                      </DropdownMenuItem>
+                    ))
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
+                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
+                    <div className="flex items-center gap-2 text-base">
+                      <Search className="w-4 h-4 text-[#A4A7AE]" />
+                      Thêm so sánh
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={4}
+                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
+                >
+                  {compareFilteredOptions.length === 0 ? (
+                    <DropdownMenuItem disabled>
+                      Không còn mã nào
+                    </DropdownMenuItem>
+                  ) : (
+                    compareFilteredOptions.map((item) => (
+                      <DropdownMenuItem
+                        key={item.type + item.code}
+                        onClick={() =>
+                          setCompareItems((prev) => [
+                            ...prev,
+                            { code: item.code, type: item.type },
+                          ])
+                        }
+                        className="text-sm px-3 py-2 cursor-pointer"
+                      >
+                        {item.name}
+                      </DropdownMenuItem>
+                    ))
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+            <CompareSwitch
+              checked={mode === "compare"}
+              onChange={handleSwitchMode}
+            />
+          </div>
         </div>
-
         <TabsContent value={range}>
           <div className="w-full transition-all">
             {error.chart ? (
@@ -153,11 +253,16 @@ export default function ExchangeContainer() {
                 </div>
               </div>
             ) : loading.chart ||
-              selectedItems.every(({ base, quote }) => {
-                const key = `${base}-${quote}`;
-                const arr = data[key]?.[days] || [];
-                return arr.length === 0;
-              }) ? (
+              (mode === "single"
+                ? (() => {
+                    const key = `${selected.type}-${selected.code}`;
+                    const arr = data[key]?.[days] || [];
+                    return arr.length === 0;
+                  })()
+                : compareItems.every(({ code, type }) => {
+                    const arr = data[`${type}-${code}`]?.[days] || [];
+                    return arr.length === 0;
+                  })) ? (
               <div className="w-full space-y-6">
                 <div className="flex flex-wrap gap-3 items-center">
                   {[...Array(3)].map((_, i) => (
@@ -176,10 +281,14 @@ export default function ExchangeContainer() {
               </div>
             ) : (
               <ExchangeChart
+                mode={mode}
+                selected={selected}
+                setSelected={setSelected}
+                compareItems={compareItems}
+                setCompareItems={setCompareItems}
                 data={data}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
                 range={range}
+                options={exchangeOptions}
               />
             )}
           </div>

@@ -38,3 +38,4 @@ if (mix.inProduction()) {
 //react
 
 mix.js("resources/react/entrypoints/market.js", "public/js").react();
+

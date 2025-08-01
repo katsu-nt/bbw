@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGoldCurrent } from "@/store/market/goldSlice";
+import ThreeDotsWave from "@/components/ui/threeDotsWave"
 import GoldContainer from "./GoldContainer";
 import GoldTable from "./GoldTable";
 
@@ -16,10 +17,10 @@ export default function GoldContent() {
   const sjc = useSelector((state) => state.gold.current["sjc-hcm"]);
 
   const formatPriceVND = (price) =>
-    typeof price === "number" ? price.toLocaleString("vi-VN") : "Đang cập nhật";
+    typeof price === "number" ? price.toLocaleString("vi-VN")+ " VND" : <ThreeDotsWave size="8px" color="#191919" />;
 
   const formatPriceUSD = (price) =>
-    typeof price === "number" ? price.toLocaleString("en-US") : "Đang cập nhật";
+    typeof price === "number" ? price.toLocaleString("en-US")+ " USD" : <ThreeDotsWave size="8px" color="#191919" />;
 
   const formatPercent = (delta) =>
     typeof delta === "number"
@@ -36,7 +37,7 @@ export default function GoldContent() {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh", // Thêm timezone nếu muốn đúng giờ Việt Nam
+      timeZone: "Asia/Ho_Chi_Minh", 
     });
   };
   return (
@@ -75,7 +76,7 @@ export default function GoldContent() {
               Giá vàng trong nước
             </div>
             <div className="text-2xl font-medium text-[#191919] flex gap-2 items-center">
-              <span>SJC/VND</span>
+              <span>SJC</span>
               <span>
                 {formatPriceVND(sjc ? sjc.sell_price * 1000 : undefined)}
               </span>

@@ -2,19 +2,11 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { MinusCircle } from "lucide-react";
 
+// Danh sách màu cho các line
 const colors = [
   "#000000", "#0032F0", "#B51001", "#03eb03ff",
   "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff",
 ];
-
-const displayNameMap = {
-  "USD-VND": "USD/VND",
-  "EUR-VND": "EUR/VND",
-  "JPY-VND": "JPY/VND",
-  "CNY-VND": "CNY/VND",
-  "USD-JPY": "USD/JPY",
-  "USD-CNY": "USD/CNY",
-};
 
 function getDaysFromRange(range) {
   const today = new Date();
@@ -32,35 +24,71 @@ function getDaysFromRange(range) {
   }
 }
 
-export default function ExchangeChart({ data, selectedItems, setSelectedItems, range }) {
+export default function ExchangeChart({
+  mode,
+  selected,
+  setSelected,
+  compareItems,
+  setCompareItems,
+  data,
+  range,
+  options = [],
+}) {
   const days = getDaysFromRange(range);
-  const isComparisonMode = selectedItems.length > 1;
+  const isComparisonMode = mode === "compare";
 
+  // Tạo mảng chartItems dạng [{code, type}]
+  let chartItems = [];
+  if (!isComparisonMode) {
+    chartItems = selected && selected.code ? [selected] : [{ code: "USD", type: "market" }];
+  } else {
+    chartItems = compareItems;
+  }
+
+  // Helper: Tìm tên hiển thị
+  function getDisplayName(item) {
+    const found = options.find(
+      (o) => o.code === item.code && o.type === item.type
+    );
+    if (found) return found.name;
+    if (item.type && item.code) {
+      let typeLabel = "";
+      if (item.type === "market") typeLabel = "";
+      else if (item.type === "central") typeLabel = " (SBVN)";
+      else if (item.type === "index") typeLabel = "";
+      return `${item.code}${typeLabel}`;
+    }
+    return item.code || "";
+  }
+
+  // Build chart data
   const allDates = [];
-  const series = selectedItems
+  const series = chartItems
     .map((item, index) => {
-      const key = `${item.base}-${item.quote}`;
+      const key = `${item.type}-${item.code}`;
       const chartData = data[key]?.[days] || [];
       if (chartData.length === 0) return null;
-      const baseRate = chartData[0].rate;
+      // Dữ liệu: market/central dùng 'rate', index dùng 'value'
+      const getVal = (row) => row.rate !== undefined ? row.rate : row.value;
+      const baseVal = getVal(chartData[0]);
       const color = colors[index % colors.length];
       const seriesData = chartData.map((entry) => {
-        const timestamp = new Date(entry.date).getTime();
+        const timestamp = new Date(entry.date || entry.timestamp).getTime();
         allDates.push(timestamp);
         return [
           timestamp,
           isComparisonMode
-            ? ((entry.rate - baseRate) / baseRate) * 100
-            : entry.rate,
+            ? ((getVal(entry) - baseVal) / baseVal) * 100
+            : getVal(entry),
         ];
       });
       return {
-        name: displayNameMap[key] || key,
+        name: getDisplayName(item),
         data: seriesData,
         color,
         tooltip: {
           valueSuffix: isComparisonMode ? "%" : "",
-          valueDecimals: isComparisonMode ? 2 : 2,
+          valueDecimals: 2,
         },
         marker: { enabled: false, states: { hover: { enabled: true, radius: 4 } } },
       };
@@ -70,19 +98,28 @@ export default function ExchangeChart({ data, selectedItems, setSelectedItems, r
   const sortedDates = allDates.sort((a, b) => a - b);
   const minDate = sortedDates[0];
   const maxDate = sortedDates[sortedDates.length - 1];
-  const spanYears = new Date(maxDate).getFullYear() - new Date(minDate).getFullYear();
+  const spanYears = minDate && maxDate
+    ? new Date(maxDate).getFullYear() - new Date(minDate).getFullYear()
+    : 0;
 
   let yTickPositions;
-  if (isComparisonMode) {
+  if (isComparisonMode && series.length > 0) {
     const allY = series.flatMap((s) => s.data.map(([_, y]) => y));
     const yMin = Math.min(...allY);
     const yMax = Math.max(...allY);
-    const absMax = Math.max(Math.abs(yMin), Math.abs(yMax));
-    const rounded = Math.ceil(absMax / 2) * 2;
-    yTickPositions = [-rounded, 0, rounded];
+    const diff = yMax - yMin;
+    let roundedMin, roundedMax;
+    if (diff <= 10) {
+      roundedMin = Math.floor(yMin);
+      roundedMax = Math.ceil(yMax);
+    } else {
+      roundedMin = Math.floor(yMin / 3) * 3;
+      roundedMax = Math.ceil(yMax);
+    }
+    yTickPositions = [roundedMin, 0, roundedMax];
   }
 
-  const options = {
+  const optionsChart = {
     chart: { type: "line", zoomType: "x", height: 400 },
     title: { text: null },
     xAxis: {
@@ -174,15 +211,16 @@ export default function ExchangeChart({ data, selectedItems, setSelectedItems, r
   return (
     <div className="w-full min-h-[440px]">
       <div className="flex flex-wrap gap-4 items-center mb-4">
-        {selectedItems.map((item, index) => {
-          const key = `${item.base}-${item.quote}`;
+        {chartItems.map((item, index) => {
+          const key = `${item.type}-${item.code}`;
           const color = colors[index % colors.length];
           const chartData = data[key]?.[days] || [];
-          const baseRate = chartData[0]?.rate;
-          const lastRate = chartData.at(-1)?.rate;
+          const getVal = (row) => row.rate !== undefined ? row.rate : row.value;
+          const baseVal = chartData[0] ? getVal(chartData[0]) : null;
+          const lastVal = chartData.at(-1) ? getVal(chartData.at(-1)) : null;
           const change =
-            baseRate && lastRate
-              ? ((lastRate - baseRate) / baseRate) * 100
+            baseVal && lastVal
+              ? ((lastVal - baseVal) / baseVal) * 100
               : null;
 
           return (
@@ -195,28 +233,25 @@ export default function ExchangeChart({ data, selectedItems, setSelectedItems, r
                 style={{ backgroundColor: color }}
               ></span>
               <span className="text-sm text-black">
-                {displayNameMap[key] || key}
+                {getDisplayName(item)}
               </span>
-              <span
-                className={isComparisonMode ? "text-[#595959]" : "text-black"}
-              >
+              <span className={isComparisonMode ? "text-[#595959]" : "text-black"}>
                 {change !== null
                   ? isComparisonMode
                     ? change >= 0
                       ? `+${change.toFixed(2)}%`
                       : `${change.toFixed(2)}%`
-                    : lastRate?.toLocaleString("vi-VN", { maximumFractionDigits: 2 })
+                    : lastVal?.toLocaleString("vi-VN", { maximumFractionDigits: 2 })
                   : "-"}
               </span>
-
-              {isComparisonMode && (
+              {isComparisonMode && chartItems.length > 1 && (
                 <button
                   onClick={() =>
-                    setSelectedItems((prev) =>
+                    setCompareItems((prev) =>
                       prev.filter(
                         (x) =>
-                          x.base !== item.base ||
-                          x.quote !== item.quote
+                          x.code !== item.code ||
+                          x.type !== item.type
                       )
                     )
                   }
@@ -229,9 +264,13 @@ export default function ExchangeChart({ data, selectedItems, setSelectedItems, r
         })}
       </div>
       {!isComparisonMode && (
-        <div className="text-xs text-[#595959] mb-4">Đơn vị: ngàn đồng</div>
+        <div className="text-xs text-[#595959] mb-4">
+          {chartItems[0]?.type === "index"
+            ? "Đơn vị: điểm"
+            : "Đơn vị: ngàn đồng"}
+        </div>
       )}
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact highcharts={Highcharts} options={optionsChart} />
     </div>
   );
 }

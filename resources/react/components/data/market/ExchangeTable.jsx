@@ -31,18 +31,14 @@ export default function ExchangeTable() {
 
   useEffect(() => {
     const dateStr = formatDateLocal(selectedDate);
-    dispatch(fetchExchangeTable(dateStr));
+    dispatch(fetchExchangeTable({ type: "market", date: dateStr }));
   }, [dispatch, selectedDate]);
 
-  // Danh sách cặp tiền
-  const allPairs = [
-    "USD/VND", "EUR/VND", "JPY/VND", "CNY/VND", "USD/JPY", "USD/CNY"
-  ];
-  function findRate(pair) {
-    const [base, quote] = pair.split("/");
-    return tableData.find(
-      (item) => item.base_currency === base && item.quote_currency === quote
-    );
+  // Chỉ hiện mã base, vì mặc định là VND
+  const allCodes = ["USD", "EUR", "JPY", "CNY"];
+
+  function findRate(code) {
+    return tableData.find((item) => item.code === code);
   }
 
   return (
@@ -83,14 +79,14 @@ export default function ExchangeTable() {
               <ResponseStatus status="error" message="Không thể kết nối đến máy chủ" />
             </div>
           ) : (
-            allPairs.map((pair) => {
-              const item = findRate(pair);
+            allCodes.map((code) => {
+              const item = findRate(code);
               return (
                 <div
-                  key={pair}
+                  key={code}
                   className="grid grid-cols-[1.5fr_1fr] min-h-[86px] text-[#191919] text-sm text-left px-4 py-2 items-center"
                 >
-                  <div className="truncate pr-2">{pair}</div>
+                  <div className="truncate pr-2">{code}</div>
                   <div>
                     {item ? (
                       <div className="flex flex-col gap-1">

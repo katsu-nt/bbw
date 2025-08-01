@@ -18,10 +18,14 @@ const currencyOptions = [
   { code: "AUD", name: "AUD", flag: "/images/upload/australia.png" },
 ];
 
-function formatAmount(val) {
+function formatAmount(val, code = "VND") {
   if (typeof val !== "number" || isNaN(val)) return "";
-  // Format ngăn cách bằng . giống Việt Nam (tuỳ yêu cầu)
-  return val.toLocaleString("vi-VN");
+  // VND: dùng format Việt Nam, ngoại tệ: dùng quốc tế, làm tròn 3 số thập phân
+  if (code === "VND") {
+    return val.toLocaleString("vi-VN", { maximumFractionDigits: 3 });
+  } else {
+    return val.toLocaleString("en-US", { maximumFractionDigits: 3 });
+  }
 }
 
 function InputCurrencyField({
@@ -31,8 +35,9 @@ function InputCurrencyField({
   onSelectCurrency,
   disabled,
   readOnly,
+  showTooltip,
+  rawValue,
 }) {
-  // Focus input khi click vào vùng input, không dropdown
   const inputRef = useRef();
 
   return (
@@ -54,6 +59,8 @@ function InputCurrencyField({
           else onValueChange(Number(v));
         }}
         onFocus={(e) => e.target.select()}
+        title={showTooltip && rawValue ? rawValue : undefined}
+        style={showTooltip ? { textOverflow: "ellipsis" } : {}}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -64,10 +71,10 @@ function InputCurrencyField({
             style={{ minWidth: 70 }}
           >
             <img
-                src={currency.flag}
-                alt="Việt Nam"
-                className="inline-block w-6 h-6 rounded-full"
-              />
+              src={currency.flag}
+              alt={currency.name}
+              className="inline-block w-6 h-6 rounded-full"
+            />
             <span className="font-semibold text-base ml-1">
               {currency.code}
             </span>
@@ -103,7 +110,7 @@ function InputCurrencyField({
             >
               <img
                 src={c.flag}
-                alt="Việt Nam"
+                alt={c.name}
                 className="inline-block w-6 h-6 rounded-full"
               />
               <span className="font-medium">{c.code}</span>
@@ -121,15 +128,18 @@ export default function CurrencyConverter() {
   const [amount, setAmount] = useState(1000);
   const dispatch = useDispatch();
 
-  const key = `${from}-${to}`;
-  const exchange = useSelector((state) => state.exchange.current[key]);
+  // Lấy tỷ giá từng đồng so với VND (key là market-USD, market-EUR, ...)
+  const rateFrom = useSelector((state) => state.exchange.current[`market-${from}`]?.rate);
+  const rateTo = useSelector((state) => state.exchange.current[`market-${to}`]?.rate);
   const loading = useSelector((state) => state.exchange.loading.current);
 
+  // Gọi API cho từng đồng ngoại tệ (trừ VND, VND luôn là 1)
   useEffect(() => {
-    if (from !== to) {
-      dispatch(
-        fetchExchangeCurrent({ base_currency: from, quote_currency: to })
-      );
+    if (from !== "VND") {
+      dispatch(fetchExchangeCurrent({ type: "market", code: from }));
+    }
+    if (to !== "VND") {
+      dispatch(fetchExchangeCurrent({ type: "market", code: to }));
     }
   }, [dispatch, from, to]);
 
@@ -138,10 +148,45 @@ export default function CurrencyConverter() {
     setTo(from);
   };
 
+  // Tính toán giá trị chuyển đổi (dùng chuẩn logic chuyển đổi chéo)
   let result = "";
-  if (exchange && typeof exchange.rate === "number" && !loading) {
-    result = amount * exchange.rate;
+  if (!loading && amount && amount !== "" && !isNaN(amount)) {
+    if (from === to) {
+      result = amount;
+    } else if (from === "VND" && typeof rateTo === "number" && rateTo !== 0) {
+      // VND → ngoại tệ
+      result = amount / rateTo;
+    } else if (to === "VND" && typeof rateFrom === "number") {
+      // ngoại tệ → VND
+      result = amount * rateFrom;
+    } else if (
+      typeof rateFrom === "number" &&
+      typeof rateTo === "number" &&
+      rateTo !== 0
+    ) {
+      // Ngoại tệ → ngoại tệ (chuyển đổi qua VND)
+      result = (amount * rateFrom) / rateTo;
+    } else {
+      result = "";
+    }
   }
+
+  // Làm tròn đúng 3 số thập phân
+  let displayResult = "";
+  if (result !== "" && !isNaN(result)) {
+    displayResult =
+      to === "VND"
+        ? formatAmount(Number(result), "VND")
+        : formatAmount(Number(result), to);
+    // Nếu nhỏ hơn 0.001 thì hiện là "<0.001"
+    if (!isNaN(result) && Number(result) > 0 && Number(result) < 0.001) {
+      displayResult = "<0.001";
+    }
+  }
+
+  // Tooltip nếu quá dài
+  const showTooltip =
+    typeof displayResult === "string" && displayResult.length > 10;
 
   return (
     <div className="bg-white py-2 rounded-t-md flex flex-col gap-2 mb-4">
@@ -151,7 +196,7 @@ export default function CurrencyConverter() {
 
       {/* FROM field */}
       <InputCurrencyField
-        value={formatAmount(amount)}
+        value={formatAmount(amount, from)}
         onValueChange={setAmount}
         currency={currencyOptions.find((x) => x.code === from)}
         onSelectCurrency={setFrom}
@@ -172,13 +217,9 @@ export default function CurrencyConverter() {
 
       {/* TO field */}
       <InputCurrencyField
-        value={
-          loading
-            ? "..."
-            : result !== "" && !isNaN(result)
-            ? formatAmount(Math.round(result))
-            : ""
-        }
+        value={loading ? "..." : displayResult}
+        rawValue={result !== "" && !isNaN(result) ? String(result) : ""}
+        showTooltip={showTooltip}
         onValueChange={() => {}} // Không cho user nhập vào result
         currency={currencyOptions.find((x) => x.code === to)}
         onSelectCurrency={setTo}
