@@ -12,7 +12,7 @@ export default function CompareSwitch({
         id={id}
         checked={checked}
         onCheckedChange={onChange}
-        className="compare-switch"
+        className={`compare-switch${checked ? " checked" : ""}`}
       />
       <label
         htmlFor={id}
@@ -40,6 +40,9 @@ export default function CompareSwitch({
           display: inline-flex;
           align-items: center;
           transition: background 0.2s;
+        }
+        .compare-switch.checked {
+          background: #191919 !important;
         }
         .compare-switch [data-slot="switch-thumb"] {
           background: #fff !important;

@@ -3,7 +3,7 @@ import DatePicker from "@/components/ui/datePicker";
 import ThreeDotsWave from "@/components/ui/threeDotsWave";
 import { ResponseStatus } from "@/components/ui/responseStatus";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGoldTable } from "../../../store/market/goldSlice";
+import { fetchGoldTable } from "@/store/market/goldSlice";
 
 function formatPrice(value) {
   return typeof value === "number"
@@ -124,7 +124,7 @@ export default function GoldTable() {
         </div>
 
         <div
-          className="h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
+          className="h-[453px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "#ECECEC transparent",
@@ -178,7 +178,7 @@ export default function GoldTable() {
                           <div
                             className={
                               item.delta_buy > 0
-                                ? "text-[#0032F0]"
+                                ? "text-[#00DC3C]"
                                 : "text-[#B51001]"
                             }
                           >
@@ -199,7 +199,7 @@ export default function GoldTable() {
                           <div
                             className={
                               item.delta_sell > 0
-                                ? "text-[#0032F0]"
+                                ? "text-[#00DC3C]"
                                 : "text-[#B51001]"
                             }
                           >

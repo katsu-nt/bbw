@@ -186,60 +186,595 @@ var suppressOthers = function (originalTarget, parentNode, markerName) {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/CompareSwitch.jsx":
-/*!******************************************************************!*\
-  !*** ./resources/react/components/data/market/CompareSwitch.jsx ***!
-  \******************************************************************/
+/***/ "./resources/react/charts/adapter/exchangeChartAdapter.js":
+/*!****************************************************************!*\
+  !*** ./resources/react/charts/adapter/exchangeChartAdapter.js ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CompareSwitch)
+/* harmony export */   exchangeColors: () => (/* binding */ exchangeColors),
+/* harmony export */   exchangeLegendItem: () => (/* binding */ exchangeLegendItem),
+/* harmony export */   exchangeSeriesAdapter: () => (/* binding */ exchangeSeriesAdapter),
+/* harmony export */   exchangeTooltipFormatter: () => (/* binding */ exchangeTooltipFormatter),
+/* harmony export */   exchangeUnitSideText: () => (/* binding */ exchangeUnitSideText),
+/* harmony export */   exchangeYAxisAdapter: () => (/* binding */ exchangeYAxisAdapter)
 /* harmony export */ });
-/* harmony import */ var _components_ui_switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/switch */ "./resources/react/components/ui/switch.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_market_date__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/lib/market/date */ "./resources/react/lib/market/date.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 
-function CompareSwitch(_ref) {
-  var checked = _ref.checked,
-    onChange = _ref.onChange,
-    _ref$label = _ref.label,
-    label = _ref$label === void 0 ? "So sánh" : _ref$label,
-    _ref$id = _ref.id,
-    id = _ref$id === void 0 ? "compare-switch" : _ref$id;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "flex flex-col items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_switch__WEBPACK_IMPORTED_MODULE_0__.Switch, {
-      id: id,
-      checked: checked,
-      onCheckedChange: onChange,
-      className: "compare-switch"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      htmlFor: id,
-      className: "compare-switch-label",
-      style: {
-        color: "#595959",
-        fontSize: "12px",
-        fontWeight: 500,
-        letterSpacing: "-1px",
-        textAlign: "center",
-        marginTop: "0.3rem",
-        marginBottom: 0
-      },
-      children: label
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
-      children: "\n        .compare-switch {\n          background: #F5F5F5 !important;\n          border: none !important;\n          box-shadow: 0 2px 8px rgba(110,110,110,0.05);\n          width: 38px !important;\n          height: 20px !important;\n          padding: 2px !important;\n          display: inline-flex;\n          align-items: center;\n          transition: background 0.2s;\n        }\n        .compare-switch [data-slot=\"switch-thumb\"] {\n          background: #fff !important;\n          width: 18px !important;\n          height: 18px !important;\n          box-shadow: 0 2px 4px rgba(110,110,110,0.10);\n          transition: transform 0.2s;\n        }\n      "
-    })]
+
+// Định nghĩa màu
+
+var exchangeColors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
+
+// Map code thành tên đẹp hơn nếu cần
+var exchangeNameMap = {
+  USD: "USD",
+  DXY: "DXY"
+  // ... thêm nếu có
+};
+
+// Tạo series
+function exchangeSeriesAdapter(_ref) {
+  var items = _ref.items,
+    data = _ref.data,
+    range = _ref.range,
+    mode = _ref.mode,
+    options = _ref.options,
+    chartColors = _ref.chartColors;
+  var isNormalizeMode = mode === "normalize";
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_1__.getDaysFromRange)(range);
+
+  // Check có loại "market/central" và loại "index"
+  var hasMarket = items.some(function (i) {
+    return i.type === "market" || i.type === "central";
   });
+  var hasIndex = items.some(function (i) {
+    return i.type === "index";
+  });
+  var allDates = [];
+  var series = items.map(function (item, idx) {
+    var _data$key, _options$find;
+    var key = "".concat(item.type, "-").concat(item.code);
+    var chartData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
+    if (chartData.length === 0) return null;
+    var getVal = function getVal(row) {
+      return row.rate !== undefined ? row.rate : row.value;
+    };
+    var baseVal = getVal(chartData[0]);
+    var seriesData = chartData.map(function (entry) {
+      var timestamp = new Date(entry.date || entry.timestamp).getTime();
+      allDates.push(timestamp);
+      return [timestamp, isNormalizeMode ? (getVal(entry) - baseVal) / baseVal * 100 : getVal(entry)];
+    });
+    var displayName = (options === null || options === void 0 || (_options$find = options.find(function (o) {
+      return o.code === item.code && o.type === item.type;
+    })) === null || _options$find === void 0 ? void 0 : _options$find.name) || exchangeNameMap[item.code] || item.code;
+    // Xác định đúng yAxis cho từng loại
+    var yAxisNum = 0;
+    if (!isNormalizeMode && hasMarket && hasIndex) {
+      yAxisNum = item.type === "index" ? 1 : 0;
+    }
+    return {
+      name: displayName,
+      data: seriesData,
+      color: chartColors[idx % chartColors.length],
+      yAxis: isNormalizeMode ? 0 : yAxisNum,
+      marker: {
+        enabled: false,
+        states: {
+          hover: {
+            enabled: true,
+            radius: 4
+          }
+        }
+      },
+      tooltip: {
+        valueSuffix: isNormalizeMode ? "%" : item.type === "index" ? " điểm" : " ngàn đồng",
+        valueDecimals: 2
+      }
+    };
+  }).filter(Boolean);
+
+  // spanYears (cho tick xAxis)
+  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
+    return a - b;
+  });
+  var spanYears = 0;
+  if (sortedDates.length > 0) {
+    var minDate = new Date(sortedDates[0]);
+    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
+    spanYears = maxDate.getFullYear() - minDate.getFullYear();
+  }
+  return {
+    series: series,
+    allDates: allDates,
+    spanYears: spanYears
+  };
+}
+
+// YAxis
+function exchangeYAxisAdapter(_ref2) {
+  var items = _ref2.items,
+    mode = _ref2.mode;
+  var isNormalizeMode = mode === "normalize";
+  var hasMarket = items.some(function (i) {
+    return i.type === "market" || i.type === "central";
+  });
+  var hasIndex = items.some(function (i) {
+    return i.type === "index";
+  });
+  var yAxis = [];
+  if (isNormalizeMode) {
+    yAxis = [{
+      title: {
+        text: null
+      },
+      labels: {
+        formatter: function formatter() {
+          return Math.round(this.value) + "%";
+        }
+      },
+      tickAmount: 4,
+      opposite: true
+    }];
+  } else {
+    if (hasMarket && hasIndex) {
+      // Luôn trả về 2 trục nếu có cả market và index
+      yAxis = [{
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      }, {
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: true
+      }];
+    } else {
+      yAxis = [{
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      }];
+    }
+  }
+  return yAxis;
+}
+
+// Tooltip
+function exchangeTooltipFormatter(that, mode) {
+  var isNormalizeMode = mode === "normalize";
+  var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
+  tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", that.x), "</b><br/>");
+  that.points.forEach(function (point) {
+    var name = point.series.name;
+    var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : point.series.userOptions.yAxis === 1 ? point.y.toLocaleString("vi-VN", {
+      maximumFractionDigits: 2
+    }) + " điểm" : point.y.toLocaleString("vi-VN", {
+      maximumFractionDigits: 2
+    }) + " ngàn đồng";
+    tooltip += "\n      <br/>\n      <span style=\"color:".concat(point.color, "\">\u25CF</span>\n      <b> ").concat(name, ": </b>\n      <b>").concat(value, "</b><br/>\n    ");
+  });
+  tooltip += "</div>";
+  return tooltip;
+}
+
+// Legend giống vàng
+function exchangeLegendItem(_ref3) {
+  var _data$key2, _options$find2;
+  var item = _ref3.item,
+    idx = _ref3.idx,
+    color = _ref3.color,
+    items = _ref3.items,
+    setItems = _ref3.setItems,
+    data = _ref3.data,
+    range = _ref3.range,
+    mode = _ref3.mode,
+    options = _ref3.options;
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_1__.getDaysFromRange)(range);
+  var key = "".concat(item.type, "-").concat(item.code);
+  var chartData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
+  var getVal = function getVal(row) {
+    return row.rate !== undefined ? row.rate : row.value;
+  };
+  var baseVal = chartData[0] ? getVal(chartData[0]) : null;
+  var lastVal = chartData.at(-1) ? getVal(chartData.at(-1)) : null;
+  var change = baseVal && lastVal ? (lastVal - baseVal) / baseVal * 100 : null;
+  var displayName = (options === null || options === void 0 || (_options$find2 = options.find(function (o) {
+    return o.code === item.code && o.type === item.type;
+  })) === null || _options$find2 === void 0 ? void 0 : _options$find2.name) || item.code;
+  var isNormalizeMode = mode === "normalize";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: "inline-block w-2 h-2 rounded-full",
+      style: {
+        backgroundColor: color
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: "text-sm text-black",
+      children: displayName
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: isNormalizeMode ? "text-[#595959]" : "text-[#191919]",
+      children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : (lastVal === null || lastVal === void 0 ? void 0 : lastVal.toLocaleString("vi-VN", {
+        maximumFractionDigits: 2
+      })) || "-"
+    }), items.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+      onClick: function onClick() {
+        return setItems(function (prev) {
+          return prev.filter(function (x) {
+            return x.code !== item.code || x.type !== item.type;
+          });
+        });
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("svg", {
+        width: "16",
+        height: "16",
+        className: "ml-1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("circle", {
+          cx: "8",
+          cy: "8",
+          r: "7",
+          stroke: "#191919",
+          fill: "none"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("line", {
+          x1: "5",
+          y1: "8",
+          x2: "11",
+          y2: "8",
+          stroke: "#191919",
+          strokeWidth: "2"
+        })]
+      })
+    })]
+  }, key);
+}
+
+// Đơn vị
+function exchangeUnitSideText(items, mode) {
+  if (mode === "normalize") return null;
+  var hasMarket = items.some(function (i) {
+    return i.type === "market" || i.type === "central";
+  });
+  var hasIndex = items.some(function (i) {
+    return i.type === "index";
+  });
+  if (hasMarket && hasIndex) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex justify-between",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: "\u0110\u01A1n v\u1ECB: \u0111i\u1EC3m"
+      })]
+    });
+  }
+  if (hasIndex) return "Đơn vị: điểm";
+  if (hasMarket) return "Đơn vị: ngàn đồng";
+  return null;
 }
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/CurrencyConverter.jsx":
-/*!**********************************************************************!*\
-  !*** ./resources/react/components/data/market/CurrencyConverter.jsx ***!
-  \**********************************************************************/
+/***/ "./resources/react/charts/adapter/goldChartAdapter.js":
+/*!************************************************************!*\
+  !*** ./resources/react/charts/adapter/goldChartAdapter.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   goldColors: () => (/* binding */ goldColors),
+/* harmony export */   goldLegendItem: () => (/* binding */ goldLegendItem),
+/* harmony export */   goldSeriesAdapter: () => (/* binding */ goldSeriesAdapter),
+/* harmony export */   goldTooltipFormatter: () => (/* binding */ goldTooltipFormatter),
+/* harmony export */   goldUnitSideText: () => (/* binding */ goldUnitSideText),
+/* harmony export */   goldYAxisAdapter: () => (/* binding */ goldYAxisAdapter)
+/* harmony export */ });
+/* harmony import */ var _lib_market_date__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/lib/market/date */ "./resources/react/lib/market/date.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+
+
+var goldNameMap = {
+  pnj: "PNJ",
+  sjc: "SJC",
+  xau_usd: "Vàng thế giới"
+};
+var goldColors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
+function goldSeriesAdapter(_ref) {
+  var items = _ref.items,
+    data = _ref.data,
+    range = _ref.range,
+    mode = _ref.mode,
+    options = _ref.options,
+    chartColors = _ref.chartColors;
+  var isNormalizeMode = mode === "normalize";
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_0__.getDaysFromRange)(range);
+  var allDates = [];
+  var series = items.map(function (item, idx) {
+    var _data$key;
+    var key = "".concat(item.gold_type, "-").concat(item.location);
+    var goldData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
+    if (goldData.length === 0) return null;
+    var basePrice = goldData[0].price;
+    var seriesData = goldData.map(function (entry) {
+      var timestamp = new Date(entry.date).getTime();
+      allDates.push(timestamp);
+      return [timestamp, isNormalizeMode ? (entry.price - basePrice) / basePrice * 100 : entry.price];
+    });
+    var name = goldNameMap[item.gold_type] || item.gold_type;
+    return {
+      name: name,
+      data: seriesData,
+      color: chartColors[idx % chartColors.length],
+      yAxis: isNormalizeMode ? 0 : item.gold_type === "xau_usd" && items.some(function (i) {
+        return i.gold_type !== "xau_usd";
+      }) ? 1 : 0,
+      marker: {
+        enabled: false,
+        states: {
+          hover: {
+            enabled: true,
+            radius: 4
+          }
+        }
+      },
+      tooltip: {
+        valueSuffix: isNormalizeMode ? "%" : item.gold_type === "xau_usd" ? " USD" : " VND",
+        valueDecimals: 2
+      }
+    };
+  }).filter(Boolean);
+
+  // Lấy span years (nếu cần)
+  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
+    return a - b;
+  });
+  var spanYears = 0;
+  if (sortedDates.length > 0) {
+    var minDate = new Date(sortedDates[0]);
+    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
+    spanYears = maxDate.getFullYear() - minDate.getFullYear();
+  }
+  return {
+    series: series,
+    allDates: allDates,
+    spanYears: spanYears
+  };
+}
+function goldYAxisAdapter(_ref2) {
+  var items = _ref2.items,
+    mode = _ref2.mode;
+  var isNormalizeMode = mode === "normalize";
+  var hasDomestic = items.some(function (i) {
+    return i.gold_type !== "xau_usd";
+  });
+  var hasGlobal = items.some(function (i) {
+    return i.gold_type === "xau_usd";
+  });
+  var yAxis = [];
+  if (isNormalizeMode) {
+    yAxis = [{
+      title: {
+        text: null
+      },
+      labels: {
+        formatter: function formatter() {
+          return Math.round(this.value) + "%";
+        }
+      },
+      tickAmount: 4,
+      opposite: true
+    }];
+  } else {
+    if (hasDomestic && hasGlobal) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("en-US");
+          }
+        },
+        tickAmount: 4,
+        opposite: true
+      });
+    } else if (hasGlobal && !hasDomestic) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("en-US");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    } else {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    }
+  }
+  return yAxis;
+}
+function goldTooltipFormatter(that, mode) {
+  var isNormalizeMode = mode === "normalize";
+  var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
+  tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_1___default().dateFormat("%d/%m/%Y", that.x), "</b><br/>");
+  that.points.forEach(function (point) {
+    var name = point.series.name;
+    // Check là vàng nội địa hay vàng thế giới
+    var isVangNoiDia = point.series.userOptions.yAxis !== 1;
+    var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : isVangNoiDia ? (point.y * 1000).toLocaleString("vi-VN", {
+      maximumFractionDigits: 0
+    }) + " VND" : point.y.toLocaleString("en-US", {
+      maximumFractionDigits: 2
+    }) + " USD";
+    tooltip += "\n      <br/>\n      <span style=\"color:".concat(point.color, "\">\u25CF</span>\n      <b> ").concat(name, ": </b>\n      <b>").concat(value, "</b><br/>\n    ");
+  });
+  tooltip += "</div>";
+  return tooltip;
+}
+function goldLegendItem(_ref3) {
+  var _data$key2, _goldData$, _goldData$at;
+  var item = _ref3.item,
+    idx = _ref3.idx,
+    color = _ref3.color,
+    items = _ref3.items,
+    setItems = _ref3.setItems,
+    data = _ref3.data,
+    range = _ref3.range,
+    mode = _ref3.mode;
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_0__.getDaysFromRange)(range);
+  var key = "".concat(item.gold_type, "-").concat(item.location);
+  var goldData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
+  var base = (_goldData$ = goldData[0]) === null || _goldData$ === void 0 ? void 0 : _goldData$.price;
+  var last = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
+  var change = base && last ? (last - base) / base * 100 : null;
+  var name = goldNameMap[item.gold_type] || item.gold_type;
+  var isNormalizeMode = mode === "normalize";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: "inline-block w-2 h-2 rounded-full",
+      style: {
+        backgroundColor: color
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: "text-sm text-black",
+      children: name
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      className: isNormalizeMode ? "text-[#595959]" : "text-[#191919]",
+      children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : item.gold_type === "xau_usd" ? last ? last.toLocaleString("en-US", {
+        maximumFractionDigits: 2
+      }) + " USD" : "-" : last ? (last * 1000).toLocaleString("vi-VN") + " VND" : "-"
+    }), items.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+      onClick: function onClick() {
+        return setItems(function (prev) {
+          return prev.filter(function (x) {
+            return x.gold_type !== item.gold_type || x.location !== item.location;
+          });
+        });
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("svg", {
+        width: "16",
+        height: "16",
+        className: "ml-1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("circle", {
+          cx: "8",
+          cy: "8",
+          r: "7",
+          stroke: "#191919",
+          fill: "none"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("line", {
+          x1: "5",
+          y1: "8",
+          x2: "11",
+          y2: "8",
+          stroke: "#191919",
+          strokeWidth: "2"
+        })]
+      })
+    })]
+  }, key);
+}
+function goldUnitSideText(items, mode) {
+  if (mode === "normalize") return null;
+  var hasDomestic = items.some(function (i) {
+    return i.gold_type !== "xau_usd";
+  });
+  var hasGlobal = items.some(function (i) {
+    return i.gold_type === "xau_usd";
+  });
+  if (hasDomestic && hasGlobal) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex justify-between",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: "\u0110\u01A1n v\u1ECB: USD/oz"
+      })]
+    });
+  }
+  if (hasGlobal) return "Đơn vị: USD/oz";
+  if (hasDomestic) return "Đơn vị: ngàn đồng/lượng";
+  return null;
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/exchange/CurrencyConverter.jsx":
+/*!*******************************************************************************!*\
+  !*** ./resources/react/components/data/market/exchange/CurrencyConverter.jsx ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -520,10 +1055,10 @@ function CurrencyConverter() {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/ExchangeChart.jsx":
-/*!******************************************************************!*\
-  !*** ./resources/react/components/data/market/ExchangeChart.jsx ***!
-  \******************************************************************/
+/***/ "./resources/react/components/data/market/exchange/ExchangeChart.jsx":
+/*!***************************************************************************!*\
+  !*** ./resources/react/components/data/market/exchange/ExchangeChart.jsx ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -531,335 +1066,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ExchangeChart)
 /* harmony export */ });
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highcharts-react-official */ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js");
-/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js");
+/* harmony import */ var _components_data_market_shared_MultiLineChart__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/data/market/shared/MultiLineChart */ "./resources/react/components/data/market/shared/MultiLineChart.jsx");
+/* harmony import */ var _charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/charts/adapter/exchangeChartAdapter */ "./resources/react/charts/adapter/exchangeChartAdapter.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
-
-var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
-
-// Hàm tạo dải ngày đều cho tick X
-function getDateRangeTicks(startDate, endDate) {
-  var maxTicks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
-  var ticks = [];
-  var dayMs = 24 * 3600 * 1000;
-  var totalDays = Math.floor((endDate - startDate) / dayMs);
-  if (totalDays <= maxTicks - 1) {
-    for (var i = 0; i <= totalDays; ++i) {
-      ticks.push(startDate.getTime() + i * dayMs);
+function ExchangeChart(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_data_market_shared_MultiLineChart__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    items: props.chartItems,
+    setItems: props.setChartItems,
+    data: props.data,
+    range: props.range,
+    mode: props.mode,
+    options: props.options,
+    seriesAdapter: _charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeSeriesAdapter,
+    yAxesAdapter: _charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeYAxisAdapter,
+    tooltipFormatter: _charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeTooltipFormatter,
+    chartColors: _charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeColors,
+    unitSideText: (0,_charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeUnitSideText)(props.chartItems, props.mode),
+    renderLegendItem: function renderLegendItem(args) {
+      return (0,_charts_adapter_exchangeChartAdapter__WEBPACK_IMPORTED_MODULE_1__.exchangeLegendItem)(_objectSpread(_objectSpread({}, args), {}, {
+        items: props.chartItems,
+        setItems: props.setChartItems,
+        options: props.options
+      }));
     }
-  } else {
-    for (var _i = 0; _i < maxTicks; ++_i) {
-      var t = Math.round(_i * totalDays / (maxTicks - 1));
-      ticks.push(startDate.getTime() + t * dayMs);
-    }
-  }
-  return ticks;
-}
-function getDaysFromRange(range) {
-  var today = new Date();
-  switch (range) {
-    case "7d":
-      return 7;
-    case "30d":
-      return 30;
-    case "6m":
-      return 180;
-    case "1y":
-      return 365;
-    case "5y":
-      return 1825;
-    case "ytd":
-      {
-        var start = new Date(today.getFullYear(), 0, 1);
-        return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
-      }
-    default:
-      return 30;
-  }
-}
-function ExchangeChart(_ref) {
-  var mode = _ref.mode,
-    chartItems = _ref.chartItems,
-    setChartItems = _ref.setChartItems,
-    data = _ref.data,
-    range = _ref.range,
-    _ref$options = _ref.options,
-    options = _ref$options === void 0 ? [] : _ref$options;
-  var days = getDaysFromRange(range);
-  var isNormalizeMode = mode === "normalize";
-  var hasMarket = chartItems.some(function (i) {
-    return i.type === "market" || i.type === "central";
-  });
-  var hasIndex = chartItems.some(function (i) {
-    return i.type === "index";
-  });
-  var allDates = [];
-  var series = chartItems.map(function (item, idx) {
-    var _data$key, _options$find;
-    var key = "".concat(item.type, "-").concat(item.code);
-    var chartData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
-    if (chartData.length === 0) return null;
-    var getVal = function getVal(row) {
-      return row.rate !== undefined ? row.rate : row.value;
-    };
-    var baseVal = getVal(chartData[0]);
-    var seriesData = chartData.map(function (entry) {
-      var timestamp = new Date(entry.date || entry.timestamp).getTime();
-      allDates.push(timestamp);
-      return [timestamp, isNormalizeMode ? (getVal(entry) - baseVal) / baseVal * 100 : getVal(entry)];
-    });
-    var displayName = ((_options$find = options.find(function (o) {
-      return o.code === item.code && o.type === item.type;
-    })) === null || _options$find === void 0 ? void 0 : _options$find.name) || item.code;
-    return {
-      name: displayName,
-      data: seriesData,
-      color: colors[idx % colors.length],
-      yAxis: isNormalizeMode ? 0 : item.type === "index" && hasMarket ? 1 : 0,
-      marker: {
-        enabled: false,
-        states: {
-          hover: {
-            enabled: true,
-            radius: 4
-          }
-        }
-      },
-      tooltip: {
-        valueSuffix: isNormalizeMode ? "%" : item.type === "index" ? " điểm" : " ngàn đồng",
-        valueDecimals: 2
-      }
-    };
-  }).filter(Boolean);
-
-  // Tick X chia đều: luôn max 5 mốc, có ngày đầu/cuối
-  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
-    return a - b;
-  });
-  var spanYears = 0;
-  var xTickPositions = [];
-  if (sortedDates.length > 0) {
-    var minDate = new Date(sortedDates[0]);
-    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
-    spanYears = maxDate.getFullYear() - minDate.getFullYear();
-    xTickPositions = getDateRangeTicks(minDate, maxDate, 5);
-  }
-
-  // Build yAxis như cũ
-  var yAxis = [];
-  if (isNormalizeMode) {
-    yAxis = [{
-      title: {
-        text: null
-      },
-      labels: {
-        formatter: function formatter() {
-          return Math.round(this.value) + "%";
-        }
-      },
-      tickAmount: 4,
-      opposite: true
-    }];
-  } else {
-    if (hasMarket && hasIndex) {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: true
-      });
-    } else if (hasIndex && !hasMarket) {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-    } else {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-    }
-  }
-
-  // Tooltip
-  var optionsChart = {
-    chart: {
-      type: "line",
-      zoomType: "x",
-      height: 400
-    },
-    title: {
-      text: null
-    },
-    xAxis: {
-      type: "datetime",
-      title: {
-        text: null
-      },
-      crosshair: {
-        width: 1,
-        color: "#ccc",
-        dashStyle: "ShortDot"
-      },
-      tickPositions: xTickPositions,
-      labels: {
-        formatter: function formatter() {
-          var date = new Date(this.value);
-          return spanYears >= 3 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
-        }
-      }
-    },
-    yAxis: yAxis,
-    tooltip: {
-      shared: true,
-      xDateFormat: "%d/%m/%Y",
-      formatter: function formatter() {
-        var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
-        tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", this.x), "</b><br/>");
-        this.points.forEach(function (point) {
-          var name = point.series.name;
-          var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : point.y.toLocaleString("vi-VN", {
-            maximumFractionDigits: 2
-          }) + (point.series.userOptions.yAxis === 1 ? " điểm" : " ngàn đồng");
-          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(name, ": </b>\n            <b>").concat(value, "</b><br/>\n          ");
-        });
-        tooltip += "</div>";
-        return tooltip;
-      }
-    },
-    legend: {
-      enabled: false
-    },
-    credits: {
-      enabled: false
-    },
-    series: series
-  };
-  function getUnitSideText() {
-    if (isNormalizeMode) return null;
-    if (hasMarket && hasIndex) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "flex justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          children: "\u0110\u01A1n v\u1ECB: \u0111i\u1EC3m"
-        })]
-      });
-    }
-    if (hasIndex) return "Đơn vị: điểm";
-    if (hasMarket) return "Đơn vị: ngàn đồng";
-    return null;
-  }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full min-h-[440px]",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "flex flex-wrap gap-4 items-center mb-4",
-      children: chartItems.map(function (item, idx) {
-        var _data$key2, _options$find2;
-        var key = "".concat(item.type, "-").concat(item.code);
-        var color = colors[idx % colors.length];
-        var chartData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
-        var getVal = function getVal(row) {
-          return row.rate !== undefined ? row.rate : row.value;
-        };
-        var baseVal = chartData[0] ? getVal(chartData[0]) : null;
-        var lastVal = chartData.at(-1) ? getVal(chartData.at(-1)) : null;
-        var change = baseVal && lastVal ? (lastVal - baseVal) / baseVal * 100 : null;
-        var displayName = ((_options$find2 = options.find(function (o) {
-          return o.code === item.code && o.type === item.type;
-        })) === null || _options$find2 === void 0 ? void 0 : _options$find2.name) || item.code;
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "inline-block w-2 h-2 rounded-full",
-            style: {
-              backgroundColor: color
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-sm text-black",
-            children: displayName
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: isNormalizeMode ? "text-[#595959]" : "text-black",
-            children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : (lastVal === null || lastVal === void 0 ? void 0 : lastVal.toLocaleString("vi-VN", {
-              maximumFractionDigits: 2
-            })) || "-"
-          }), chartItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            onClick: function onClick() {
-              return setChartItems(function (prev) {
-                return prev.filter(function (x) {
-                  return x.code !== item.code || x.type !== item.type;
-                });
-              });
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              className: "w-4 h-4 ml-1 opacity-70 hover:opacity-100"
-            })
-          })]
-        }, key);
-      })
-    }), getUnitSideText() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "text-xs text-[#595959] mb-4",
-      children: getUnitSideText()
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
-      highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
-      options: optionsChart
-    })]
   });
 }
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/ExchangeContainer.jsx":
-/*!**********************************************************************!*\
-  !*** ./resources/react/components/data/market/ExchangeContainer.jsx ***!
-  \**********************************************************************/
+/***/ "./resources/react/components/data/market/exchange/ExchangeContainer.jsx":
+/*!*******************************************************************************!*\
+  !*** ./resources/react/components/data/market/exchange/ExchangeContainer.jsx ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -869,16 +1116,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
-/* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
-/* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
-/* harmony import */ var _ExchangeChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ExchangeChart */ "./resources/react/components/data/market/ExchangeChart.jsx");
-/* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
-/* harmony import */ var _CompareSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CompareSwitch */ "./resources/react/components/data/market/CompareSwitch.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
+/* harmony import */ var _ExchangeChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ExchangeChart */ "./resources/react/components/data/market/exchange/ExchangeChart.jsx");
+/* harmony import */ var _components_data_market_shared_CompareSwitch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/data/market/shared/CompareSwitch */ "./resources/react/components/data/market/shared/CompareSwitch.jsx");
+/* harmony import */ var _components_data_market_shared_RangeTabs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/data/market/shared/RangeTabs */ "./resources/react/components/data/market/shared/RangeTabs.jsx");
+/* harmony import */ var _components_data_market_shared_AddItemDropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/data/market/shared/AddItemDropdown */ "./resources/react/components/data/market/shared/AddItemDropdown.jsx");
+/* harmony import */ var _components_data_market_shared_ChartWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/data/market/shared/ChartWrapper */ "./resources/react/components/data/market/shared/ChartWrapper.jsx");
+/* harmony import */ var _lib_market_date__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/lib/market/date */ "./resources/react/lib/market/date.js");
+/* harmony import */ var _hooks_useChartData__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/hooks/useChartData */ "./resources/react/hooks/useChartData.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -899,7 +1147,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-// Danh sách mã + loại cho Dropdown
+
 
 var exchangeOptions = [{
   code: "USD",
@@ -935,35 +1183,11 @@ var ranges = [{
   label: "5 Năm",
   value: "5y"
 }];
-function getDaysFromRange(range) {
-  var today = new Date();
-  switch (range) {
-    case "7d":
-      return 7;
-    case "30d":
-      return 30;
-    case "6m":
-      return 180;
-    case "1y":
-      return 365;
-    case "5y":
-      return 365 * 5;
-    case "ytd":
-      {
-        var start = new Date(today.getFullYear(), 0, 1);
-        return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
-      }
-    default:
-      return 30;
-  }
-}
 function ExchangeContainer() {
-  // mode: "default" | "normalize"
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("default"),
     _useState2 = _slicedToArray(_useState, 2),
     mode = _useState2[0],
     setMode = _useState2[1];
-  // Nhiều mã (luôn là mảng), khởi tạo với USD/market
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       code: "USD",
       type: "market"
@@ -975,37 +1199,48 @@ function ExchangeContainer() {
     _useState6 = _slicedToArray(_useState5, 2),
     range = _useState6[0],
     setRange = _useState6[1];
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_11__.useDispatch)();
+  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_11__.useSelector)(function (state) {
       return state.exchange;
     }),
     data = _useSelector.chart,
     loading = _useSelector.loading,
     error = _useSelector.error;
-  var days = getDaysFromRange(range);
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_8__.getDaysFromRange)(range);
 
-  // Filter các option chưa được chọn để show trên Dropdown
-  var filteredOptions = exchangeOptions.filter(function (item) {
-    return !selectedItems.some(function (s) {
-      return s.code === item.code && s.type === item.type;
-    });
-  });
-
-  // Fetch dữ liệu cho tất cả các mã đang chọn
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    selectedItems.forEach(function (_ref) {
+  // Custom hook dùng cho fetch chart data
+  (0,_hooks_useChartData__WEBPACK_IMPORTED_MODULE_9__.useChartData)({
+    items: selectedItems,
+    data: data,
+    days: days,
+    dispatch: dispatch,
+    fetchAction: _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_2__.fetchExchangeChart,
+    getKey: function getKey(_ref) {
       var type = _ref.type,
         code = _ref.code;
-      var key = "".concat(type, "-").concat(code);
-      if (!data[key] || !data[key][days]) {
-        dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
-          type: type,
-          code: [code],
-          days: days
-        }));
-      }
-    });
-  }, [selectedItems, range, data, dispatch, days]);
+      return "".concat(type, "-").concat(code);
+    },
+    getParams: function getParams(arr, days) {
+      var _arr$;
+      return {
+        type: (_arr$ = arr[0]) === null || _arr$ === void 0 ? void 0 : _arr$.type,
+        // Giả định: mỗi lần fetch chỉ 1 loại type (có thể điều chỉnh)
+        code: arr.map(function (i) {
+          return i.code;
+        }),
+        days: days
+      };
+    }
+  });
+
+  // Nếu không còn mã nào thì luôn có ít nhất 1 mã (USD/market)
+  // (Hook ở đây để không loop vô hạn: chỉ set lại nếu length === 0)
+  if (selectedItems.length === 0) {
+    setSelectedItems([{
+      code: "USD",
+      type: "market"
+    }]);
+  }
 
   // Handler thêm mã mới vào so sánh
   function handleAddItem(item) {
@@ -1013,7 +1248,6 @@ function ExchangeContainer() {
       return [].concat(_toConsumableArray(prev), [item]);
     });
   }
-
   // Handler xóa mã khỏi chart
   function handleRemoveItem(item) {
     setSelectedItems(function (prev) {
@@ -1022,127 +1256,65 @@ function ExchangeContainer() {
       });
     });
   }
-
   // Chuyển mode default/normalize
   function handleSwitchMode() {
     setMode(mode === "default" ? "normalize" : "default");
   }
 
-  // Nếu không còn mã nào thì luôn có ít nhất 1 mã (USD/market)
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (selectedItems.length === 0) {
-      setSelectedItems([{
-        code: "USD",
-        type: "market"
-      }]);
-    }
-  }, [selectedItems]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+  // Xác định trạng thái loading thực tế của chart data
+  var isChartLoading = loading.chart || selectedItems.some(function (_ref2) {
+    var _data$key;
+    var code = _ref2.code,
+      type = _ref2.type;
+    var key = "".concat(type, "-").concat(code);
+    var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
+    return arr.length === 0;
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
       className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
-          className: "inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
-          children: ranges.map(function (tab) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
-              value: tab.value,
-              className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
-              children: tab.label
-            }, tab.value);
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_RangeTabs__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          ranges: ranges,
+          value: range,
+          onChange: setRange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "flex items-center gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-              asChild: true,
-              className: "min-w-[220px] h-[40px]",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-                  className: "flex items-center gap-2 text-base",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                    className: "w-4 h-4 text-[#A4A7AE]"
-                  }), "Th\xEAm m\xE3 so s\xE1nh"]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                  className: "w-4 h-4 text-[#BBBBBB]"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-              align: "end",
-              sideOffset: 4,
-              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: filteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                disabled: true,
-                children: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
-              }) : filteredOptions.map(function (item) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                  onClick: function onClick() {
-                    return handleAddItem(item);
-                  },
-                  className: "text-sm px-3 py-2 cursor-pointer",
-                  children: item.name
-                }, item.type + item.code);
-              })
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_AddItemDropdown__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            options: exchangeOptions,
+            selectedItems: selectedItems,
+            getKey: function getKey(item) {
+              return "".concat(item.type || item.type, "-").concat(item.code || item.code);
+            },
+            onSelect: handleAddItem,
+            buttonLabel: "Th\xEAm m\xE3 so s\xE1nh",
+            emptyText: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_CompareSwitch__WEBPACK_IMPORTED_MODULE_4__["default"], {
             checked: mode === "normalize",
             onChange: handleSwitchMode
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
         value: range,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "w-full transition-all",
-          children: error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "flex flex-wrap gap-3 items-center",
-              children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                  className: "h-8 w-32 rounded-full bg-gray-200"
-                }, i);
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
-                status: "error",
-                message: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7"
-              })
-            })]
-          }) : loading.chart || selectedItems.some(function (_ref2) {
-            var _data$key;
-            var code = _ref2.code,
-              type = _ref2.type;
-            var key = "".concat(type, "-").concat(code);
-            var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
-            return arr.length === 0;
-          }) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "flex flex-wrap gap-3 items-center",
-              children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                  className: "h-8 w-32 rounded-full bg-gray-200"
-                }, i);
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
-                status: "loading",
-                message: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
-              })
-            })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ExchangeChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            mode: mode,
-            chartItems: selectedItems,
-            setChartItems: setSelectedItems,
-            data: data,
-            range: range,
-            options: exchangeOptions
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_ChartWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            loading: isChartLoading,
+            error: !!error.chart,
+            loadingText: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u...",
+            errorText: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_ExchangeChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              mode: mode,
+              chartItems: selectedItems,
+              setChartItems: setSelectedItems,
+              data: data,
+              range: range,
+              options: exchangeOptions
+            })
           })
         })
       })]
@@ -1152,10 +1324,10 @@ function ExchangeContainer() {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/ExchangeContent.jsx":
-/*!********************************************************************!*\
-  !*** ./resources/react/components/data/market/ExchangeContent.jsx ***!
-  \********************************************************************/
+/***/ "./resources/react/components/data/market/exchange/ExchangeContent.jsx":
+/*!*****************************************************************************!*\
+  !*** ./resources/react/components/data/market/exchange/ExchangeContent.jsx ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1165,13 +1337,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/exchangeSlice */ "./resources/react/store/market/exchangeSlice.js");
-/* harmony import */ var _ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExchangeContainer */ "./resources/react/components/data/market/ExchangeContainer.jsx");
-/* harmony import */ var _ExchangeTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ExchangeTable */ "./resources/react/components/data/market/ExchangeTable.jsx");
-/* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
-/* harmony import */ var _CurrencyConverter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./CurrencyConverter */ "./resources/react/components/data/market/CurrencyConverter.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ExchangeContainer */ "./resources/react/components/data/market/exchange/ExchangeContainer.jsx");
+/* harmony import */ var _ExchangeTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ExchangeTable */ "./resources/react/components/data/market/exchange/ExchangeTable.jsx");
+/* harmony import */ var _CurrencyConverter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CurrencyConverter */ "./resources/react/components/data/market/exchange/CurrencyConverter.jsx");
+/* harmony import */ var _components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/data/market/shared/SummaryBox */ "./resources/react/components/data/market/shared/SummaryBox.jsx");
+/* harmony import */ var _lib_market_format__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/lib/market/format */ "./resources/react/lib/market/format.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -1181,7 +1355,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ExchangeContent() {
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_1__.fetchExchangeCurrent)({
       type: "market",
@@ -1192,107 +1366,57 @@ function ExchangeContent() {
       code: "EUR"
     }));
   }, [dispatch]);
-  var usdVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
+  var usdVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
     return state.exchange.current["market-USD"];
   });
-  var eurVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
+  var eurVnd = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
     return state.exchange.current["market-EUR"];
   });
-  var formatPrice = function formatPrice(rate) {
-    return typeof rate === "number" ? rate.toLocaleString("vi-VN", {
-      maximumFractionDigits: 2
-    }) + " VND" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      size: "8px",
-      color: "#191919"
-    });
-  };
-  var formatPercent = function formatPercent(delta) {
-    return typeof delta === "number" ? "".concat(delta > 0 ? "+" : "").concat(delta.toFixed(2), "%") : "";
-  };
-  var formatVietnamDateTime = function formatVietnamDateTime(isoString) {
-    if (!isoString) return "";
-    var date = new Date(isoString);
-    return date.toLocaleString("vi-VN", {
-      hour12: false,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh"
-    });
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      className: "flex w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-        className: "basis-2/3",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "flex flex-col mb-4 ",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "flex gap-4",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-              className: "flex flex-col",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: "USD"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: formatPrice(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate)
-                }), typeof (usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.delta_percent) === "number" && usdVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-                  className: "flex items-center ".concat(usdVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    className: "text-sm inline-block -translate-y-2 transform",
-                    children: usdVnd.delta_percent > 0 ? "▲" : "▼"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    children: formatPercent(usdVnd.delta_percent)
-                  })]
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-              className: "w-px bg-[#191919] opacity-100"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-              className: "flex flex-col",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: "EUR"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  children: formatPrice(eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate)
-                }), typeof (eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.delta_percent) === "number" && eurVnd.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-                  className: "flex items-center ".concat(eurVnd.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    className: "text-sm inline-block -translate-y-2 transform",
-                    children: eurVnd.delta_percent > 0 ? "▲" : "▼"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    children: formatPercent(eurVnd.delta_percent)
-                  })]
-                })]
-              })
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "text-[#595959] text-sm mt-2",
-            children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", formatVietnamDateTime(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.timestamp)]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    className: "flex w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "basis-2/3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "flex flex-col mb-4 ",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "flex gap-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            label: null,
+            symbol: "USD",
+            value: usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate,
+            percent: usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.delta_percent,
+            formatPrice: _lib_market_format__WEBPACK_IMPORTED_MODULE_6__.formatPriceVND,
+            loading: typeof (usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.rate) !== "number"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            className: "w-px bg-[#191919] opacity-100"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            label: null,
+            symbol: "EUR",
+            value: eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate,
+            percent: eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.delta_percent,
+            formatPrice: _lib_market_format__WEBPACK_IMPORTED_MODULE_6__.formatPriceVND,
+            loading: typeof (eurVnd === null || eurVnd === void 0 ? void 0 : eurVnd.rate) !== "number"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "text-[#595959] text-sm mt-2",
+          children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", (0,_lib_market_format__WEBPACK_IMPORTED_MODULE_6__.formatVietnamDateTime)(usdVnd === null || usdVnd === void 0 ? void 0 : usdVnd.timestamp)]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-        className: "basis-1/3 p-2 pt-0",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_CurrencyConverter__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ExchangeTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ExchangeContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
       })]
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "basis-1/3 p-2 pt-0",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CurrencyConverter__WEBPACK_IMPORTED_MODULE_4__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ExchangeTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})]
+    })]
   });
 }
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/ExchangeTable.jsx":
-/*!******************************************************************!*\
-  !*** ./resources/react/components/data/market/ExchangeTable.jsx ***!
-  \******************************************************************/
+/***/ "./resources/react/components/data/market/exchange/ExchangeTable.jsx":
+/*!***************************************************************************!*\
+  !*** ./resources/react/components/data/market/exchange/ExchangeTable.jsx ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1393,7 +1517,7 @@ function ExchangeTable() {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "h-[340px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
+        className: "h-[315px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
         style: {
           scrollbarWidth: "thin",
           scrollbarColor: "#ECECEC transparent"
@@ -1425,7 +1549,7 @@ function ExchangeTable() {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                   children: formatRate(item.rate)
                 }), item.delta !== undefined && item.delta !== null && item.delta !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                  className: item.delta > 0 ? "text-[#0032F0]" : item.delta < 0 ? "text-[#B51001]" : "",
+                  className: item.delta > 0 ? "text-[#00DC3C]" : item.delta < 0 ? "text-[#B51001]" : "",
                   style: {
                     fontSize: 12
                   },
@@ -1448,10 +1572,10 @@ function ExchangeTable() {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/GoldChart.jsx":
-/*!**************************************************************!*\
-  !*** ./resources/react/components/data/market/GoldChart.jsx ***!
-  \**************************************************************/
+/***/ "./resources/react/components/data/market/gold/GoldChart.jsx":
+/*!*******************************************************************!*\
+  !*** ./resources/react/components/data/market/gold/GoldChart.jsx ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1459,332 +1583,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GoldChart)
 /* harmony export */ });
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highcharts-react-official */ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js");
-/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js");
+/* harmony import */ var _components_data_market_shared_MultiLineChart__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/data/market/shared/MultiLineChart */ "./resources/react/components/data/market/shared/MultiLineChart.jsx");
+/* harmony import */ var _charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/charts/adapter/goldChartAdapter */ "./resources/react/charts/adapter/goldChartAdapter.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
-
-var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
-var goldNameMap = {
-  pnj: "PNJ",
-  sjc: "SJC",
-  xau_usd: "Vàng thế giới"
-};
-
-// Hàm tạo dải ngày đều cho tick X
-function getDateRangeTicks(startDate, endDate) {
-  var maxTicks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
-  var ticks = [];
-  var dayMs = 24 * 3600 * 1000;
-  var totalDays = Math.floor((endDate - startDate) / dayMs);
-  if (totalDays <= maxTicks - 1) {
-    for (var i = 0; i <= totalDays; ++i) {
-      ticks.push(startDate.getTime() + i * dayMs);
+function GoldChart(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_data_market_shared_MultiLineChart__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    items: props.goldItems,
+    setItems: props.setGoldItems,
+    data: props.data,
+    range: props.range,
+    mode: props.mode,
+    options: props.options,
+    seriesAdapter: _charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldSeriesAdapter,
+    yAxesAdapter: _charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldYAxisAdapter,
+    tooltipFormatter: _charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldTooltipFormatter // <-- Đảm bảo truyền vào!
+    ,
+    chartColors: _charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldColors,
+    unitSideText: (0,_charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldUnitSideText)(props.goldItems, props.mode),
+    renderLegendItem: function renderLegendItem(args) {
+      return (0,_charts_adapter_goldChartAdapter__WEBPACK_IMPORTED_MODULE_1__.goldLegendItem)(_objectSpread(_objectSpread({}, args), {}, {
+        items: props.goldItems,
+        setItems: props.setGoldItems
+      }));
     }
-  } else {
-    for (var _i = 0; _i < maxTicks; ++_i) {
-      var t = Math.round(_i * totalDays / (maxTicks - 1));
-      ticks.push(startDate.getTime() + t * dayMs);
-    }
-  }
-  return ticks;
-}
-function GoldChart(_ref) {
-  var mode = _ref.mode,
-    goldItems = _ref.goldItems,
-    setGoldItems = _ref.setGoldItems,
-    data = _ref.data,
-    range = _ref.range,
-    _ref$options = _ref.options,
-    options = _ref$options === void 0 ? [] : _ref$options;
-  var isNormalizeMode = mode === "normalize";
-  function getDaysFromRange(range) {
-    var today = new Date();
-    switch (range) {
-      case "7d":
-        return 7;
-      case "30d":
-        return 30;
-      case "6m":
-        return 180;
-      case "1y":
-        return 365;
-      case "5y":
-        return 1825;
-      case "ytd":
-        {
-          var start = new Date(today.getFullYear(), 0, 1);
-          return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
-        }
-      default:
-        return 30;
-    }
-  }
-  var days = getDaysFromRange(range);
-  var hasDomestic = goldItems.some(function (i) {
-    return i.gold_type !== "xau_usd";
-  });
-  var hasGlobal = goldItems.some(function (i) {
-    return i.gold_type === "xau_usd";
-  });
-  var allDates = [];
-  var series = goldItems.map(function (item, idx) {
-    var _data$key;
-    var key = "".concat(item.gold_type, "-").concat(item.location);
-    var goldData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
-    if (goldData.length === 0) return null;
-    var basePrice = goldData[0].price;
-    var seriesData = goldData.map(function (entry) {
-      var timestamp = new Date(entry.date).getTime();
-      allDates.push(timestamp);
-      return [timestamp, isNormalizeMode ? (entry.price - basePrice) / basePrice * 100 : entry.price];
-    });
-    var name = goldNameMap[item.gold_type] || item.gold_type;
-    return {
-      name: name,
-      data: seriesData,
-      color: colors[idx % colors.length],
-      yAxis: isNormalizeMode ? 0 : item.gold_type === "xau_usd" && hasDomestic ? 1 : 0,
-      marker: {
-        enabled: false,
-        states: {
-          hover: {
-            enabled: true,
-            radius: 4
-          }
-        }
-      },
-      tooltip: {
-        valueSuffix: isNormalizeMode ? "%" : item.gold_type === "xau_usd" ? " USD" : " VND",
-        valueDecimals: 2
-      }
-    };
-  }).filter(Boolean);
-
-  // Tính các mốc thời gian X chia đều
-  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
-    return a - b;
-  });
-  var spanYears = 0;
-  var xTickPositions = [];
-  if (sortedDates.length > 0) {
-    var minDate = new Date(sortedDates[0]);
-    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
-    spanYears = maxDate.getFullYear() - minDate.getFullYear();
-    xTickPositions = getDateRangeTicks(minDate, maxDate, 5);
-  }
-
-  // Y Axis logic như trước
-  var yAxis = [];
-  if (isNormalizeMode) {
-    yAxis = [{
-      title: {
-        text: null
-      },
-      labels: {
-        formatter: function formatter() {
-          return Math.round(this.value) + "%";
-        }
-      },
-      tickAmount: 4,
-      opposite: true
-    }];
-  } else {
-    if (hasDomestic && hasGlobal) {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("en-US");
-          }
-        },
-        tickAmount: 4,
-        opposite: true
-      });
-    } else if (hasGlobal && !hasDomestic) {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("en-US");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-    } else {
-      yAxis.push({
-        title: {
-          text: null
-        },
-        labels: {
-          formatter: function formatter() {
-            return parseInt(this.value).toLocaleString("vi-VN");
-          }
-        },
-        tickAmount: 4,
-        opposite: false
-      });
-    }
-  }
-  var optionsChart = {
-    chart: {
-      type: "line",
-      zoomType: "x",
-      height: 400
-    },
-    title: {
-      text: null
-    },
-    xAxis: {
-      type: "datetime",
-      title: {
-        text: null
-      },
-      crosshair: {
-        width: 1,
-        color: "#ccc",
-        dashStyle: "ShortDot"
-      },
-      tickPositions: xTickPositions,
-      labels: {
-        formatter: function formatter() {
-          var date = new Date(this.value);
-          return spanYears >= 3 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
-        }
-      }
-    },
-    yAxis: yAxis,
-    tooltip: {
-      shared: true,
-      xDateFormat: "%d/%m/%Y",
-      formatter: function formatter() {
-        var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
-        tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", this.x), "</b><br/>");
-        this.points.forEach(function (point) {
-          var name = point.series.name;
-          // Check là vàng nội địa hay vàng thế giới
-          var isVangNoiDia = point.series.userOptions.yAxis !== 1;
-          var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : isVangNoiDia ? (point.y * 1000).toLocaleString("vi-VN", {
-            maximumFractionDigits: 0
-          }) + " VND" : point.y.toLocaleString("en-US", {
-            maximumFractionDigits: 2
-          }) + " USD";
-          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(name, ": </b>\n            <b>").concat(value, "</b><br/>\n          ");
-        });
-        tooltip += "</div>";
-        return tooltip;
-      }
-    },
-    legend: {
-      enabled: false
-    },
-    credits: {
-      enabled: false
-    },
-    series: series
-  };
-  function getUnitSideText() {
-    if (isNormalizeMode) return null;
-    if (hasDomestic && hasGlobal) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "flex justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          children: "\u0110\u01A1n v\u1ECB: USD/oz"
-        })]
-      });
-    }
-    if (hasGlobal) return "Đơn vị: USD/oz";
-    if (hasDomestic) return "Đơn vị: ngàn đồng/lượng";
-    return null;
-  }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full min-h-[440px]",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "flex flex-wrap gap-4 items-center mb-4",
-      children: goldItems.map(function (item, idx) {
-        var _data$key2, _goldData$, _goldData$at;
-        var key = "".concat(item.gold_type, "-").concat(item.location);
-        var color = colors[idx % colors.length];
-        var goldData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
-        var base = (_goldData$ = goldData[0]) === null || _goldData$ === void 0 ? void 0 : _goldData$.price;
-        var last = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
-        var change = base && last ? (last - base) / base * 100 : null;
-        var name = goldNameMap[item.gold_type] || item.gold_type;
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "inline-block w-2 h-2 rounded-full",
-            style: {
-              backgroundColor: color
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-sm text-black",
-            children: name
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: isNormalizeMode ? "text-[#595959]" : "text-black",
-            children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : item.gold_type === "xau_usd" ? last ? last.toLocaleString("en-US", {
-              maximumFractionDigits: 2
-            }) + " USD" : "-" : last ? (last * 1000).toLocaleString("vi-VN") + " VND" : "-"
-          }), goldItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            onClick: function onClick() {
-              return setGoldItems(function (prev) {
-                return prev.filter(function (x) {
-                  return x.gold_type !== item.gold_type || x.location !== item.location;
-                });
-              });
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              className: "w-4 h-4 ml-1 opacity-70 hover:opacity-100"
-            })
-          })]
-        }, key);
-      })
-    }), getUnitSideText() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "text-xs text-[#595959] mb-4",
-      children: getUnitSideText()
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
-      highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
-      options: optionsChart
-    })]
   });
 }
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/GoldContainer.jsx":
-/*!******************************************************************!*\
-  !*** ./resources/react/components/data/market/GoldContainer.jsx ***!
-  \******************************************************************/
+/***/ "./resources/react/components/data/market/gold/GoldContainer.jsx":
+/*!***********************************************************************!*\
+  !*** ./resources/react/components/data/market/gold/GoldContainer.jsx ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1794,16 +1633,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
-/* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
-/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
-/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
-/* harmony import */ var _GoldChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoldChart */ "./resources/react/components/data/market/GoldChart.jsx");
-/* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
-/* harmony import */ var _CompareSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CompareSwitch */ "./resources/react/components/data/market/CompareSwitch.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
+/* harmony import */ var _GoldChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldChart */ "./resources/react/components/data/market/gold/GoldChart.jsx");
+/* harmony import */ var _components_data_market_shared_CompareSwitch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/data/market/shared/CompareSwitch */ "./resources/react/components/data/market/shared/CompareSwitch.jsx");
+/* harmony import */ var _components_data_market_shared_RangeTabs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/data/market/shared/RangeTabs */ "./resources/react/components/data/market/shared/RangeTabs.jsx");
+/* harmony import */ var _components_data_market_shared_AddItemDropdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/data/market/shared/AddItemDropdown */ "./resources/react/components/data/market/shared/AddItemDropdown.jsx");
+/* harmony import */ var _components_data_market_shared_ChartWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/data/market/shared/ChartWrapper */ "./resources/react/components/data/market/shared/ChartWrapper.jsx");
+/* harmony import */ var _lib_market_date__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/lib/market/date */ "./resources/react/lib/market/date.js");
+/* harmony import */ var _hooks_useChartData__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/hooks/useChartData */ "./resources/react/hooks/useChartData.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -1814,6 +1654,8 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
 
 
 
@@ -1858,35 +1700,11 @@ var ranges = [{
   label: "5 Năm",
   value: "5y"
 }];
-function getDaysFromRange(range) {
-  var today = new Date();
-  switch (range) {
-    case "7d":
-      return 7;
-    case "30d":
-      return 30;
-    case "6m":
-      return 180;
-    case "1y":
-      return 365;
-    case "5y":
-      return 365 * 5;
-    case "ytd":
-      {
-        var start = new Date(today.getFullYear(), 0, 1);
-        return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
-      }
-    default:
-      return 30;
-  }
-}
 function GoldContainer() {
-  // 2 mode: "default" | "normalize"
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("default"),
     _useState2 = _slicedToArray(_useState, 2),
     mode = _useState2[0],
     setMode = _useState2[1];
-  // Nhiều mã vàng được chọn
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       gold_type: "sjc",
       location: "hcm"
@@ -1898,99 +1716,80 @@ function GoldContainer() {
     _useState6 = _slicedToArray(_useState5, 2),
     range = _useState6[0],
     setRange = _useState6[1];
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
-  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_11__.useDispatch)();
+  var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_11__.useSelector)(function (state) {
       return state.gold;
     }),
     data = _useSelector.chart,
     loading = _useSelector.loading,
     error = _useSelector.error;
-  var days = getDaysFromRange(range);
+  var days = (0,_lib_market_date__WEBPACK_IMPORTED_MODULE_8__.getDaysFromRange)(range);
 
-  // Fetch chart data
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var needFetch = goldItems.filter(function (_ref) {
+  // Custom hook dùng cho fetch chart data
+  (0,_hooks_useChartData__WEBPACK_IMPORTED_MODULE_9__.useChartData)({
+    items: goldItems,
+    data: data,
+    days: days,
+    dispatch: dispatch,
+    fetchAction: _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_2__.fetchGoldChart,
+    getKey: function getKey(_ref) {
       var gold_type = _ref.gold_type,
         location = _ref.location;
-      var key = "".concat(gold_type, "-").concat(location);
-      return !data[key] || !data[key][days];
-    });
-    if (needFetch.length > 0) {
-      dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
-        gold_types: needFetch.map(function (i) {
+      return "".concat(gold_type, "-").concat(location);
+    },
+    getParams: function getParams(arr, days) {
+      return {
+        gold_types: arr.map(function (i) {
           return i.gold_type;
         }),
-        locations: needFetch.map(function (i) {
+        locations: arr.map(function (i) {
           return i.location;
         }),
         days: days
-      }));
+      };
     }
-  }, [goldItems, days, data, dispatch]);
-
-  // Dropdown options: ẩn các mã đã chọn
-  var filteredOptions = simplifiedGoldOptions.filter(function (item) {
-    return !goldItems.some(function (s) {
-      return s.gold_type === item.code && s.location === item.location;
-    });
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+
+  // Xác định trạng thái loading thực tế của chart data
+  var isChartLoading = loading.chart || goldItems.some(function (_ref2) {
+    var _data$key;
+    var gold_type = _ref2.gold_type,
+      location = _ref2.location;
+    var key = "".concat(gold_type, "-").concat(location);
+    var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
+    return arr.length === 0;
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
       defaultValue: range,
       onValueChange: setRange,
       className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsList, {
-          className: "inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
-          children: ranges.map(function (tab) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsTrigger, {
-              value: tab.value,
-              className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
-              children: tab.label
-            }, tab.value);
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_RangeTabs__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          ranges: ranges,
+          value: range,
+          onChange: setRange
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "flex items-center gap-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-              asChild: true,
-              className: "min-w-[220px] h-[40px]",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-                  className: "flex items-center gap-2 text-base",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                    className: "w-4 h-4 text-[#A4A7AE]"
-                  }), "Th\xEAm lo\u1EA1i v\xE0ng"]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                  className: "w-4 h-4 text-[#BBBBBB]"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-              align: "end",
-              sideOffset: 4,
-              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: filteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                disabled: true,
-                children: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
-              }) : filteredOptions.map(function (item) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                  onClick: function onClick() {
-                    return setGoldItems(function (prev) {
-                      return [].concat(_toConsumableArray(prev), [{
-                        gold_type: item.code,
-                        location: item.location
-                      }]);
-                    });
-                  },
-                  className: "text-sm px-3 py-2 cursor-pointer",
-                  children: item.name
-                }, item.code);
-              })
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_AddItemDropdown__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            options: simplifiedGoldOptions,
+            selectedItems: goldItems,
+            getKey: function getKey(item) {
+              return "".concat(item.gold_type || item.code, "-").concat(item.location);
+            },
+            onSelect: function onSelect(item) {
+              return setGoldItems(function (prev) {
+                return [].concat(_toConsumableArray(prev), [{
+                  gold_type: item.code,
+                  location: item.location
+                }]);
+              });
+            },
+            buttonLabel: "Th\xEAm lo\u1EA1i v\xE0ng",
+            emptyText: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_CompareSwitch__WEBPACK_IMPORTED_MODULE_4__["default"], {
             checked: mode === "normalize",
             onChange: function onChange() {
               return setMode(mode === "default" ? "normalize" : "default");
@@ -1999,35 +1798,23 @@ function GoldContainer() {
             rightLabel: "Ph\u1EA7n tr\u0103m (%)"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
         value: range,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "w-full transition-all",
-          children: loading.chart || error.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "w-full space-y-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "flex flex-wrap gap-3 items-center",
-              children: _toConsumableArray(Array(3)).map(function (_, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-                  className: "h-8 w-32 rounded-full bg-gray-200"
-                }, i);
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
-              children: loading.chart ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
-                status: "loading",
-                message: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i v\u1EC1..."
-              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__.ResponseStatus, {
-                status: "error"
-              })
-            })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            mode: mode,
-            goldItems: goldItems,
-            setGoldItems: setGoldItems,
-            data: data,
-            range: range,
-            options: simplifiedGoldOptions
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_components_data_market_shared_ChartWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            loading: isChartLoading,
+            error: !!error.chart,
+            loadingText: "D\u1EEF li\u1EC7u \u0111ang \u0111\u01B0\u1EE3c t\u1EA3i v\u1EC1...",
+            errorText: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              mode: mode,
+              goldItems: goldItems,
+              setGoldItems: setGoldItems,
+              data: data,
+              range: range,
+              options: simplifiedGoldOptions
+            })
           })
         })
       })]
@@ -2037,10 +1824,10 @@ function GoldContainer() {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/GoldContent.jsx":
-/*!****************************************************************!*\
-  !*** ./resources/react/components/data/market/GoldContent.jsx ***!
-  \****************************************************************/
+/***/ "./resources/react/components/data/market/gold/GoldContent.jsx":
+/*!*********************************************************************!*\
+  !*** ./resources/react/components/data/market/gold/GoldContent.jsx ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2050,12 +1837,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
 /* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
-/* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
-/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/GoldContainer.jsx");
-/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/GoldTable.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _GoldContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GoldContainer */ "./resources/react/components/data/market/gold/GoldContainer.jsx");
+/* harmony import */ var _GoldTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GoldTable */ "./resources/react/components/data/market/gold/GoldTable.jsx");
+/* harmony import */ var _components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/data/market/shared/SummaryBox */ "./resources/react/components/data/market/shared/SummaryBox.jsx");
+/* harmony import */ var _lib_market_format__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/lib/market/format */ "./resources/react/lib/market/format.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -2065,116 +1854,58 @@ __webpack_require__.r(__webpack_exports__);
 
 function GoldContent() {
   var _useSelector, _useSelector2;
-  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var _dispatch;
-    (_dispatch = dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
+    dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "xau_usd",
       location: "global",
       unit: "ounce"
-    }))) === null || _dispatch === void 0 || _dispatch[0];
+    }));
     dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "sjc",
       location: "hcm"
     }));
   }, [dispatch]);
-  var xau = (_useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var xau = (_useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
     return state.gold.current["xau_usd-global"];
   })) === null || _useSelector === void 0 ? void 0 : _useSelector[0];
-  var sjc = (_useSelector2 = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var sjc = (_useSelector2 = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
     return state.gold.current["sjc-hcm"];
   })) === null || _useSelector2 === void 0 ? void 0 : _useSelector2[0];
-  var formatPriceVND = function formatPriceVND(price) {
-    return typeof price === "number" ? price.toLocaleString("vi-VN") + " VND" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      size: "8px",
-      color: "#191919"
-    });
-  };
-  var formatPriceUSD = function formatPriceUSD(price) {
-    return typeof price === "number" ? price.toLocaleString("en-US") + " USD" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      size: "8px",
-      color: "#191919"
-    });
-  };
-  var formatPercent = function formatPercent(delta) {
-    return typeof delta === "number" ? "".concat(delta > 0 ? "+" : "").concat(delta.toFixed(2), "%") : "";
-  };
-  var formatVietnamDateTime = function formatVietnamDateTime(isoString) {
-    if (!isoString) return "";
-    var date = new Date(isoString);
-    return date.toLocaleString("vi-VN", {
-      hour12: false,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh"
-    });
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "flex flex-col mb-4 px-4 md:px-0",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "flex flex-col md:flex-row gap-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-base md:text-lg font-normal text-[#191919]",
-            children: "Gi\xE1 v\xE0ng th\u1EBF gi\u1EDBi"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-lg md:text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: "XAU/USD"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: formatPriceUSD(xau === null || xau === void 0 ? void 0 : xau.sell_price)
-            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_sell_percent) === "number" && xau.delta_sell_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(xau.delta_sell_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "text-sm inline-block -translate-y-2 transform",
-                children: xau.delta_sell_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(xau.delta_sell_percent)
-              })]
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          label: "Gi\xE1 v\xE0ng th\u1EBF gi\u1EDBi",
+          symbol: "XAU/USD",
+          value: xau === null || xau === void 0 ? void 0 : xau.sell_price,
+          percent: xau === null || xau === void 0 ? void 0 : xau.delta_sell_percent,
+          formatPrice: _lib_market_format__WEBPACK_IMPORTED_MODULE_5__.formatPriceUSD,
+          loading: typeof (xau === null || xau === void 0 ? void 0 : xau.sell_price) !== "number"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "hidden md:block w-px bg-[#191919] opacity-100"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "flex flex-col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-base md:text-lg font-normal text-[#191919]",
-            children: "Gi\xE1 v\xE0ng trong n\u01B0\u1EDBc"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-lg md:text-2xl font-medium text-[#191919] flex gap-2 items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: "SJC"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: formatPriceVND(sjc ? sjc.sell_price * 1000 : undefined)
-            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_sell_percent) === "number" && sjc.delta_sell_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(sjc.delta_sell_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "text-sm inline-block -translate-y-2 transform",
-                children: sjc.delta_sell_percent > 0 ? "▲" : "▼"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(sjc.delta_sell_percent)
-              })]
-            })]
-          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_shared_SummaryBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          label: "Gi\xE1 v\xE0ng trong n\u01B0\u1EDBc",
+          symbol: "SJC",
+          value: sjc ? sjc.sell_price * 1000 : undefined,
+          percent: sjc === null || sjc === void 0 ? void 0 : sjc.delta_sell_percent,
+          formatPrice: _lib_market_format__WEBPACK_IMPORTED_MODULE_5__.formatPriceVND,
+          loading: typeof (sjc === null || sjc === void 0 ? void 0 : sjc.sell_price) !== "number"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "text-[#595959] text-sm mt-2",
-        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", formatVietnamDateTime(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
+        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", (0,_lib_market_format__WEBPACK_IMPORTED_MODULE_5__.formatVietnamDateTime)(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "flex flex-col md:flex-row w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "md:basis-2/3 w-full p-2 md:pl-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "md:basis-1/3 w-full p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_3__["default"], {})
       })]
     })]
   });
@@ -2182,10 +1913,10 @@ function GoldContent() {
 
 /***/ }),
 
-/***/ "./resources/react/components/data/market/GoldTable.jsx":
-/*!**************************************************************!*\
-  !*** ./resources/react/components/data/market/GoldTable.jsx ***!
-  \**************************************************************/
+/***/ "./resources/react/components/data/market/gold/GoldTable.jsx":
+/*!*******************************************************************!*\
+  !*** ./resources/react/components/data/market/gold/GoldTable.jsx ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2199,7 +1930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
 /* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/dist/react-redux.mjs");
-/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
+/* harmony import */ var _store_market_goldSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/store/market/goldSlice */ "./resources/react/store/market/goldSlice.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2374,7 +2105,7 @@ function GoldTable() {
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "h-[445px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
+        className: "h-[453px] overflow-y-auto divide-y divide-[#D5D7DA] relative",
         style: {
           scrollbarWidth: "thin",
           scrollbarColor: "#ECECEC transparent"
@@ -2405,7 +2136,7 @@ function GoldTable() {
               className: "text-left",
               children: item ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
                 children: [formatPrice(item.buy_price), item.delta_buy !== 0 && item.delta_buy != null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                  className: item.delta_buy > 0 ? "text-[#0032F0]" : "text-[#B51001]",
+                  className: item.delta_buy > 0 ? "text-[#00DC3C]" : "text-[#B51001]",
                   children: formatDelta(item.delta_buy)
                 })]
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -2419,7 +2150,7 @@ function GoldTable() {
               className: "text-left",
               children: item ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
                 children: [formatPrice(item.sell_price), item.delta_sell !== 0 && item.delta_sell != null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-                  className: item.delta_sell > 0 ? "text-[#0032F0]" : "text-[#B51001]",
+                  className: item.delta_sell > 0 ? "text-[#00DC3C]" : "text-[#B51001]",
                   children: formatDelta(item.delta_sell)
                 })]
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -2431,6 +2162,482 @@ function GoldTable() {
               })
             })]
           }, brand);
+        })]
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/AddItemDropdown.jsx":
+/*!***************************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/AddItemDropdown.jsx ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AddItemDropdown)
+/* harmony export */ });
+/* harmony import */ var _components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/dropdown-menu */ "./resources/react/components/ui/dropdown-menu.jsx");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/search.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/chevron-down.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+function AddItemDropdown(_ref) {
+  var options = _ref.options,
+    selectedItems = _ref.selectedItems,
+    getKey = _ref.getKey,
+    onSelect = _ref.onSelect,
+    _ref$buttonLabel = _ref.buttonLabel,
+    buttonLabel = _ref$buttonLabel === void 0 ? "Thêm mục so sánh" : _ref$buttonLabel,
+    _ref$emptyText = _ref.emptyText,
+    emptyText = _ref$emptyText === void 0 ? "Không còn mục nào để chọn" : _ref$emptyText,
+    renderLabel = _ref.renderLabel;
+  // Filter options đã chọn
+  var filteredOptions = options.filter(function (item) {
+    return !selectedItems.some(function (s) {
+      return getKey(s) === getKey(item);
+    });
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__.DropdownMenu, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__.DropdownMenuTrigger, {
+      asChild: true,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+        className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "flex items-center gap-2 text-base",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            className: "w-4 h-4 text-[#A4A7AE]"
+          }), buttonLabel]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          className: "w-4 h-4 text-[#BBBBBB]"
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__.DropdownMenuContent, {
+      align: "end",
+      sideOffset: 4,
+      className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
+      children: filteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__.DropdownMenuItem, {
+        disabled: true,
+        children: emptyText
+      }) : filteredOptions.map(function (item) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_0__.DropdownMenuItem, {
+          onClick: function onClick() {
+            return onSelect(item);
+          },
+          className: "text-sm px-3 py-2 cursor-pointer",
+          children: renderLabel ? renderLabel(item) : item.name
+        }, getKey(item));
+      })
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/ChartSkeleton.jsx":
+/*!*************************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/ChartSkeleton.jsx ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ChartSkeleton)
+/* harmony export */ });
+/* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+
+function ChartSkeleton(_ref) {
+  var loading = _ref.loading,
+    error = _ref.error,
+    loadingText = _ref.loadingText,
+    errorText = _ref.errorText;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "w-full space-y-6",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "flex flex-wrap gap-3 items-center",
+      children: _toConsumableArray(Array(3)).map(function (_, i) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "h-8 w-32 rounded-full bg-gray-200"
+        }, i);
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "relative w-full h-[400px] rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center",
+      children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_0__.ResponseStatus, {
+        status: "loading",
+        message: loadingText || "Đang tải dữ liệu..."
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_0__.ResponseStatus, {
+        status: "error",
+        message: errorText || "Không thể kết nối đến máy chủ"
+      })
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/ChartWrapper.jsx":
+/*!************************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/ChartWrapper.jsx ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ChartWrapper)
+/* harmony export */ });
+/* harmony import */ var _ChartSkeleton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChartSkeleton */ "./resources/react/components/data/market/shared/ChartSkeleton.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function ChartWrapper(_ref) {
+  var loading = _ref.loading,
+    error = _ref.error,
+    loadingText = _ref.loadingText,
+    errorText = _ref.errorText,
+    children = _ref.children;
+  if (loading || error) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_ChartSkeleton__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      loading: loading,
+      error: error,
+      loadingText: loadingText,
+      errorText: errorText
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: children
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/CompareSwitch.jsx":
+/*!*************************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/CompareSwitch.jsx ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CompareSwitch)
+/* harmony export */ });
+/* harmony import */ var _components_ui_switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/switch */ "./resources/react/components/ui/switch.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function CompareSwitch(_ref) {
+  var checked = _ref.checked,
+    onChange = _ref.onChange,
+    _ref$label = _ref.label,
+    label = _ref$label === void 0 ? "So sánh" : _ref$label,
+    _ref$id = _ref.id,
+    id = _ref$id === void 0 ? "compare-switch" : _ref$id;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex flex-col items-center",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_switch__WEBPACK_IMPORTED_MODULE_0__.Switch, {
+      id: id,
+      checked: checked,
+      onCheckedChange: onChange,
+      className: "compare-switch".concat(checked ? " checked" : "")
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+      htmlFor: id,
+      className: "compare-switch-label",
+      style: {
+        color: "#595959",
+        fontSize: "12px",
+        fontWeight: 500,
+        letterSpacing: "-1px",
+        textAlign: "center",
+        marginTop: "0.3rem",
+        marginBottom: 0
+      },
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+      children: "\n        .compare-switch {\n          background: #F5F5F5 !important;\n          border: none !important;\n          box-shadow: 0 2px 8px rgba(110,110,110,0.05);\n          width: 38px !important;\n          height: 20px !important;\n          padding: 2px !important;\n          display: inline-flex;\n          align-items: center;\n          transition: background 0.2s;\n        }\n        .compare-switch.checked {\n          background: #191919 !important;\n        }\n        .compare-switch [data-slot=\"switch-thumb\"] {\n          background: #fff !important;\n          width: 18px !important;\n          height: 18px !important;\n          box-shadow: 0 2px 4px rgba(110,110,110,0.10);\n          transition: transform 0.2s;\n        }\n      "
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/MultiLineChart.jsx":
+/*!**************************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/MultiLineChart.jsx ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MultiLineChart)
+/* harmony export */ });
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highcharts-react-official */ "./node_modules/highcharts-react-official/dist/highcharts-react.min.js");
+/* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+
+
+// Hàm tạo dải ngày đều cho tick X
+
+function getDateRangeTicks(startDate, endDate) {
+  var maxTicks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+  var ticks = [];
+  var dayMs = 24 * 3600 * 1000;
+  var totalDays = Math.floor((endDate - startDate) / dayMs);
+  if (totalDays <= maxTicks - 1) {
+    for (var i = 0; i <= totalDays; ++i) {
+      ticks.push(startDate.getTime() + i * dayMs);
+    }
+  } else {
+    for (var _i = 0; _i < maxTicks; ++_i) {
+      var t = Math.round(_i * totalDays / (maxTicks - 1));
+      ticks.push(startDate.getTime() + t * dayMs);
+    }
+  }
+  return ticks;
+}
+function MultiLineChart(_ref) {
+  var _ref$items = _ref.items,
+    items = _ref$items === void 0 ? [] : _ref$items,
+    data = _ref.data,
+    range = _ref.range,
+    mode = _ref.mode,
+    options = _ref.options,
+    setItems = _ref.setItems,
+    seriesAdapter = _ref.seriesAdapter,
+    yAxesAdapter = _ref.yAxesAdapter,
+    tooltipFormatter = _ref.tooltipFormatter,
+    unitSideText = _ref.unitSideText,
+    renderLegendItem = _ref.renderLegendItem,
+    chartColors = _ref.chartColors,
+    _ref$chartHeight = _ref.chartHeight,
+    chartHeight = _ref$chartHeight === void 0 ? 400 : _ref$chartHeight;
+  var _seriesAdapter = seriesAdapter({
+      items: items,
+      data: data,
+      range: range,
+      mode: mode,
+      options: options,
+      chartColors: chartColors
+    }),
+    series = _seriesAdapter.series,
+    allDates = _seriesAdapter.allDates,
+    spanYears = _seriesAdapter.spanYears;
+
+  // XAxis ticks
+  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
+    return a - b;
+  });
+  var xTickPositions = [];
+  var _spanYears = spanYears;
+  if (sortedDates.length > 0) {
+    var minDate = new Date(sortedDates[0]);
+    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
+    _spanYears = maxDate.getFullYear() - minDate.getFullYear();
+    if (range === "7d") {
+      // Đảm bảo hiện đủ mọi ngày liên tục từ min -> max
+      xTickPositions = [];
+      var dayMs = 24 * 3600 * 1000;
+      for (var t = minDate.getTime(); t <= maxDate.getTime(); t += dayMs) {
+        xTickPositions.push(t);
+      }
+    } else {
+      xTickPositions = getDateRangeTicks(minDate, maxDate, 5);
+    }
+  }
+
+  // yAxis
+  var yAxis = yAxesAdapter({
+    items: items,
+    data: data,
+    range: range,
+    mode: mode,
+    options: options
+  });
+
+  // Chart options
+  var optionsChart = {
+    chart: {
+      type: "line",
+      zoomType: "x",
+      height: chartHeight
+    },
+    title: {
+      text: null
+    },
+    xAxis: {
+      type: "datetime",
+      title: {
+        text: null
+      },
+      crosshair: {
+        width: 1,
+        color: "#ccc",
+        dashStyle: "ShortDot"
+      },
+      tickPositions: xTickPositions,
+      labels: {
+        formatter: function formatter() {
+          var date = new Date(this.value);
+          return _spanYears >= 3 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
+        }
+      }
+    },
+    yAxis: yAxis,
+    tooltip: {
+      shared: true,
+      xDateFormat: "%d/%m/%Y",
+      useHTML: true,
+      // Quan trọng cho tooltip custom
+      formatter: function formatter() {
+        return tooltipFormatter(this, mode); // Dùng đúng prop truyền vào!
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    credits: {
+      enabled: false
+    },
+    series: series
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "w-full min-h-[440px]",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "flex flex-wrap gap-4 items-center mb-4",
+      children: items.map(function (item, idx) {
+        return renderLegendItem({
+          item: item,
+          idx: idx,
+          color: chartColors[idx % chartColors.length],
+          items: items,
+          setItems: setItems,
+          data: data,
+          range: range,
+          mode: mode,
+          options: options
+        });
+      })
+    }), unitSideText && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "text-xs text-[#595959] mb-4",
+      children: unitSideText
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
+      highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
+      options: optionsChart
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/RangeTabs.jsx":
+/*!*********************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/RangeTabs.jsx ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RangeTabs)
+/* harmony export */ });
+/* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function RangeTabs(_ref) {
+  var ranges = _ref.ranges,
+    value = _ref.value,
+    onChange = _ref.onChange;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_0__.TabsList, {
+    className: "inline-flex h-[40px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden",
+    children: ranges.map(function (tab) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_0__.TabsTrigger, {
+        value: tab.value,
+        onClick: function onClick() {
+          return onChange(tab.value);
+        },
+        className: "text-sm font-semibold h-full px-4 py-2 text-[#989898] border border-transparent focus:outline-none data-[state=active]:text-black data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA] data-[state=active]:z-10 first:data-[state=active]:rounded-l-lg last:data-[state=active]:rounded-r-lg",
+        children: tab.label
+      }, tab.value);
+    })
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/react/components/data/market/shared/SummaryBox.jsx":
+/*!**********************************************************************!*\
+  !*** ./resources/react/components/data/market/shared/SummaryBox.jsx ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SummaryBox)
+/* harmony export */ });
+/* harmony import */ var _components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/ui/threeDotsWave */ "./resources/react/components/ui/threeDotsWave.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function SummaryBox(_ref) {
+  var label = _ref.label,
+    symbol = _ref.symbol,
+    value = _ref.value,
+    percent = _ref.percent,
+    formatPrice = _ref.formatPrice,
+    _ref$colorUp = _ref.colorUp,
+    colorUp = _ref$colorUp === void 0 ? "#00DC3C" : _ref$colorUp,
+    _ref$colorDown = _ref.colorDown,
+    colorDown = _ref$colorDown === void 0 ? "#B51001" : _ref$colorDown,
+    _ref$loading = _ref.loading,
+    loading = _ref$loading === void 0 ? false : _ref$loading;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex flex-col",
+    children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "text-base md:text-lg font-normal text-[#191919]",
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "text-lg md:text-2xl font-medium text-[#191919] flex gap-2 items-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        children: symbol
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        children: loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_0__["default"], {
+          size: "8px",
+          color: "#191919"
+        }) : formatPrice(value)
+      }), typeof percent === "number" && percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+        className: "flex items-center ".concat(percent > 0 ? "text-[#00DC3C]" : "text-[#B51001]"),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "text-sm inline-block -translate-y-2 transform",
+          children: percent > 0 ? "▲" : "▼"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          children: "".concat(percent > 0 ? "+" : "").concat(percent.toFixed(2), "%")
         })]
       })]
     })]
@@ -3065,7 +3272,7 @@ function ResponseStatus(_ref) {
       className: "w-8 h-8 text-red-500"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
       className: "text-sm text-gray-500 font-medium text-center px-2",
-      children: message || (isLoading ? "Đang kết nối đến máy chủ, vui lòng chờ trong giây lát..." : "Không thể kết nối đến máy chủ. Vui lòng thử lại sau.")
+      children: message || (isLoading ? "Đang kết nối đến máy chủ, vui lòng chờ trong giây lát..." : "Không thể kết nối đến máy chủ")
     })]
   });
 }
@@ -3230,6 +3437,41 @@ function ThreeDotsWave(_ref) {
 
 /***/ }),
 
+/***/ "./resources/react/hooks/useChartData.js":
+/*!***********************************************!*\
+  !*** ./resources/react/hooks/useChartData.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useChartData: () => (/* binding */ useChartData)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+function useChartData(_ref) {
+  var items = _ref.items,
+    data = _ref.data,
+    days = _ref.days,
+    dispatch = _ref.dispatch,
+    fetchAction = _ref.fetchAction,
+    getKey = _ref.getKey,
+    getParams = _ref.getParams;
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var needFetch = items.filter(function (item) {
+      var key = getKey(item);
+      return !data[key] || !data[key][days];
+    });
+    if (needFetch.length > 0) {
+      dispatch(fetchAction(getParams(needFetch, days)));
+    }
+  }, [items, data, days, dispatch, fetchAction, getKey, getParams]);
+}
+
+/***/ }),
+
 /***/ "./resources/react/layouts/DataLayout.jsx":
 /*!************************************************!*\
   !*** ./resources/react/layouts/DataLayout.jsx ***!
@@ -3256,6 +3498,83 @@ function MarketLayout(_ref) {
     children: children
   });
 }
+
+/***/ }),
+
+/***/ "./resources/react/lib/market/date.js":
+/*!********************************************!*\
+  !*** ./resources/react/lib/market/date.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getDaysFromRange: () => (/* binding */ getDaysFromRange)
+/* harmony export */ });
+function getDaysFromRange(range) {
+  var today = new Date();
+  switch (range) {
+    case "7d":
+      return 7;
+    case "30d":
+      return 30;
+    case "6m":
+      return 180;
+    case "1y":
+      return 365;
+    case "5y":
+      return 365 * 5;
+    case "ytd":
+      {
+        var start = new Date(today.getFullYear(), 0, 1);
+        return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+      }
+    default:
+      return 30;
+  }
+}
+
+/***/ }),
+
+/***/ "./resources/react/lib/market/format.js":
+/*!**********************************************!*\
+  !*** ./resources/react/lib/market/format.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   formatPercent: () => (/* binding */ formatPercent),
+/* harmony export */   formatPriceUSD: () => (/* binding */ formatPriceUSD),
+/* harmony export */   formatPriceVND: () => (/* binding */ formatPriceVND),
+/* harmony export */   formatVietnamDateTime: () => (/* binding */ formatVietnamDateTime)
+/* harmony export */ });
+// utils/format.js
+var formatVietnamDateTime = function formatVietnamDateTime(isoString) {
+  if (!isoString) return "";
+  var date = new Date(isoString);
+  return date.toLocaleString("vi-VN", {
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Asia/Ho_Chi_Minh"
+  });
+};
+var formatPriceVND = function formatPriceVND(price) {
+  return typeof price === "number" ? price.toLocaleString("vi-VN") + " VND" : "";
+};
+var formatPriceUSD = function formatPriceUSD(price) {
+  return typeof price === "number" ? price.toLocaleString("en-US") + " USD" : "";
+};
+var formatPercent = function formatPercent(delta) {
+  return typeof delta === "number" ? "".concat(delta > 0 ? "+" : "").concat(delta.toFixed(2), "%") : "";
+};
 
 /***/ }),
 
@@ -3295,8 +3614,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_DataLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../layouts/DataLayout */ "./resources/react/layouts/DataLayout.jsx");
 /* harmony import */ var _components_ui_breadcrumb__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/ui/breadcrumb */ "./resources/react/components/ui/breadcrumb.jsx");
 /* harmony import */ var _components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/ui/tabs */ "./resources/react/components/ui/tabs.jsx");
-/* harmony import */ var _components_data_market_GoldContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/data/market/GoldContent */ "./resources/react/components/data/market/GoldContent.jsx");
-/* harmony import */ var _components_data_market_ExchangeContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/data/market/ExchangeContent */ "./resources/react/components/data/market/ExchangeContent.jsx");
+/* harmony import */ var _components_data_market_gold_GoldContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/data/market/gold/GoldContent */ "./resources/react/components/data/market/gold/GoldContent.jsx");
+/* harmony import */ var _components_data_market_exchange_ExchangeContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/data/market/exchange/ExchangeContent */ "./resources/react/components/data/market/exchange/ExchangeContent.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -3348,10 +3667,10 @@ function MarketPage() {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
           value: "gold",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_GoldContent__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_gold_GoldContent__WEBPACK_IMPORTED_MODULE_4__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
           value: "exchange",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_ExchangeContent__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_data_market_exchange_ExchangeContent__WEBPACK_IMPORTED_MODULE_5__["default"], {})
         })]
       })]
     })
@@ -4308,40 +4627,6 @@ const CircleAlert = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["defaul
 
 
 //# sourceMappingURL=circle-alert.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/lucide-react/dist/esm/icons/circle-minus.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   __iconNode: () => (/* binding */ __iconNode),
-/* harmony export */   "default": () => (/* binding */ CircleMinus)
-/* harmony export */ });
-/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
-/**
- * @license lucide-react v0.525.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-
-
-
-const __iconNode = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "M8 12h8", key: "1wcyev" }]
-];
-const CircleMinus = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("circle-minus", __iconNode);
-
-
-//# sourceMappingURL=circle-minus.js.map
 
 
 /***/ }),

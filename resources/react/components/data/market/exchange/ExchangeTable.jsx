@@ -59,7 +59,7 @@ export default function ExchangeTable() {
           </div>
         </div>
         <div
-          className="h-[340px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
+          className="h-[315px] overflow-y-auto divide-y divide-[#D5D7DA] relative"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "#ECECEC transparent",
@@ -95,7 +95,7 @@ export default function ExchangeTable() {
                           <span
                             className={
                               item.delta > 0
-                                ? "text-[#0032F0]"
+                                ? "text-[#00DC3C]"
                                 : item.delta < 0
                                 ? "text-[#B51001]"
                                 : ""

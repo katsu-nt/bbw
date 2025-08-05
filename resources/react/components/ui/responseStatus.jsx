@@ -53,7 +53,7 @@ export function ResponseStatus({ status, message }) {
         {message ||
           (isLoading
             ? "Đang kết nối đến máy chủ, vui lòng chờ trong giây lát..."
-            : "Không thể kết nối đến máy chủ. Vui lòng thử lại sau.")}
+            : "Không thể kết nối đến máy chủ")}
       </p>
     </div>
   );
