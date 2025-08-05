@@ -1,13 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
-const GOLD_URL = 'http://localhost:8003/api/gold'
+const GOLD_URL = "http://localhost:8003/api/v1/gold";
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart
 // ─────────────────────────────────────────
 export const fetchGoldChart = createAsyncThunk(
   "gold/fetchChart",
-  async ({ gold_types = ["sjc"], locations = ["hcm"], days = 7 }, { rejectWithValue }) => {
+  async (
+    { gold_types = ["sjc"], locations = ["hcm"], days = 7 },
+    { rejectWithValue }
+  ) => {
     try {
       const params = new URLSearchParams();
       gold_types.forEach((type) => params.append("gold_types", type));
@@ -33,9 +36,9 @@ export const fetchGoldChart = createAsyncThunk(
 // ─────────────────────────────────────────
 export const fetchGoldCurrent = createAsyncThunk(
   "gold/fetchCurrent",
-  async ({ gold_type, location }, { rejectWithValue }) => {
+  async ({ gold_type, location, unit = "tael" }, { rejectWithValue }) => {
     try {
-      const params = new URLSearchParams({ gold_type, location });
+      const params = new URLSearchParams({ gold_type, location ,unit});
       const res = await fetch(`${GOLD_URL}/current?${params.toString()}`);
       const json = await res.json();
 
@@ -60,7 +63,9 @@ export const fetchGoldTable = createAsyncThunk(
   "gold/fetchTable",
   async (selectedDate, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${GOLD_URL}/table?selected_date=${selectedDate}`);
+      const res = await fetch(
+        `${GOLD_URL}/table?selected_date=${selectedDate}`
+      );
       const json = await res.json();
 
       if (!res.ok || !json.data) {
@@ -80,8 +85,8 @@ export const fetchGoldTable = createAsyncThunk(
 const goldSlice = createSlice({
   name: "gold",
   initialState: {
-    chart: {},       // { [comboKey]: { [days]: [...] } }
-    current: {},     // { [comboKey]: { timestamp, sell_price, delta_percent, ... } }
+    chart: {}, // { [comboKey]: { [days]: [...] } }
+    current: {}, // { [comboKey]: { timestamp, sell_price, delta_percent, ... } }
     table: [],
 
     loading: {
@@ -161,10 +166,7 @@ const goldSlice = createSlice({
   },
 });
 
-export const {
-  clearGoldData,
-  clearGoldCurrent,
-  clearGoldTable,
-} = goldSlice.actions;
+export const { clearGoldData, clearGoldCurrent, clearGoldTable } =
+  goldSlice.actions;
 
 export default goldSlice.reducer;

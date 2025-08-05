@@ -537,29 +537,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
-
-// Danh sách màu cho các line
 
 var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
+
+// Hàm tạo dải ngày đều cho tick X
+function getDateRangeTicks(startDate, endDate) {
+  var maxTicks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+  var ticks = [];
+  var dayMs = 24 * 3600 * 1000;
+  var totalDays = Math.floor((endDate - startDate) / dayMs);
+  if (totalDays <= maxTicks - 1) {
+    for (var i = 0; i <= totalDays; ++i) {
+      ticks.push(startDate.getTime() + i * dayMs);
+    }
+  } else {
+    for (var _i = 0; _i < maxTicks; ++_i) {
+      var t = Math.round(_i * totalDays / (maxTicks - 1));
+      ticks.push(startDate.getTime() + t * dayMs);
+    }
+  }
+  return ticks;
+}
 function getDaysFromRange(range) {
   var today = new Date();
   switch (range) {
@@ -583,70 +590,44 @@ function getDaysFromRange(range) {
   }
 }
 function ExchangeChart(_ref) {
-  var _chartItems$;
   var mode = _ref.mode,
-    selected = _ref.selected,
-    setSelected = _ref.setSelected,
-    compareItems = _ref.compareItems,
-    setCompareItems = _ref.setCompareItems,
+    chartItems = _ref.chartItems,
+    setChartItems = _ref.setChartItems,
     data = _ref.data,
     range = _ref.range,
     _ref$options = _ref.options,
     options = _ref$options === void 0 ? [] : _ref$options;
   var days = getDaysFromRange(range);
-  var isComparisonMode = mode === "compare";
-
-  // Tạo mảng chartItems dạng [{code, type}]
-  var chartItems = [];
-  if (!isComparisonMode) {
-    chartItems = selected && selected.code ? [selected] : [{
-      code: "USD",
-      type: "market"
-    }];
-  } else {
-    chartItems = compareItems;
-  }
-
-  // Helper: Tìm tên hiển thị
-  function getDisplayName(item) {
-    var found = options.find(function (o) {
-      return o.code === item.code && o.type === item.type;
-    });
-    if (found) return found.name;
-    if (item.type && item.code) {
-      var typeLabel = "";
-      if (item.type === "market") typeLabel = "";else if (item.type === "central") typeLabel = " (SBVN)";else if (item.type === "index") typeLabel = "";
-      return "".concat(item.code).concat(typeLabel);
-    }
-    return item.code || "";
-  }
-
-  // Build chart data
+  var isNormalizeMode = mode === "normalize";
+  var hasMarket = chartItems.some(function (i) {
+    return i.type === "market" || i.type === "central";
+  });
+  var hasIndex = chartItems.some(function (i) {
+    return i.type === "index";
+  });
   var allDates = [];
-  var series = chartItems.map(function (item, index) {
-    var _data$key;
+  var series = chartItems.map(function (item, idx) {
+    var _data$key, _options$find;
     var key = "".concat(item.type, "-").concat(item.code);
     var chartData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
     if (chartData.length === 0) return null;
-    // Dữ liệu: market/central dùng 'rate', index dùng 'value'
     var getVal = function getVal(row) {
       return row.rate !== undefined ? row.rate : row.value;
     };
     var baseVal = getVal(chartData[0]);
-    var color = colors[index % colors.length];
     var seriesData = chartData.map(function (entry) {
       var timestamp = new Date(entry.date || entry.timestamp).getTime();
       allDates.push(timestamp);
-      return [timestamp, isComparisonMode ? (getVal(entry) - baseVal) / baseVal * 100 : getVal(entry)];
+      return [timestamp, isNormalizeMode ? (getVal(entry) - baseVal) / baseVal * 100 : getVal(entry)];
     });
+    var displayName = ((_options$find = options.find(function (o) {
+      return o.code === item.code && o.type === item.type;
+    })) === null || _options$find === void 0 ? void 0 : _options$find.name) || item.code;
     return {
-      name: getDisplayName(item),
+      name: displayName,
       data: seriesData,
-      color: color,
-      tooltip: {
-        valueSuffix: isComparisonMode ? "%" : "",
-        valueDecimals: 2
-      },
+      color: colors[idx % colors.length],
+      yAxis: isNormalizeMode ? 0 : item.type === "index" && hasMarket ? 1 : 0,
       marker: {
         enabled: false,
         states: {
@@ -655,38 +636,98 @@ function ExchangeChart(_ref) {
             radius: 4
           }
         }
+      },
+      tooltip: {
+        valueSuffix: isNormalizeMode ? "%" : item.type === "index" ? " điểm" : " ngàn đồng",
+        valueDecimals: 2
       }
     };
   }).filter(Boolean);
-  var sortedDates = allDates.sort(function (a, b) {
+
+  // Tick X chia đều: luôn max 5 mốc, có ngày đầu/cuối
+  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
     return a - b;
   });
-  var minDate = sortedDates[0];
-  var maxDate = sortedDates[sortedDates.length - 1];
-  var spanYears = minDate && maxDate ? new Date(maxDate).getFullYear() - new Date(minDate).getFullYear() : 0;
-  var yTickPositions;
-  if (isComparisonMode && series.length > 0) {
-    var allY = series.flatMap(function (s) {
-      return s.data.map(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-          _ = _ref3[0],
-          y = _ref3[1];
-        return y;
-      });
-    });
-    var yMin = Math.min.apply(Math, _toConsumableArray(allY));
-    var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-    var diff = yMax - yMin;
-    var roundedMin, roundedMax;
-    if (diff <= 10) {
-      roundedMin = Math.floor(yMin);
-      roundedMax = Math.ceil(yMax);
-    } else {
-      roundedMin = Math.floor(yMin / 3) * 3;
-      roundedMax = Math.ceil(yMax);
-    }
-    yTickPositions = [roundedMin, 0, roundedMax];
+  var spanYears = 0;
+  var xTickPositions = [];
+  if (sortedDates.length > 0) {
+    var minDate = new Date(sortedDates[0]);
+    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
+    spanYears = maxDate.getFullYear() - minDate.getFullYear();
+    xTickPositions = getDateRangeTicks(minDate, maxDate, 5);
   }
+
+  // Build yAxis như cũ
+  var yAxis = [];
+  if (isNormalizeMode) {
+    yAxis = [{
+      title: {
+        text: null
+      },
+      labels: {
+        formatter: function formatter() {
+          return Math.round(this.value) + "%";
+        }
+      },
+      tickAmount: 4,
+      opposite: true
+    }];
+  } else {
+    if (hasMarket && hasIndex) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: true
+      });
+    } else if (hasIndex && !hasMarket) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    } else {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    }
+  }
+
+  // Tooltip
   var optionsChart = {
     chart: {
       type: "line",
@@ -706,79 +747,27 @@ function ExchangeChart(_ref) {
         color: "#ccc",
         dashStyle: "ShortDot"
       },
-      min: spanYears < 4 ? minDate : undefined,
-      max: spanYears < 4 ? maxDate : undefined,
-      tickPositions: function () {
-        var uniqueDates = _toConsumableArray(new Set(sortedDates));
-        var total = uniqueDates.length;
-        if (total <= 5) return uniqueDates;
-        var step = Math.floor(total / 4);
-        var ticks = [uniqueDates[0]];
-        for (var i = 1; i < 4; i++) {
-          ticks.push(uniqueDates[i * step]);
-        }
-        ticks.push(uniqueDates[total - 1]);
-        return ticks;
-      }(),
+      tickPositions: xTickPositions,
       labels: {
         formatter: function formatter() {
           var date = new Date(this.value);
-          return spanYears >= 4 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
+          return spanYears >= 3 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
         }
       }
     },
-    yAxis: {
-      opposite: isComparisonMode,
-      title: {
-        text: null
-      },
-      labels: {
-        formatter: function formatter() {
-          return isComparisonMode ? "".concat(this.value.toFixed(2), "%") : this.value.toLocaleString("vi-VN", {
-            maximumFractionDigits: 2
-          });
-        }
-      },
-      tickPositions: function () {
-        if (isComparisonMode) return yTickPositions;
-        var allY = series.flatMap(function (s) {
-          return s.data.map(function (_ref4) {
-            var _ref5 = _slicedToArray(_ref4, 2),
-              _ = _ref5[0],
-              y = _ref5[1];
-            return y;
-          });
-        });
-        if (allY.length === 0) return undefined;
-        var yMin = Math.min.apply(Math, _toConsumableArray(allY));
-        var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-        var range = yMax - yMin;
-        if (range === 0) {
-          var rounded = Math.round(yMin / 100) * 100;
-          return [rounded - 100, rounded, rounded + 100];
-        }
-        var step = Math.ceil(range / 4 / 100) * 100;
-        var start = Math.floor(yMin / 100) * 100;
-        return Array.from({
-          length: 5
-        }, function (_, i) {
-          return start + i * step;
-        });
-      }()
-    },
+    yAxis: yAxis,
     tooltip: {
       shared: true,
       xDateFormat: "%d/%m/%Y",
       formatter: function formatter() {
-        var isComparison = isComparisonMode;
         var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
         tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", this.x), "</b><br/>");
         this.points.forEach(function (point) {
-          var value = isComparison ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : point.y.toLocaleString("vi-VN", {
+          var name = point.series.name;
+          var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : point.y.toLocaleString("vi-VN", {
             maximumFractionDigits: 2
-          });
-          var valueColor = isComparison ? "#595959" : "#000000";
-          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(point.series.name, ": </b>\n            <b style=\"color:").concat(valueColor, "\">").concat(value, "</b><br/>\n          ");
+          }) + (point.series.userOptions.yAxis === 1 ? " điểm" : " ngàn đồng");
+          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(name, ": </b>\n            <b>").concat(value, "</b><br/>\n          ");
         });
         tooltip += "</div>";
         return tooltip;
@@ -790,22 +779,32 @@ function ExchangeChart(_ref) {
     credits: {
       enabled: false
     },
-    series: series.map(function (s) {
-      return _objectSpread(_objectSpread({}, s), {}, {
-        marker: {
-          enabled: false
-        }
-      });
-    })
+    series: series
   };
+  function getUnitSideText() {
+    if (isNormalizeMode) return null;
+    if (hasMarket && hasIndex) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "flex justify-between",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          children: "\u0110\u01A1n v\u1ECB: \u0111i\u1EC3m"
+        })]
+      });
+    }
+    if (hasIndex) return "Đơn vị: điểm";
+    if (hasMarket) return "Đơn vị: ngàn đồng";
+    return null;
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "w-full min-h-[440px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "flex flex-wrap gap-4 items-center mb-4",
-      children: chartItems.map(function (item, index) {
-        var _data$key2;
+      children: chartItems.map(function (item, idx) {
+        var _data$key2, _options$find2;
         var key = "".concat(item.type, "-").concat(item.code);
-        var color = colors[index % colors.length];
+        var color = colors[idx % colors.length];
         var chartData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
         var getVal = function getVal(row) {
           return row.rate !== undefined ? row.rate : row.value;
@@ -813,6 +812,9 @@ function ExchangeChart(_ref) {
         var baseVal = chartData[0] ? getVal(chartData[0]) : null;
         var lastVal = chartData.at(-1) ? getVal(chartData.at(-1)) : null;
         var change = baseVal && lastVal ? (lastVal - baseVal) / baseVal * 100 : null;
+        var displayName = ((_options$find2 = options.find(function (o) {
+          return o.code === item.code && o.type === item.type;
+        })) === null || _options$find2 === void 0 ? void 0 : _options$find2.name) || item.code;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -822,15 +824,15 @@ function ExchangeChart(_ref) {
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: "text-sm text-black",
-            children: getDisplayName(item)
+            children: displayName
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: isComparisonMode ? "text-[#595959]" : "text-black",
-            children: change !== null ? isComparisonMode ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : lastVal === null || lastVal === void 0 ? void 0 : lastVal.toLocaleString("vi-VN", {
+            className: isNormalizeMode ? "text-[#595959]" : "text-black",
+            children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : (lastVal === null || lastVal === void 0 ? void 0 : lastVal.toLocaleString("vi-VN", {
               maximumFractionDigits: 2
-            }) : "-"
-          }), isComparisonMode && chartItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            })) || "-"
+          }), chartItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: function onClick() {
-              return setCompareItems(function (prev) {
+              return setChartItems(function (prev) {
                 return prev.filter(function (x) {
                   return x.code !== item.code || x.type !== item.type;
                 });
@@ -842,9 +844,9 @@ function ExchangeChart(_ref) {
           })]
         }, key);
       })
-    }), !isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    }), getUnitSideText() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "text-xs text-[#595959] mb-4",
-      children: ((_chartItems$ = chartItems[0]) === null || _chartItems$ === void 0 ? void 0 : _chartItems$.type) === "index" ? "Đơn vị: điểm" : "Đơn vị: ngàn đồng"
+      children: getUnitSideText()
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
       highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
       options: optionsChart
@@ -881,7 +883,6 @@ function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArra
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
@@ -908,11 +909,7 @@ var exchangeOptions = [{
   code: "USD",
   type: "market",
   name: "USD"
-},
-// { code: "EUR", type: "market", name: "EUR" },
-// { code: "JPY", type: "market", name: "JPY" },
-// { code: "CNY", type: "market", name: "CNY" },
-{
+}, {
   code: "DXY",
   type: "index",
   name: "DXY"
@@ -961,32 +958,23 @@ function getDaysFromRange(range) {
   }
 }
 function ExchangeContainer() {
-  var _exchangeOptions$find;
-  // Chế độ: "single" | "compare"
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("single"),
+  // mode: "default" | "normalize"
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("default"),
     _useState2 = _slicedToArray(_useState, 2),
     mode = _useState2[0],
     setMode = _useState2[1];
-  // Single mode: chọn 1 mã (code, type)
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      code: "USD",
-      type: "market"
-    }),
-    _useState4 = _slicedToArray(_useState3, 2),
-    selected = _useState4[0],
-    setSelected = _useState4[1];
-  // Compare mode: nhiều mã
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  // Nhiều mã (luôn là mảng), khởi tạo với USD/market
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       code: "USD",
       type: "market"
     }]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    selectedItems = _useState4[0],
+    setSelectedItems = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
     _useState6 = _slicedToArray(_useState5, 2),
-    compareItems = _useState6[0],
-    setCompareItems = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
-    _useState8 = _slicedToArray(_useState7, 2),
-    range = _useState8[0],
-    setRange = _useState8[1];
+    range = _useState6[0],
+    setRange = _useState6[1];
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
   var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
       return state.exchange;
@@ -996,70 +984,59 @@ function ExchangeContainer() {
     error = _useSelector.error;
   var days = getDaysFromRange(range);
 
-  // Filter cho dropdown: loại bỏ mã đang hiển thị
-  var singleOptions = exchangeOptions.filter(function (item) {
-    return item.code !== selected.code || item.type !== selected.type;
-  });
-  var compareFilteredOptions = exchangeOptions.filter(function (item) {
-    return !compareItems.some(function (s) {
+  // Filter các option chưa được chọn để show trên Dropdown
+  var filteredOptions = exchangeOptions.filter(function (item) {
+    return !selectedItems.some(function (s) {
       return s.code === item.code && s.type === item.type;
     });
   });
 
-  // Fetch dữ liệu phù hợp cho từng chế độ
+  // Fetch dữ liệu cho tất cả các mã đang chọn
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (mode === "single") {
-      var key = "".concat(selected.type, "-").concat(selected.code);
+    selectedItems.forEach(function (_ref) {
+      var type = _ref.type,
+        code = _ref.code;
+      var key = "".concat(type, "-").concat(code);
       if (!data[key] || !data[key][days]) {
         dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
-          type: selected.type,
-          code: [selected.code],
+          type: type,
+          code: [code],
           days: days
         }));
       }
-    } else if (mode === "compare") {
-      // Chỉ fetch những dòng chưa có trong cache
-      var needFetch = compareItems.filter(function (_ref) {
-        var type = _ref.type,
-          code = _ref.code;
-        return !data["".concat(type, "-").concat(code)] || !data["".concat(type, "-").concat(code)][days];
-      });
-      if (needFetch.length > 0) {
-        var _iterator = _createForOfIteratorHelper(needFetch),
-          _step;
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _step$value = _step.value,
-              type = _step$value.type,
-              code = _step$value.code;
-            dispatch((0,_store_market_exchangeSlice__WEBPACK_IMPORTED_MODULE_3__.fetchExchangeChart)({
-              type: type,
-              code: [code],
-              days: days
-            }));
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-      }
-    }
-  }, [mode, selected, compareItems, range, data, dispatch, days]);
+    });
+  }, [selectedItems, range, data, dispatch, days]);
 
-  // Chuyển chế độ single/compare
+  // Handler thêm mã mới vào so sánh
+  function handleAddItem(item) {
+    setSelectedItems(function (prev) {
+      return [].concat(_toConsumableArray(prev), [item]);
+    });
+  }
+
+  // Handler xóa mã khỏi chart
+  function handleRemoveItem(item) {
+    setSelectedItems(function (prev) {
+      return prev.filter(function (x) {
+        return x.code !== item.code || x.type !== item.type;
+      });
+    });
+  }
+
+  // Chuyển mode default/normalize
   function handleSwitchMode() {
-    if (mode === "single") {
-      setCompareItems([selected]);
-      setMode("compare");
-    } else {
-      setSelected(compareItems[0] || {
+    setMode(mode === "default" ? "normalize" : "default");
+  }
+
+  // Nếu không còn mã nào thì luôn có ít nhất 1 mã (USD/market)
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (selectedItems.length === 0) {
+      setSelectedItems([{
         code: "USD",
         type: "market"
-      });
-      setMode("single");
+      }]);
     }
-  }
+  }, [selectedItems]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
@@ -1079,7 +1056,7 @@ function ExchangeContainer() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "flex items-center gap-2",
-          children: [mode === "single" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
               asChild: true,
               className: "min-w-[220px] h-[40px]",
@@ -1089,9 +1066,7 @@ function ExchangeContainer() {
                   className: "flex items-center gap-2 text-base",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     className: "w-4 h-4 text-[#A4A7AE]"
-                  }), ((_exchangeOptions$find = exchangeOptions.find(function (item) {
-                    return item.code === selected.code && item.type === selected.type;
-                  })) === null || _exchangeOptions$find === void 0 ? void 0 : _exchangeOptions$find.name) || "Chọn mã"]
+                  }), "Th\xEAm m\xE3 so s\xE1nh"]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
                   className: "w-4 h-4 text-[#BBBBBB]"
                 })]
@@ -1100,53 +1075,13 @@ function ExchangeContainer() {
               align: "end",
               sideOffset: 4,
               className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: singleOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+              children: filteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
                 disabled: true,
                 children: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
-              }) : singleOptions.map(function (item) {
+              }) : filteredOptions.map(function (item) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
                   onClick: function onClick() {
-                    return setSelected({
-                      code: item.code,
-                      type: item.type
-                    });
-                  },
-                  className: "text-sm px-3 py-2 cursor-pointer",
-                  children: item.name
-                }, item.type + item.code);
-              })
-            })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-              asChild: true,
-              className: "min-w-[220px] h-[40px]",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-                  className: "flex items-center gap-2 text-base",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                    className: "w-4 h-4 text-[#A4A7AE]"
-                  }), "Th\xEAm so s\xE1nh"]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                  className: "w-4 h-4 text-[#BBBBBB]"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-              align: "end",
-              sideOffset: 4,
-              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: compareFilteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                disabled: true,
-                children: "Kh\xF4ng c\xF2n m\xE3 n\xE0o"
-              }) : compareFilteredOptions.map(function (item) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                  onClick: function onClick() {
-                    return setCompareItems(function (prev) {
-                      return [].concat(_toConsumableArray(prev), [{
-                        code: item.code,
-                        type: item.type
-                      }]);
-                    });
+                    return handleAddItem(item);
                   },
                   className: "text-sm px-3 py-2 cursor-pointer",
                   children: item.name
@@ -1154,7 +1089,7 @@ function ExchangeContainer() {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            checked: mode === "compare",
+            checked: mode === "normalize",
             onChange: handleSwitchMode
           })]
         })]
@@ -1178,17 +1113,14 @@ function ExchangeContainer() {
                 message: "Kh\xF4ng th\u1EC3 k\u1EBFt n\u1ED1i \u0111\u1EBFn m\xE1y ch\u1EE7"
               })
             })]
-          }) : loading.chart || (mode === "single" ? function (_data$key) {
-            var key = "".concat(selected.type, "-").concat(selected.code);
-            var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
-            return arr.length === 0;
-          }() : compareItems.every(function (_ref2) {
-            var _data;
+          }) : loading.chart || selectedItems.some(function (_ref2) {
+            var _data$key;
             var code = _ref2.code,
               type = _ref2.type;
-            var arr = ((_data = data["".concat(type, "-").concat(code)]) === null || _data === void 0 ? void 0 : _data[days]) || [];
+            var key = "".concat(type, "-").concat(code);
+            var arr = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
             return arr.length === 0;
-          })) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          }) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full space-y-6",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "flex flex-wrap gap-3 items-center",
@@ -1206,10 +1138,8 @@ function ExchangeContainer() {
             })]
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ExchangeChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
             mode: mode,
-            selected: selected,
-            setSelected: setSelected,
-            compareItems: compareItems,
-            setCompareItems: setCompareItems,
+            chartItems: selectedItems,
+            setChartItems: setSelectedItems,
             data: data,
             range: range,
             options: exchangeOptions
@@ -1455,7 +1385,7 @@ function ExchangeTable() {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "flex flex-col",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              children: "T\u1EF7 gi\xE1"
+              children: "T\u1EC9 gi\xE1"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "text-xs text-[#595959] font-medium",
               children: "\u0110\u01A1n v\u1ECB: VND"
@@ -1535,123 +1465,97 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(highcharts_react_official__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/circle-minus.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
 
 var colors = ["#000000", "#0032F0", "#B51001", "#03eb03ff", "#fff240ff", "#008cffff", "#ff0360ff", "#480075ff", "#67879cff", "#0983caff"];
-var displayNameMap = {
+var goldNameMap = {
   pnj: "PNJ",
   sjc: "SJC",
-  xau_usd: "Vàng thế giới",
-  nhẫn_trơn_pnj_9999: "Nhẫn Trơn PNJ 999.9",
-  vàng_kim_bảo_9999: "Vàng Kim Bảo 999.9",
-  vàng_phúc_lộc_tài_9999: "Vàng Phúc Lộc Tài 999.9",
-  vàng_nữ_trang_9999: "Nữ Trang 999.9",
-  vàng_nữ_trang_999: "Nữ Trang 999",
-  vàng_nữ_trang_9920: "Nữ Trang 9920",
-  vàng_nữ_trang_99: "Nữ Trang 99",
-  vàng_916_22k: "Vàng 916 (22K)",
-  vàng_750_18k: "Vàng 750 (18K)",
-  vàng_680_163k: "Vàng 680 (16.3K)",
-  vàng_650_156k: "Vàng 650 (15.6K)",
-  vàng_610_146k: "Vàng 610 (14.6K)",
-  vàng_585_14k: "Vàng 585 (14K)",
-  vàng_416_10k: "Vàng 416 (10K)",
-  vàng_375_9k: "Vàng 375 (9K)",
-  vàng_333_8k: "Vàng 333 (8K)"
+  xau_usd: "Vàng thế giới"
 };
-var formatPrice = function formatPrice(value) {
-  var _value;
-  if (value) {
-    value *= 1000;
-  }
-  return (_value = value) === null || _value === void 0 ? void 0 : _value.toLocaleString("vi-VN", {
-    maximumFractionDigits: 0
-  });
-};
-var formatPercent = function formatPercent(value) {
-  return "".concat(value.toFixed(2), "%");
-};
-var getDaysFromRange = function getDaysFromRange(range) {
-  switch (range) {
-    case "7d":
-      return 7;
-    case "30d":
-      return 30;
-    case "6m":
-      return 180;
-    case "1y":
-      return 365;
-    case "5y":
-      return 1825;
-    case "ytd":
-      {
-        var now = new Date();
-        var start = new Date(now.getFullYear(), 0, 1);
-        return Math.floor((now - start) / (1000 * 60 * 60 * 24)) + 1;
-      }
-    default:
-      return 30;
-  }
-};
-function GoldChart(_ref) {
-  var _chartItems$;
-  var mode = _ref.mode,
-    selected = _ref.selected,
-    setSelected = _ref.setSelected,
-    compareItems = _ref.compareItems,
-    setCompareItems = _ref.setCompareItems,
-    data = _ref.data,
-    range = _ref.range;
-  var days = getDaysFromRange(range);
-  var isComparisonMode = mode === "compare";
-  var allDates = [];
-  var chartItems = [];
-  if (!isComparisonMode) {
-    chartItems = selected && selected.gold_type ? [selected] : [{
-      gold_type: "sjc",
-      location: "hcm"
-    }];
+
+// Hàm tạo dải ngày đều cho tick X
+function getDateRangeTicks(startDate, endDate) {
+  var maxTicks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
+  var ticks = [];
+  var dayMs = 24 * 3600 * 1000;
+  var totalDays = Math.floor((endDate - startDate) / dayMs);
+  if (totalDays <= maxTicks - 1) {
+    for (var i = 0; i <= totalDays; ++i) {
+      ticks.push(startDate.getTime() + i * dayMs);
+    }
   } else {
-    chartItems = compareItems;
+    for (var _i = 0; _i < maxTicks; ++_i) {
+      var t = Math.round(_i * totalDays / (maxTicks - 1));
+      ticks.push(startDate.getTime() + t * dayMs);
+    }
   }
-  var series = chartItems.map(function (item, index) {
+  return ticks;
+}
+function GoldChart(_ref) {
+  var mode = _ref.mode,
+    goldItems = _ref.goldItems,
+    setGoldItems = _ref.setGoldItems,
+    data = _ref.data,
+    range = _ref.range,
+    _ref$options = _ref.options,
+    options = _ref$options === void 0 ? [] : _ref$options;
+  var isNormalizeMode = mode === "normalize";
+  function getDaysFromRange(range) {
+    var today = new Date();
+    switch (range) {
+      case "7d":
+        return 7;
+      case "30d":
+        return 30;
+      case "6m":
+        return 180;
+      case "1y":
+        return 365;
+      case "5y":
+        return 1825;
+      case "ytd":
+        {
+          var start = new Date(today.getFullYear(), 0, 1);
+          return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+        }
+      default:
+        return 30;
+    }
+  }
+  var days = getDaysFromRange(range);
+  var hasDomestic = goldItems.some(function (i) {
+    return i.gold_type !== "xau_usd";
+  });
+  var hasGlobal = goldItems.some(function (i) {
+    return i.gold_type === "xau_usd";
+  });
+  var allDates = [];
+  var series = goldItems.map(function (item, idx) {
     var _data$key;
     var key = "".concat(item.gold_type, "-").concat(item.location);
     var goldData = ((_data$key = data[key]) === null || _data$key === void 0 ? void 0 : _data$key[days]) || [];
     if (goldData.length === 0) return null;
     var basePrice = goldData[0].price;
-    var color = colors[index % colors.length];
     var seriesData = goldData.map(function (entry) {
       var timestamp = new Date(entry.date).getTime();
       allDates.push(timestamp);
-      return [timestamp, isComparisonMode ? (entry.price - basePrice) / basePrice * 100 : entry.price];
+      return [timestamp, isNormalizeMode ? (entry.price - basePrice) / basePrice * 100 : entry.price];
     });
+    var name = goldNameMap[item.gold_type] || item.gold_type;
     return {
-      name: displayNameMap[item.gold_type] || item.gold_type,
+      name: name,
       data: seriesData,
-      color: color,
-      tooltip: {
-        valueSuffix: isComparisonMode ? "%" : "",
-        valueDecimals: isComparisonMode ? 1 : 0
-      },
+      color: colors[idx % colors.length],
+      yAxis: isNormalizeMode ? 0 : item.gold_type === "xau_usd" && hasDomestic ? 1 : 0,
       marker: {
         enabled: false,
         states: {
@@ -1660,39 +1564,97 @@ function GoldChart(_ref) {
             radius: 4
           }
         }
+      },
+      tooltip: {
+        valueSuffix: isNormalizeMode ? "%" : item.gold_type === "xau_usd" ? " USD" : " VND",
+        valueDecimals: 2
       }
     };
   }).filter(Boolean);
-  var sortedDates = allDates.sort(function (a, b) {
+
+  // Tính các mốc thời gian X chia đều
+  var sortedDates = _toConsumableArray(new Set(allDates)).sort(function (a, b) {
     return a - b;
   });
-  var minDate = sortedDates[0];
-  var maxDate = sortedDates[sortedDates.length - 1];
-  var spanYears = new Date(maxDate).getFullYear() - new Date(minDate).getFullYear();
-  var yTickPositions;
-  if (isComparisonMode) {
-    var allY = series.flatMap(function (s) {
-      return s.data.map(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-          _ = _ref3[0],
-          y = _ref3[1];
-        return y;
-      });
-    });
-    var yMin = Math.min.apply(Math, _toConsumableArray(allY));
-    var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-    var diff = yMax - yMin;
-    var roundedMin, roundedMax;
-    if (diff <= 10) {
-      roundedMin = Math.floor(yMin);
-      roundedMax = Math.ceil(yMax);
-    } else {
-      roundedMin = Math.floor(yMin / 3) * 3;
-      roundedMax = Math.ceil(yMax);
-    }
-    yTickPositions = [roundedMin, 0, roundedMax];
+  var spanYears = 0;
+  var xTickPositions = [];
+  if (sortedDates.length > 0) {
+    var minDate = new Date(sortedDates[0]);
+    var maxDate = new Date(sortedDates[sortedDates.length - 1]);
+    spanYears = maxDate.getFullYear() - minDate.getFullYear();
+    xTickPositions = getDateRangeTicks(minDate, maxDate, 5);
   }
-  var options = {
+
+  // Y Axis logic như trước
+  var yAxis = [];
+  if (isNormalizeMode) {
+    yAxis = [{
+      title: {
+        text: null
+      },
+      labels: {
+        formatter: function formatter() {
+          return Math.round(this.value) + "%";
+        }
+      },
+      tickAmount: 4,
+      opposite: true
+    }];
+  } else {
+    if (hasDomestic && hasGlobal) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("en-US");
+          }
+        },
+        tickAmount: 4,
+        opposite: true
+      });
+    } else if (hasGlobal && !hasDomestic) {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("en-US");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    } else {
+      yAxis.push({
+        title: {
+          text: null
+        },
+        labels: {
+          formatter: function formatter() {
+            return parseInt(this.value).toLocaleString("vi-VN");
+          }
+        },
+        tickAmount: 4,
+        opposite: false
+      });
+    }
+  }
+  var optionsChart = {
     chart: {
       type: "line",
       zoomType: "x",
@@ -1711,75 +1673,31 @@ function GoldChart(_ref) {
         color: "#ccc",
         dashStyle: "ShortDot"
       },
-      min: spanYears < 4 ? minDate : undefined,
-      max: spanYears < 4 ? maxDate : undefined,
-      tickPositions: function () {
-        var uniqueDates = _toConsumableArray(new Set(sortedDates));
-        var total = uniqueDates.length;
-        if (total <= 5) return uniqueDates;
-        var step = Math.floor(total / 4);
-        var ticks = [uniqueDates[0]];
-        for (var i = 1; i < 4; i++) {
-          ticks.push(uniqueDates[i * step]);
-        }
-        ticks.push(uniqueDates[total - 1]);
-        return ticks;
-      }(),
+      tickPositions: xTickPositions,
       labels: {
         formatter: function formatter() {
           var date = new Date(this.value);
-          return spanYears >= 4 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
+          return spanYears >= 3 ? date.getFullYear() : "".concat(String(date.getDate()).padStart(2, "0"), "/").concat(String(date.getMonth() + 1).padStart(2, "0"));
         }
       }
     },
-    yAxis: {
-      opposite: isComparisonMode,
-      title: {
-        text: null
-      },
-      labels: {
-        formatter: function formatter() {
-          return isComparisonMode ? "".concat(this.value.toFixed(0), "%") : this.value.toLocaleString("vi-VN");
-        }
-      },
-      tickPositions: function () {
-        if (isComparisonMode) return yTickPositions;
-        var allY = series.flatMap(function (s) {
-          return s.data.map(function (_ref4) {
-            var _ref5 = _slicedToArray(_ref4, 2),
-              _ = _ref5[0],
-              y = _ref5[1];
-            return y;
-          });
-        });
-        if (allY.length === 0) return undefined;
-        var yMin = Math.min.apply(Math, _toConsumableArray(allY));
-        var yMax = Math.max.apply(Math, _toConsumableArray(allY));
-        var range = yMax - yMin;
-        if (range === 0) {
-          var rounded = Math.round(yMin / 100) * 100;
-          return [rounded - 100, rounded, rounded + 100];
-        }
-        var step = Math.ceil(range / 4 / 100) * 100;
-        var start = Math.floor(yMin / 100) * 100;
-        return Array.from({
-          length: 5
-        }, function (_, i) {
-          return start + i * step;
-        });
-      }()
-    },
+    yAxis: yAxis,
     tooltip: {
       shared: true,
       xDateFormat: "%d/%m/%Y",
       formatter: function formatter() {
-        var isComparison = isComparisonMode;
         var tooltip = "<div style=\"font-size:12px; font-weight:400;\">";
         tooltip += "<b>".concat(highcharts__WEBPACK_IMPORTED_MODULE_0___default().dateFormat("%d/%m/%Y", this.x), "</b><br/>");
         this.points.forEach(function (point) {
-          var value = isComparison ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : (point.y * 1000).toLocaleString("vi-VN");
-          var valueColor = isComparison ? "#595959" : "#000000";
-          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(point.series.name, ": </b>\n            <b style=\"color:").concat(valueColor, "\">").concat(value).concat(isComparison ? "" : " ₫", "</b><br/>\n          ");
+          var name = point.series.name;
+          // Check là vàng nội địa hay vàng thế giới
+          var isVangNoiDia = point.series.userOptions.yAxis !== 1;
+          var value = isNormalizeMode ? (point.y >= 0 ? "+" : "") + point.y.toFixed(2) + "%" : isVangNoiDia ? (point.y * 1000).toLocaleString("vi-VN", {
+            maximumFractionDigits: 0
+          }) + " VND" : point.y.toLocaleString("en-US", {
+            maximumFractionDigits: 2
+          }) + " USD";
+          tooltip += "\n            <br/>\n            <span style=\"color:".concat(point.color, "\">\u25CF</span>\n            <b> ").concat(name, ": </b>\n            <b>").concat(value, "</b><br/>\n          ");
         });
         tooltip += "</div>";
         return tooltip;
@@ -1791,26 +1709,37 @@ function GoldChart(_ref) {
     credits: {
       enabled: false
     },
-    series: series.map(function (s) {
-      return _objectSpread(_objectSpread({}, s), {}, {
-        marker: {
-          enabled: false
-        }
-      });
-    })
+    series: series
   };
+  function getUnitSideText() {
+    if (isNormalizeMode) return null;
+    if (hasDomestic && hasGlobal) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "flex justify-between",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          children: "\u0110\u01A1n v\u1ECB: ng\xE0n \u0111\u1ED3ng/l\u01B0\u1EE3ng"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          children: "\u0110\u01A1n v\u1ECB: USD/oz"
+        })]
+      });
+    }
+    if (hasGlobal) return "Đơn vị: USD/oz";
+    if (hasDomestic) return "Đơn vị: ngàn đồng/lượng";
+    return null;
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "w-full min-h-[440px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "flex flex-wrap gap-4 items-center mb-4",
-      children: isComparisonMode ? compareItems.map(function (item, index) {
+      children: goldItems.map(function (item, idx) {
         var _data$key2, _goldData$, _goldData$at;
         var key = "".concat(item.gold_type, "-").concat(item.location);
-        var color = colors[index % colors.length];
+        var color = colors[idx % colors.length];
         var goldData = ((_data$key2 = data[key]) === null || _data$key2 === void 0 ? void 0 : _data$key2[days]) || [];
-        var basePrice = (_goldData$ = goldData[0]) === null || _goldData$ === void 0 ? void 0 : _goldData$.price;
-        var lastPrice = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
-        var change = basePrice && lastPrice ? (lastPrice - basePrice) / basePrice * 100 : null;
+        var base = (_goldData$ = goldData[0]) === null || _goldData$ === void 0 ? void 0 : _goldData$.price;
+        var last = (_goldData$at = goldData.at(-1)) === null || _goldData$at === void 0 ? void 0 : _goldData$at.price;
+        var change = base && last ? (last - base) / base * 100 : null;
+        var name = goldNameMap[item.gold_type] || item.gold_type;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -1820,13 +1749,15 @@ function GoldChart(_ref) {
             }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: "text-sm text-black",
-            children: displayNameMap[item.gold_type] || item.gold_type
+            children: name
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-[#595959]",
-            children: change !== null ? change >= 0 ? "+".concat(formatPercent(change)) : formatPercent(change) : "-"
-          }), compareItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: isNormalizeMode ? "text-[#595959]" : "text-black",
+            children: isNormalizeMode ? change !== null ? change >= 0 ? "+".concat(change.toFixed(2), "%") : "".concat(change.toFixed(2), "%") : "-" : item.gold_type === "xau_usd" ? last ? last.toLocaleString("en-US", {
+              maximumFractionDigits: 2
+            }) + " USD" : "-" : last ? (last * 1000).toLocaleString("vi-VN") + " VND" : "-"
+          }), goldItems.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: function onClick() {
-              return setCompareItems(function (prev) {
+              return setGoldItems(function (prev) {
                 return prev.filter(function (x) {
                   return x.gold_type !== item.gold_type || x.location !== item.location;
                 });
@@ -1837,36 +1768,13 @@ function GoldChart(_ref) {
             })
           })]
         }, key);
-      }) : chartItems.map(function (item, index) {
-        var _data$key3, _goldData$at2;
-        var key = "".concat(item.gold_type, "-").concat(item.location);
-        var color = colors[index % colors.length];
-        var goldData = ((_data$key3 = data[key]) === null || _data$key3 === void 0 ? void 0 : _data$key3[days]) || [];
-        var lastPrice = (_goldData$at2 = goldData.at(-1)) === null || _goldData$at2 === void 0 ? void 0 : _goldData$at2.price;
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex items-center gap-2 px-3 py-1 text-sm font-normal bg-[#F7F7F7] rounded-md",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "inline-block w-2 h-2 rounded-full",
-            style: {
-              backgroundColor: color
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-sm text-black",
-            children: displayNameMap[item.gold_type] || item.gold_type
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: "text-black",
-            children: item.gold_type === "xau_usd" ? lastPrice ? lastPrice.toLocaleString("en-US", {
-              maximumFractionDigits: 2
-            }) + " USD" : "-" : lastPrice ? formatPrice(lastPrice) + "VND" : "-"
-          })]
-        }, key);
       })
-    }), !isComparisonMode && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    }), getUnitSideText() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "text-xs text-[#595959] mb-4",
-      children: ((_chartItems$ = chartItems[0]) === null || _chartItems$ === void 0 ? void 0 : _chartItems$.gold_type) === "xau_usd" ? "Đơn vị: USD/Ounce" : "Đơn vị: ngàn đồng/lượng"
+      children: getUnitSideText()
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)((highcharts_react_official__WEBPACK_IMPORTED_MODULE_1___default()), {
       highcharts: (highcharts__WEBPACK_IMPORTED_MODULE_0___default()),
-      options: options
+      options: optionsChart
     })]
   });
 }
@@ -1896,8 +1804,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ui_responseStatus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/ui/responseStatus */ "./resources/react/components/ui/responseStatus.jsx");
 /* harmony import */ var _CompareSwitch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CompareSwitch */ "./resources/react/components/data/market/CompareSwitch.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-"use client";
-
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -1931,19 +1837,7 @@ var simplifiedGoldOptions = [{
   name: "PNJ",
   location: "hcm"
 }
-// { code: "vàng_nữ_trang_9999", name: "Nữ Trang 999.9", location: "tq" },
-// { code: "vàng_nữ_trang_999", name: "Nữ Trang 999", location: "tq" },
-// { code: "vàng_nữ_trang_9920", name: "Nữ Trang 9920", location: "tq" },
-// { code: "vàng_nữ_trang_99", name: "Nữ Trang 99", location: "tq" },
-// { code: "vàng_916_22k", name: "Vàng 916 (22K)", location: "tq" },
-// { code: "vàng_750_18k", name: "Vàng 750 (18K)", location: "tq" },
-// { code: "vàng_680_163k", name: "Vàng 680 (16.3K)", location: "tq" },
-// { code: "vàng_650_156k", name: "Vàng 650 (15.6K)", location: "tq" },
-// { code: "vàng_610_146k", name: "Vàng 610 (14.6K)", location: "tq" },
-// { code: "vàng_585_14k", name: "Vàng 585 (14K)", location: "tq" },
-// { code: "vàng_416_10k", name: "Vàng 416 (10K)", location: "tq" },
-// { code: "vàng_375_9k", name: "Vàng 375 (9K)", location: "tq" },
-// { code: "vàng_333_8k", name: "Vàng 333 (8K)", location: "tq" },
+// ...add other types here if needed
 ];
 var ranges = [{
   label: "1 Tuần",
@@ -1987,32 +1881,23 @@ function getDaysFromRange(range) {
   }
 }
 function GoldContainer() {
-  var _simplifiedGoldOption;
-  // 2 mode: "single" | "compare"
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("single"),
+  // 2 mode: "default" | "normalize"
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("default"),
     _useState2 = _slicedToArray(_useState, 2),
     mode = _useState2[0],
     setMode = _useState2[1];
-  // Chế độ đơn: chỉ 1 selected item
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      gold_type: "sjc",
-      location: "hcm"
-    }),
-    _useState4 = _slicedToArray(_useState3, 2),
-    selected = _useState4[0],
-    setSelected = _useState4[1];
-  // Chế độ so sánh: nhiều item, mặc định có SJC
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  // Nhiều mã vàng được chọn
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
       gold_type: "sjc",
       location: "hcm"
     }]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    goldItems = _useState4[0],
+    setGoldItems = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
     _useState6 = _slicedToArray(_useState5, 2),
-    compareItems = _useState6[0],
-    setCompareItems = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("7d"),
-    _useState8 = _slicedToArray(_useState7, 2),
-    range = _useState8[0],
-    setRange = _useState8[1];
+    range = _useState6[0],
+    setRange = _useState6[1];
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useDispatch)();
   var _useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_8__.useSelector)(function (state) {
       return state.gold;
@@ -2022,61 +1907,33 @@ function GoldContainer() {
     error = _useSelector.error;
   var days = getDaysFromRange(range);
 
-  // Fetch chart data theo mode
+  // Fetch chart data
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (mode === "single") {
-      var key = "".concat(selected.gold_type, "-").concat(selected.location);
-      if (!data[key] || !data[key][days]) {
-        dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
-          gold_types: [selected.gold_type],
-          locations: [selected.location],
-          days: days
-        }));
-      }
-    } else if (mode === "compare") {
-      var needFetch = compareItems.filter(function (_ref) {
-        var gold_type = _ref.gold_type,
-          location = _ref.location;
-        var key = "".concat(gold_type, "-").concat(location);
-        return !data[key] || !data[key][days];
-      });
-      if (needFetch.length > 0) {
-        dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
-          gold_types: needFetch.map(function (i) {
-            return i.gold_type;
-          }),
-          locations: needFetch.map(function (i) {
-            return i.location;
-          }),
-          days: days
-        }));
-      }
+    var needFetch = goldItems.filter(function (_ref) {
+      var gold_type = _ref.gold_type,
+        location = _ref.location;
+      var key = "".concat(gold_type, "-").concat(location);
+      return !data[key] || !data[key][days];
+    });
+    if (needFetch.length > 0) {
+      dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_3__.fetchGoldChart)({
+        gold_types: needFetch.map(function (i) {
+          return i.gold_type;
+        }),
+        locations: needFetch.map(function (i) {
+          return i.location;
+        }),
+        days: days
+      }));
     }
-  }, [mode, selected, compareItems, days, data, dispatch]);
+  }, [goldItems, days, data, dispatch]);
 
-  // Dropdown options theo mode: ẩn những item đã chọn
-  var singleOptions = simplifiedGoldOptions.filter(function (item) {
-    return item.code !== selected.gold_type || item.location !== selected.location;
-  });
-  var compareFilteredOptions = simplifiedGoldOptions.filter(function (item) {
-    return !compareItems.some(function (s) {
+  // Dropdown options: ẩn các mã đã chọn
+  var filteredOptions = simplifiedGoldOptions.filter(function (item) {
+    return !goldItems.some(function (s) {
       return s.gold_type === item.code && s.location === item.location;
     });
   });
-
-  // Xử lý chuyển đổi chế độ
-  function handleSwitchMode() {
-    if (mode === "single") {
-      setCompareItems([selected]);
-      setMode("compare");
-    } else {
-      setSelected(compareItems[0] || {
-        gold_type: "sjc",
-        location: "hcm"
-      });
-      setMode("single");
-    }
-  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
     className: "border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.Tabs, {
@@ -2096,7 +1953,7 @@ function GoldContainer() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "flex items-center gap-2",
-          children: [mode === "single" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
               asChild: true,
               className: "min-w-[220px] h-[40px]",
@@ -2106,9 +1963,7 @@ function GoldContainer() {
                   className: "flex items-center gap-2 text-base",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     className: "w-4 h-4 text-[#A4A7AE]"
-                  }), ((_simplifiedGoldOption = simplifiedGoldOptions.find(function (item) {
-                    return item.code === selected.gold_type && item.location === selected.location;
-                  })) === null || _simplifiedGoldOption === void 0 ? void 0 : _simplifiedGoldOption.name) || "Chọn loại vàng"]
+                  }), "Th\xEAm lo\u1EA1i v\xE0ng"]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
                   className: "w-4 h-4 text-[#BBBBBB]"
                 })]
@@ -2117,48 +1972,13 @@ function GoldContainer() {
               align: "end",
               sideOffset: 4,
               className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: singleOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
+              children: filteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
                 disabled: true,
                 children: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
-              }) : singleOptions.map(function (item) {
+              }) : filteredOptions.map(function (item) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
                   onClick: function onClick() {
-                    return setSelected({
-                      gold_type: item.code,
-                      location: item.location
-                    });
-                  },
-                  className: "text-sm px-3 py-2 cursor-pointer",
-                  children: item.name
-                }, item.code);
-              })
-            })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenu, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuTrigger, {
-              asChild: true,
-              className: "min-w-[220px] h-[40px]",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-                className: "relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-                  className: "flex items-center gap-2 text-base",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                    className: "w-4 h-4 text-[#A4A7AE]"
-                  }), "Th\xEAm so s\xE1nh"]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                  className: "w-4 h-4 text-[#BBBBBB]"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuContent, {
-              align: "end",
-              sideOffset: 4,
-              className: "z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow",
-              children: compareFilteredOptions.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                disabled: true,
-                children: "Kh\xF4ng c\xF2n lo\u1EA1i n\xE0o \u0111\u1EC3 ch\u1ECDn"
-              }) : compareFilteredOptions.map(function (item) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_dropdown_menu__WEBPACK_IMPORTED_MODULE_2__.DropdownMenuItem, {
-                  onClick: function onClick() {
-                    return setCompareItems(function (prev) {
+                    return setGoldItems(function (prev) {
                       return [].concat(_toConsumableArray(prev), [{
                         gold_type: item.code,
                         location: item.location
@@ -2171,8 +1991,12 @@ function GoldContainer() {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_CompareSwitch__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            checked: mode === "compare",
-            onChange: handleSwitchMode
+            checked: mode === "normalize",
+            onChange: function onChange() {
+              return setMode(mode === "default" ? "normalize" : "default");
+            },
+            leftLabel: "So s\xE1nh gi\xE1",
+            rightLabel: "Ph\u1EA7n tr\u0103m (%)"
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_1__.TabsContent, {
@@ -2199,12 +2023,11 @@ function GoldContainer() {
             })]
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_GoldChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
             mode: mode,
-            selected: selected,
-            setSelected: setSelected,
-            compareItems: compareItems,
-            setCompareItems: setCompareItems,
+            goldItems: goldItems,
+            setGoldItems: setGoldItems,
             data: data,
-            range: range
+            range: range,
+            options: simplifiedGoldOptions
           })
         })
       })]
@@ -2241,23 +2064,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function GoldContent() {
+  var _useSelector, _useSelector2;
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
+    var _dispatch;
+    (_dispatch = dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "xau_usd",
-      location: "global"
-    }));
+      location: "global",
+      unit: "ounce"
+    }))) === null || _dispatch === void 0 || _dispatch[0];
     dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "sjc",
       location: "hcm"
     }));
   }, [dispatch]);
-  var xau = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  var xau = (_useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
     return state.gold.current["xau_usd-global"];
-  });
-  var sjc = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
+  })) === null || _useSelector === void 0 ? void 0 : _useSelector[0];
+  var sjc = (_useSelector2 = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(function (state) {
     return state.gold.current["sjc-hcm"];
-  });
+  })) === null || _useSelector2 === void 0 ? void 0 : _useSelector2[0];
   var formatPriceVND = function formatPriceVND(price) {
     return typeof price === "number" ? price.toLocaleString("vi-VN") + " VND" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_ui_threeDotsWave__WEBPACK_IMPORTED_MODULE_2__["default"], {
       size: "8px",
@@ -2289,65 +2115,65 @@ function GoldContent() {
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      className: "flex flex-col mb-4",
+      className: "flex flex-col mb-4 px-4 md:px-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "flex gap-4",
+        className: "flex flex-col md:flex-row gap-4",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "flex flex-col",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-lg font-normal text-[#191919]",
+            className: "text-base md:text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng th\u1EBF gi\u1EDBi"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+            className: "text-lg md:text-2xl font-medium text-[#191919] flex gap-2 items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: "XAU/USD"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: formatPriceUSD(xau === null || xau === void 0 ? void 0 : xau.sell_price)
-            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_percent) === "number" && xau.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(xau.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+            }), typeof (xau === null || xau === void 0 ? void 0 : xau.delta_sell_percent) === "number" && xau.delta_sell_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+              className: "flex items-center ".concat(xau.delta_sell_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 className: "text-sm inline-block -translate-y-2 transform",
-                children: xau.delta_percent > 0 ? "▲" : "▼"
+                children: xau.delta_sell_percent > 0 ? "▲" : "▼"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(xau.delta_percent)
+                children: formatPercent(xau.delta_sell_percent)
               })]
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w-px bg-[#191919] opacity-100"
+          className: "hidden md:block w-px bg-[#191919] opacity-100"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "flex flex-col",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            className: "text-lg font-normal text-[#191919]",
+            className: "text-base md:text-lg font-normal text-[#191919]",
             children: "Gi\xE1 v\xE0ng trong n\u01B0\u1EDBc"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "text-2xl font-medium text-[#191919] flex gap-2 items-center",
+            className: "text-lg md:text-2xl font-medium text-[#191919] flex gap-2 items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: "SJC"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               children: formatPriceVND(sjc ? sjc.sell_price * 1000 : undefined)
-            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_percent) === "number" && sjc.delta_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "flex items-center ".concat(sjc.delta_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
+            }), typeof (sjc === null || sjc === void 0 ? void 0 : sjc.delta_sell_percent) === "number" && sjc.delta_sell_percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+              className: "flex items-center ".concat(sjc.delta_sell_percent > 0 ? "text-[#00B14F]" : "text-[#B51001]"),
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 className: "text-sm inline-block -translate-y-2 transform",
-                children: sjc.delta_percent > 0 ? "▲" : "▼"
+                children: sjc.delta_sell_percent > 0 ? "▲" : "▼"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: formatPercent(sjc.delta_percent)
+                children: formatPercent(sjc.delta_sell_percent)
               })]
             })]
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "text-[#595959] text-sm mt-2",
-        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", " ", formatVietnamDateTime(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
+        children: ["C\u1EADp nh\u1EADt l\u1EA7n cu\u1ED1i: ", formatVietnamDateTime(sjc === null || sjc === void 0 ? void 0 : sjc.timestamp)]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      className: "flex w-full",
+      className: "flex flex-col md:flex-row w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "basis-2/3 p-2 pl-0",
+        className: "md:basis-2/3 w-full p-2 md:pl-0",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldContainer__WEBPACK_IMPORTED_MODULE_3__["default"], {})
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "basis-1/3 p-2",
+        className: "md:basis-1/3 w-full p-2",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_GoldTable__WEBPACK_IMPORTED_MODULE_4__["default"], {})
       })]
     })]
@@ -3513,12 +3339,12 @@ function MarketPage() {
           className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden mt-4 mb-2",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "gold",
-            className: "!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
+            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
             children: "Gi\xE1 v\xE0ng"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "exchange",
-            className: "!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
-            children: "T\u1EF7 gi\xE1"
+            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
+            children: "T\u1EC9 gi\xE1"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
           value: "gold",
@@ -3586,8 +3412,8 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
-var EXCHANGE_URL = "http://localhost:8003/api/exchange";
-
+// const EXCHANGE_URL = "https://market-chart-v2.onrender.com/api/exchange";
+var EXCHANGE_URL = "http://localhost:8003/api/v1/exchange";
 // GET /exchange/chart
 var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchChart", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref, _ref2) {
@@ -3639,7 +3465,7 @@ var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.create
   };
 }());
 
-// GET /exchange/crr
+// GET /exchange/latest
 var fetchExchangeCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchCurrent", /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref4, _ref5) {
     var _ref4$type, type, _ref4$code, code, rejectWithValue, params, res, json;
@@ -3654,7 +3480,7 @@ var fetchExchangeCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.crea
             code: code
           });
           _context2.next = 6;
-          return fetch("".concat(EXCHANGE_URL, "/crr?").concat(params.toString()));
+          return fetch("".concat(EXCHANGE_URL, "/latest?").concat(params.toString()));
         case 6:
           res = _context2.sent;
           _context2.next = 9;
@@ -3863,7 +3689,7 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 // const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
-var GOLD_URL = 'http://localhost:8003/api/gold';
+var GOLD_URL = "http://localhost:8003/api/v1/gold";
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart
@@ -3923,16 +3749,17 @@ var fetchGoldChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyn
 // ─────────────────────────────────────────
 var fetchGoldCurrent = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("gold/fetchCurrent", /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref4, _ref5) {
-    var gold_type, location, rejectWithValue, params, res, json;
+    var gold_type, location, _ref4$unit, unit, rejectWithValue, params, res, json;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          gold_type = _ref4.gold_type, location = _ref4.location;
+          gold_type = _ref4.gold_type, location = _ref4.location, _ref4$unit = _ref4.unit, unit = _ref4$unit === void 0 ? "tael" : _ref4$unit;
           rejectWithValue = _ref5.rejectWithValue;
           _context2.prev = 2;
           params = new URLSearchParams({
             gold_type: gold_type,
-            location: location
+            location: location,
+            unit: unit
           });
           _context2.next = 6;
           return fetch("".concat(GOLD_URL, "/current?").concat(params.toString()));

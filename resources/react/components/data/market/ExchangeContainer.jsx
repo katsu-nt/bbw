@@ -17,9 +17,6 @@ import CompareSwitch from "./CompareSwitch";
 const exchangeOptions = [
   { code: "USD", type: "central", name: "USD (SBVN)" },
   { code: "USD", type: "market", name: "USD" },
-  // { code: "EUR", type: "market", name: "EUR" },
-  // { code: "JPY", type: "market", name: "JPY" },
-  // { code: "CNY", type: "market", name: "CNY" },
   { code: "DXY", type: "index", name: "DXY" },
   // Thêm các mã khác nếu muốn
 ];
@@ -56,13 +53,11 @@ function getDaysFromRange(range) {
 }
 
 export default function ExchangeContainer() {
-  // Chế độ: "single" | "compare"
-  const [mode, setMode] = useState("single");
-  // Single mode: chọn 1 mã (code, type)
-  const [selected, setSelected] = useState({ code: "USD", type: "market" });
-  // Compare mode: nhiều mã
-  const [compareItems, setCompareItems] = useState([
-    { code: "USD", type: "market" },
+  // mode: "default" | "normalize"
+  const [mode, setMode] = useState("default");
+  // Nhiều mã (luôn là mảng), khởi tạo với USD/market
+  const [selectedItems, setSelectedItems] = useState([
+    { code: "USD", type: "market" }
   ]);
   const [range, setRange] = useState("7d");
 
@@ -74,60 +69,55 @@ export default function ExchangeContainer() {
   } = useSelector((state) => state.exchange);
   const days = getDaysFromRange(range);
 
-  // Filter cho dropdown: loại bỏ mã đang hiển thị
-  const singleOptions = exchangeOptions.filter(
+  // Filter các option chưa được chọn để show trên Dropdown
+  const filteredOptions = exchangeOptions.filter(
     (item) =>
-      item.code !== selected.code || item.type !== selected.type
-  );
-  const compareFilteredOptions = exchangeOptions.filter(
-    (item) =>
-      !compareItems.some(
+      !selectedItems.some(
         (s) => s.code === item.code && s.type === item.type
       )
   );
 
-  // Fetch dữ liệu phù hợp cho từng chế độ
+  // Fetch dữ liệu cho tất cả các mã đang chọn
   useEffect(() => {
-    if (mode === "single") {
-      const key = `${selected.type}-${selected.code}`;
+    selectedItems.forEach(({ type, code }) => {
+      const key = `${type}-${code}`;
       if (!data[key] || !data[key][days]) {
         dispatch(
           fetchExchangeChart({
-            type: selected.type,
-            code: [selected.code],
+            type,
+            code: [code],
             days,
           })
         );
       }
-    } else if (mode === "compare") {
-      // Chỉ fetch những dòng chưa có trong cache
-      const needFetch = compareItems.filter(
-        ({ type, code }) => !data[`${type}-${code}`] || !data[`${type}-${code}`][days]
-      );
-      if (needFetch.length > 0) {
-        for (const { type, code } of needFetch) {
-          dispatch(
-            fetchExchangeChart({
-              type,
-              code: [code],
-              days,
-            })
-          );
-        }
-      }
-    }
-  }, [mode, selected, compareItems, range, data, dispatch, days]);
+    });
+  }, [selectedItems, range, data, dispatch, days]);
 
-  // Chuyển chế độ single/compare
-  function handleSwitchMode() {
-    if (mode === "single") {
-      setCompareItems([selected]);
-      setMode("compare");
-    } else {
-      setSelected(compareItems[0] || { code: "USD", type: "market" });
-      setMode("single");
-    }
+  // Handler thêm mã mới vào so sánh
+  function handleAddItem(item) {
+    setSelectedItems((prev) => [...prev, item]);
   }
+
+  // Handler xóa mã khỏi chart
+  function handleRemoveItem(item) {
+    setSelectedItems((prev) =>
+      prev.filter(
+        (x) => x.code !== item.code || x.type !== item.type
+      )
+    );
+  }
+
+  // Chuyển mode default/normalize
+  function handleSwitchMode() {
+    setMode(mode === "default" ? "normalize" : "default");
+  }
+
+  // Nếu không còn mã nào thì luôn có ít nhất 1 mã (USD/market)
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      setSelectedItems([{ code: "USD", type: "market" }]);
+    }
+  }, [selectedItems]);
 
   return (
     <div className="border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]">
@@ -145,90 +135,41 @@ export default function ExchangeContainer() {
             ))}
           </TabsList>
           <div className="flex items-center gap-2">
-            {/* Dropdown chọn mã */}
-            {mode === "single" ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
-                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
-                    <div className="flex items-center gap-2 text-base">
-                      <Search className="w-4 h-4 text-[#A4A7AE]" />
-                      {exchangeOptions.find(
-                        (item) =>
-                          item.code === selected.code &&
-                          item.type === selected.type
-                      )?.name || "Chọn mã"}
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  sideOffset={4}
-                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
-                >
-                  {singleOptions.length === 0 ? (
-                    <DropdownMenuItem disabled>
-                      Không còn mã nào
+            {/* Dropdown thêm mã */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
+                <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
+                  <div className="flex items-center gap-2 text-base">
+                    <Search className="w-4 h-4 text-[#A4A7AE]" />
+                    Thêm mã so sánh
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                sideOffset={4}
+                className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
+              >
+                {filteredOptions.length === 0 ? (
+                  <DropdownMenuItem disabled>
+                    Không còn mã nào
+                  </DropdownMenuItem>
+                ) : (
+                  filteredOptions.map((item) => (
+                    <DropdownMenuItem
+                      key={item.type + item.code}
+                      onClick={() => handleAddItem(item)}
+                      className="text-sm px-3 py-2 cursor-pointer"
+                    >
+                      {item.name}
                     </DropdownMenuItem>
-                  ) : (
-                    singleOptions.map((item) => (
-                      <DropdownMenuItem
-                        key={item.type + item.code}
-                        onClick={() =>
-                          setSelected({
-                            code: item.code,
-                            type: item.type,
-                          })
-                        }
-                        className="text-sm px-3 py-2 cursor-pointer"
-                      >
-                        {item.name}
-                      </DropdownMenuItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
-                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
-                    <div className="flex items-center gap-2 text-base">
-                      <Search className="w-4 h-4 text-[#A4A7AE]" />
-                      Thêm so sánh
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  sideOffset={4}
-                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
-                >
-                  {compareFilteredOptions.length === 0 ? (
-                    <DropdownMenuItem disabled>
-                      Không còn mã nào
-                    </DropdownMenuItem>
-                  ) : (
-                    compareFilteredOptions.map((item) => (
-                      <DropdownMenuItem
-                        key={item.type + item.code}
-                        onClick={() =>
-                          setCompareItems((prev) => [
-                            ...prev,
-                            { code: item.code, type: item.type },
-                          ])
-                        }
-                        className="text-sm px-3 py-2 cursor-pointer"
-                      >
-                        {item.name}
-                      </DropdownMenuItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                  ))
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <CompareSwitch
-              checked={mode === "compare"}
+              checked={mode === "normalize"}
               onChange={handleSwitchMode}
             />
           </div>
@@ -253,16 +194,11 @@ export default function ExchangeContainer() {
                 </div>
               </div>
             ) : loading.chart ||
-              (mode === "single"
-                ? (() => {
-                    const key = `${selected.type}-${selected.code}`;
-                    const arr = data[key]?.[days] || [];
-                    return arr.length === 0;
-                  })()
-                : compareItems.every(({ code, type }) => {
-                    const arr = data[`${type}-${code}`]?.[days] || [];
-                    return arr.length === 0;
-                  })) ? (
+              selectedItems.some(({ code, type }) => {
+                const key = `${type}-${code}`;
+                const arr = data[key]?.[days] || [];
+                return arr.length === 0;
+              }) ? (
               <div className="w-full space-y-6">
                 <div className="flex flex-wrap gap-3 items-center">
                   {[...Array(3)].map((_, i) => (
@@ -282,10 +218,8 @@ export default function ExchangeContainer() {
             ) : (
               <ExchangeChart
                 mode={mode}
-                selected={selected}
-                setSelected={setSelected}
-                compareItems={compareItems}
-                setCompareItems={setCompareItems}
+                chartItems={selectedItems}
+                setChartItems={setSelectedItems}
                 data={data}
                 range={range}
                 options={exchangeOptions}

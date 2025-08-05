@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -19,19 +17,7 @@ const simplifiedGoldOptions = [
   { code: "sjc", name: "SJC", location: "hcm" },
   { code: "xau_usd", name: "Vàng thế giới", location: "global" },
   { code: "pnj", name: "PNJ", location: "hcm" },
-  // { code: "vàng_nữ_trang_9999", name: "Nữ Trang 999.9", location: "tq" },
-  // { code: "vàng_nữ_trang_999", name: "Nữ Trang 999", location: "tq" },
-  // { code: "vàng_nữ_trang_9920", name: "Nữ Trang 9920", location: "tq" },
-  // { code: "vàng_nữ_trang_99", name: "Nữ Trang 99", location: "tq" },
-  // { code: "vàng_916_22k", name: "Vàng 916 (22K)", location: "tq" },
-  // { code: "vàng_750_18k", name: "Vàng 750 (18K)", location: "tq" },
-  // { code: "vàng_680_163k", name: "Vàng 680 (16.3K)", location: "tq" },
-  // { code: "vàng_650_156k", name: "Vàng 650 (15.6K)", location: "tq" },
-  // { code: "vàng_610_146k", name: "Vàng 610 (14.6K)", location: "tq" },
-  // { code: "vàng_585_14k", name: "Vàng 585 (14K)", location: "tq" },
-  // { code: "vàng_416_10k", name: "Vàng 416 (10K)", location: "tq" },
-  // { code: "vàng_375_9k", name: "Vàng 375 (9K)", location: "tq" },
-  // { code: "vàng_333_8k", name: "Vàng 333 (8K)", location: "tq" },
+  // ...add other types here if needed
 ];
 
 const ranges = [
@@ -46,36 +32,25 @@ const ranges = [
 function getDaysFromRange(range) {
   const today = new Date();
   switch (range) {
-    case "7d":
-      return 7;
-    case "30d":
-      return 30;
-    case "6m":
-      return 180;
-    case "1y":
-      return 365;
-    case "5y":
-      return 365 * 5;
+    case "7d": return 7;
+    case "30d": return 30;
+    case "6m": return 180;
+    case "1y": return 365;
+    case "5y": return 365 * 5;
     case "ytd": {
       const start = new Date(today.getFullYear(), 0, 1);
       return Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
     }
-    default:
-      return 30;
+    default: return 30;
   }
 }
 
 export default function GoldContainer() {
-  // 2 mode: "single" | "compare"
-  const [mode, setMode] = useState("single");
-  // Chế độ đơn: chỉ 1 selected item
-  const [selected, setSelected] = useState({
-    gold_type: "sjc",
-    location: "hcm",
-  });
-  // Chế độ so sánh: nhiều item, mặc định có SJC
-  const [compareItems, setCompareItems] = useState([
-    { gold_type: "sjc", location: "hcm" },
+  // 2 mode: "default" | "normalize"
+  const [mode, setMode] = useState("default");
+  // Nhiều mã vàng được chọn
+  const [goldItems, setGoldItems] = useState([
+    { gold_type: "sjc", location: "hcm" }
   ]);
   const [range, setRange] = useState("7d");
   const dispatch = useDispatch();
@@ -83,58 +58,30 @@ export default function GoldContainer() {
 
   const days = getDaysFromRange(range);
 
-  // Fetch chart data theo mode
+  // Fetch chart data
   useEffect(() => {
-    if (mode === "single") {
-      const key = `${selected.gold_type}-${selected.location}`;
-      if (!data[key] || !data[key][days]) {
-        dispatch(
-          fetchGoldChart({
-            gold_types: [selected.gold_type],
-            locations: [selected.location],
-            days,
-          })
-        );
-      }
-    } else if (mode === "compare") {
-      const needFetch = compareItems.filter(({ gold_type, location }) => {
-        const key = `${gold_type}-${location}`;
-        return !data[key] || !data[key][days];
-      });
-      if (needFetch.length > 0) {
-        dispatch(
-          fetchGoldChart({
-            gold_types: needFetch.map((i) => i.gold_type),
-            locations: needFetch.map((i) => i.location),
-            days,
-          })
-        );
-      }
+    const needFetch = goldItems.filter(({ gold_type, location }) => {
+      const key = `${gold_type}-${location}`;
+      return !data[key] || !data[key][days];
+    });
+    if (needFetch.length > 0) {
+      dispatch(
+        fetchGoldChart({
+          gold_types: needFetch.map((i) => i.gold_type),
+          locations: needFetch.map((i) => i.location),
+          days,
+        })
+      );
     }
-  }, [mode, selected, compareItems, days, data, dispatch]);
+  }, [goldItems, days, data, dispatch]);
 
-  // Dropdown options theo mode: ẩn những item đã chọn
-  const singleOptions = simplifiedGoldOptions.filter(
+  // Dropdown options: ẩn các mã đã chọn
+  const filteredOptions = simplifiedGoldOptions.filter(
     (item) =>
-      item.code !== selected.gold_type || item.location !== selected.location
-  );
-  const compareFilteredOptions = simplifiedGoldOptions.filter(
-    (item) =>
-      !compareItems.some(
+      !goldItems.some(
         (s) => s.gold_type === item.code && s.location === item.location
       )
   );
-
-  // Xử lý chuyển đổi chế độ
-  function handleSwitchMode() {
-    if (mode === "single") {
-      setCompareItems([selected]);
-      setMode("compare");
-    } else {
-      setSelected(compareItems[0] || { gold_type: "sjc", location: "hcm" });
-      setMode("single");
-    }
-  }
 
   return (
     <div className="border rounded-md border-[#E7E7E7] shadow p-6 min-h-[586px]">
@@ -152,91 +99,48 @@ export default function GoldContainer() {
             ))}
           </TabsList>
           <div className="flex items-center gap-2">
-            {/* Dropdown */}
-            {mode === "single" ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
-                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
-                    <div className="flex items-center gap-2 text-base">
-                      <Search className="w-4 h-4 text-[#A4A7AE]" />
-                      {simplifiedGoldOptions.find(
-                        (item) =>
-                          item.code === selected.gold_type &&
-                          item.location === selected.location
-                      )?.name || "Chọn loại vàng"}
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  sideOffset={4}
-                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
-                >
-                  {singleOptions.length === 0 ? (
-                    <DropdownMenuItem disabled>
-                      Không còn loại nào để chọn
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
+                <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
+                  <div className="flex items-center gap-2 text-base">
+                    <Search className="w-4 h-4 text-[#A4A7AE]" />
+                    Thêm loại vàng
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                sideOffset={4}
+                className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
+              >
+                {filteredOptions.length === 0 ? (
+                  <DropdownMenuItem disabled>
+                    Không còn loại nào để chọn
+                  </DropdownMenuItem>
+                ) : (
+                  filteredOptions.map((item) => (
+                    <DropdownMenuItem
+                      key={item.code}
+                      onClick={() =>
+                        setGoldItems((prev) => [
+                          ...prev,
+                          { gold_type: item.code, location: item.location },
+                        ])
+                      }
+                      className="text-sm px-3 py-2 cursor-pointer"
+                    >
+                      {item.name}
                     </DropdownMenuItem>
-                  ) : (
-                    singleOptions.map((item) => (
-                      <DropdownMenuItem
-                        key={item.code}
-                        onClick={() =>
-                          setSelected({
-                            gold_type: item.code,
-                            location: item.location,
-                          })
-                        }
-                        className="text-sm px-3 py-2 cursor-pointer"
-                      >
-                        {item.name}
-                      </DropdownMenuItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild className="min-w-[220px] h-[40px]">
-                  <button className="relative flex items-center justify-between gap-2 px-4 py-2 border border-[#D5D7DA] rounded-lg shadow text-[#595959] text-base w-[220px] bg-white">
-                    <div className="flex items-center gap-2 text-base">
-                      <Search className="w-4 h-4 text-[#A4A7AE]" />
-                      Thêm so sánh
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-[#BBBBBB]" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  sideOffset={4}
-                  className="z-50 mt-1 max-h-[300px] overflow-y-auto w-[--radix-popper-anchor-width] rounded-md border border-[#E7E7E7] bg-white shadow"
-                >
-                  {compareFilteredOptions.length === 0 ? (
-                    <DropdownMenuItem disabled>
-                      Không còn loại nào để chọn
-                    </DropdownMenuItem>
-                  ) : (
-                    compareFilteredOptions.map((item) => (
-                      <DropdownMenuItem
-                        key={item.code}
-                        onClick={() =>
-                          setCompareItems((prev) => [
-                            ...prev,
-                            { gold_type: item.code, location: item.location },
-                          ])
-                        }
-                        className="text-sm px-3 py-2 cursor-pointer"
-                      >
-                        {item.name}
-                      </DropdownMenuItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                  ))
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <CompareSwitch
-              checked={mode === "compare"}
-              onChange={handleSwitchMode}
+              checked={mode === "normalize"}
+              onChange={() => setMode(mode === "default" ? "normalize" : "default")}
+              leftLabel="So sánh giá"
+              rightLabel="Phần trăm (%)"
             />
           </div>
         </div>
@@ -267,12 +171,11 @@ export default function GoldContainer() {
             ) : (
               <GoldChart
                 mode={mode}
-                selected={selected}
-                setSelected={setSelected}
-                compareItems={compareItems}
-                setCompareItems={setCompareItems}
+                goldItems={goldItems}
+                setGoldItems={setGoldItems}
                 data={data}
                 range={range}
+                options={simplifiedGoldOptions}
               />
             )}
           </div>

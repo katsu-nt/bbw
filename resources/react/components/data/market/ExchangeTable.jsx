@@ -51,7 +51,7 @@ export default function ExchangeTable() {
           <div className="py-2 sticky top-0 z-10 flex items-center">Mã ngoại tệ</div>
           <div className="py-2 sticky top-0 z-10">
             <div className="flex flex-col">
-              <span>Tỷ giá</span>
+              <span>Tỉ giá</span>
               <span className="text-xs text-[#595959] font-medium">
                 Đơn vị: VND
               </span>

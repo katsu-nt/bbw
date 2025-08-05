@@ -47,7 +47,7 @@ export default function MarketPage() {
           <TabsList className="inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden mt-4 mb-2">
             <TabsTrigger
               value="gold"
-              className="!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none 
+              className="text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none 
       data-[state=active]:text-black 
       data-[state=active]:bg-white 
       data-[state=active]:border-[#D5D7DA] 
@@ -59,7 +59,7 @@ export default function MarketPage() {
             </TabsTrigger>
             <TabsTrigger
               value="exchange"
-              className="!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none 
+              className="text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none 
       data-[state=active]:text-black 
       data-[state=active]:bg-white 
       data-[state=active]:border-[#D5D7DA] 
@@ -67,7 +67,7 @@ export default function MarketPage() {
       first:data-[state=active]:rounded-l-lg 
       last:data-[state=active]:rounded-r-lg"
             >
-              Tỷ giá
+              Tỉ giá
             </TabsTrigger>
           </TabsList>
           <TabsContent value="gold">
