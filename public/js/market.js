@@ -1673,7 +1673,7 @@ var simplifiedGoldOptions = [{
 }, {
   code: "xau_usd",
   name: "Vàng thế giới",
-  location: "global"
+  location: "tg"
 }, {
   code: "pnj",
   name: "PNJ",
@@ -1858,8 +1858,8 @@ function GoldContent() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "xau_usd",
-      location: "global",
-      unit: "ounce"
+      location: "tg",
+      unit: "oz"
     }));
     dispatch((0,_store_market_goldSlice__WEBPACK_IMPORTED_MODULE_1__.fetchGoldCurrent)({
       gold_type: "sjc",
@@ -1867,7 +1867,7 @@ function GoldContent() {
     }));
   }, [dispatch]);
   var xau = (_useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
-    return state.gold.current["xau_usd-global"];
+    return state.gold.current["xau_usd-tg"];
   })) === null || _useSelector === void 0 ? void 0 : _useSelector[0];
   var sjc = (_useSelector2 = (0,react_redux__WEBPACK_IMPORTED_MODULE_7__.useSelector)(function (state) {
     return state.gold.current["sjc-hcm"];
@@ -1972,67 +1972,67 @@ var BRAND_MAPPING = {
     location: "hn"
   },
   "Nhẫn Trơn PNJ 999.9": {
-    gold_type: "nhẫn_trơn_pnj_9999",
+    gold_type: "nhan_tron_pnj_9999",
     location: "tq"
   },
   "Vàng Kim Bảo 999.9": {
-    gold_type: "vàng_kim_bảo_9999",
+    gold_type: "vang_kim_bao_9999",
     location: "tq"
   },
   "Vàng Phúc Lộc Tài 999.9": {
-    gold_type: "vàng_phúc_lộc_tài_9999",
+    gold_type: "vang_phuc_loc_tai_9999",
     location: "tq"
   },
   "Vàng nữ trang 999.9": {
-    gold_type: "vàng_nữ_trang_9999",
+    gold_type: "vang_nu_trang_9999",
     location: "tq"
   },
   "Vàng nữ trang 999": {
-    gold_type: "vàng_nữ_trang_999",
+    gold_type: "vang_nu_trang_999",
     location: "tq"
   },
   "Vàng nữ trang 9920": {
-    gold_type: "vàng_nữ_trang_9920",
+    gold_type: "vang_nu_trang_9920",
     location: "tq"
   },
   "Vàng nữ trang 99": {
-    gold_type: "vàng_nữ_trang_99",
+    gold_type: "vang_nu_trang_99",
     location: "tq"
   },
   "Vàng 916 (22K)": {
-    gold_type: "vàng_916_22k",
+    gold_type: "vang_916_22k",
     location: "tq"
   },
   "Vàng 750 (18K)": {
-    gold_type: "vàng_750_18k",
+    gold_type: "vang_750_18k",
     location: "tq"
   },
   "Vàng 680 (16.3K)": {
-    gold_type: "vàng_680_163k",
+    gold_type: "vang_680_16k3",
     location: "tq"
   },
   "Vàng 650 (15.6K)": {
-    gold_type: "vàng_650_156k",
+    gold_type: "vang_650_15k6",
     location: "tq"
   },
   "Vàng 610 (14.6K)": {
-    gold_type: "vàng_610_146k",
+    gold_type: "vang_610_14k6",
     location: "tq"
   },
   "Vàng 585 (14K)": {
-    gold_type: "vàng_585_14k",
+    gold_type: "vang_585_14k",
     location: "tq"
   },
   "Vàng 416 (10K)": {
-    gold_type: "vàng_416_10k",
+    gold_type: "vang_416_10k",
     location: "tq"
   },
   "Vàng 375 (9K)": {
-    gold_type: "vàng_375_9k",
+    gold_type: "vang_375_9k",
     location: "tq"
   },
   "Vàng 333 (8K)": {
-    gold_type: "vàng_333_8k",
+    gold_type: "vang_333_8k",
     location: "tq"
   }
 };
@@ -3258,10 +3258,10 @@ function ResponseStatus(_ref) {
         fill: "none",
         xmlns: "http://www.w3.org/2000/svg",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
-          d: "M100 50.5908C100 78.2051 77.6142 100.591 \r 50 100.591C22.3858 100.591 0 78.2051 0 \r 50.5908C0 22.9766 22.3858 0.59082 50 \r 0.59082C77.6142 0.59082 100 22.9766 100 \r 50.5908ZM9.08144 50.5908C9.08144 73.1895 \r 27.4013 91.5094 50 91.5094C72.5987 91.5094 \r 90.9186 73.1895 90.9186 50.5908C90.9186 \r 27.9921 72.5987 9.67226 50 9.67226C27.4013 \r 9.67226 9.08144 27.9921 9.08144 50.5908Z",
+          d: "M100 50.5908C100 78.2051 77.6142 100.591  50 100.591C22.3858 100.591 0 78.2051 0  50.5908C0 22.9766 22.3858 0.59082 50  0.59082C77.6142 0.59082 100 22.9766 100  50.5908ZM9.08144 50.5908C9.08144 73.1895  27.4013 91.5094 50 91.5094C72.5987 91.5094  90.9186 73.1895 90.9186 50.5908C90.9186  27.9921 72.5987 9.67226 50 9.67226C27.4013  9.67226 9.08144 27.9921 9.08144 50.5908Z",
           fill: "currentColor"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("path", {
-          d: "M93.9676 39.0409C96.393 38.4038 \r 97.8624 35.9116 97.0079 33.5539C95.2932 \r 28.8227 92.871 24.3692 89.8167 20.348C85.8452 \r 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 \r 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 \r 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 \r 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 \r 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 \r 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 \r 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 \r 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 \r 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 \r 38.2158 91.5421 39.6781 93.9676 39.0409Z",
+          d: "M93.9676 39.0409C96.393 38.4038  97.8624 35.9116 97.0079 33.5539C95.2932  28.8227 92.871 24.3692 89.8167 20.348C85.8452  15.1192 80.8826 10.7238 75.2124 7.41289C69.5422  4.10194 63.2754 1.94025 56.7698 1.05124C51.7666  0.367541 46.6976 0.446843 41.7345 1.27873C39.2613  1.69328 37.813 4.19778 38.4501 6.62326C39.0873  9.04874 41.5694 10.4717 44.0505 10.1071C47.8511  9.54855 51.7191 9.52689 55.5402 10.0491C60.8642  10.7766 65.9928 12.5457 70.6331 15.2552C75.2735  17.9648 79.3347 21.5619 82.5849 25.841C84.9175  28.9121 86.7997 32.2913 88.1811 35.8758C89.083  38.2158 91.5421 39.6781 93.9676 39.0409Z",
           fill: "currentFill"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
@@ -3658,11 +3658,11 @@ function MarketPage() {
           className: "inline-flex h-[36px] bg-[#FAFAFA] rounded-lg shadow-[inset_0_0_0_1px_#E7E7E7] overflow-hidden mt-4 mb-2",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "gold",
-            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
+            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none  data-[state=active]:text-black  data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA]  data-[state=active]:z-10  first:data-[state=active]:rounded-l-lg  last:data-[state=active]:rounded-r-lg",
             children: "Gi\xE1 v\xE0ng"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsTrigger, {
             value: "exchange",
-            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none \r data-[state=active]:text-black \r data-[state=active]:bg-white \r data-[state=active]:border-[#D5D7DA] \r data-[state=active]:z-10 \r first:data-[state=active]:rounded-l-lg \r last:data-[state=active]:rounded-r-lg",
+            className: "text-sm md:!text-[16px] font-semibold h-full px-2 py-2 text-[#989898] border border-transparent focus:outline-none  data-[state=active]:text-black  data-[state=active]:bg-white  data-[state=active]:border-[#D5D7DA]  data-[state=active]:z-10  first:data-[state=active]:rounded-l-lg  last:data-[state=active]:rounded-r-lg",
             children: "T\u1EC9 gi\xE1"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ui_tabs__WEBPACK_IMPORTED_MODULE_3__.TabsContent, {
@@ -3731,8 +3731,8 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
-// const EXCHANGE_URL = "https://market-chart-v2.onrender.com/api/exchange";
-var EXCHANGE_URL = "http://localhost:8003/api/v1/exchange";
+var EXCHANGE_URL = "https://market-chart-v2.onrender.com/api/v1/exchange";
+//const EXCHANGE_URL = "http://localhost:8003/api/v1/exchange";
 // GET /exchange/chart
 var fetchExchangeChart = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)("exchange/fetchChart", /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref, _ref2) {
@@ -4007,8 +4007,8 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
-// const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
-var GOLD_URL = "http://localhost:8003/api/v1/gold";
+var GOLD_URL = 'https://market-chart-v2.onrender.com/api/v1/gold';
+//const GOLD_URL = "http://localhost:8003/api/v1/gold";
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// const EXCHANGE_URL = "https://market-chart-v2.onrender.com/api/exchange";
-const EXCHANGE_URL = "http://localhost:8003/api/v1/exchange";
+const EXCHANGE_URL = "https://market-chart-v2.onrender.com/api/v1/exchange";
+//const EXCHANGE_URL = "http://localhost:8003/api/v1/exchange";
 // GET /exchange/chart
 export const fetchExchangeChart = createAsyncThunk(
   "exchange/fetchChart",
@@ -36,7 +36,7 @@ export const fetchExchangeChart = createAsyncThunk(
 export const fetchExchangeCurrent = createAsyncThunk(
   "exchange/fetchCurrent",
   async (
-    { type = "market", code = "USD"},
+    { type = "market", code = "USD" },
     { rejectWithValue }
   ) => {
     try {

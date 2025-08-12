@@ -12,7 +12,7 @@ import { useChartData } from "@/hooks/useChartData";
 
 const simplifiedGoldOptions = [
   { code: "sjc", name: "SJC", location: "hcm" },
-  { code: "xau_usd", name: "Vàng thế giới", location: "global" },
+  { code: "xau_usd", name: "Vàng thế giới", location: "tg" },
   { code: "pnj", name: "PNJ", location: "hcm" },
   // ...add other types here if needed
 ];

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// const GOLD_URL = 'https://market-chart-v2.onrender.com/api/gold'
-const GOLD_URL = "http://localhost:8003/api/v1/gold";
+const GOLD_URL = 'https://market-chart-v2.onrender.com/api/v1/gold'
+//const GOLD_URL = "http://localhost:8003/api/v1/gold";
 
 // ─────────────────────────────────────────
 // 🎯 /gold/chart
@@ -38,7 +38,7 @@ export const fetchGoldCurrent = createAsyncThunk(
   "gold/fetchCurrent",
   async ({ gold_type, location, unit = "tael" }, { rejectWithValue }) => {
     try {
-      const params = new URLSearchParams({ gold_type, location ,unit});
+      const params = new URLSearchParams({ gold_type, location, unit });
       const res = await fetch(`${GOLD_URL}/current?${params.toString()}`);
       const json = await res.json();
 

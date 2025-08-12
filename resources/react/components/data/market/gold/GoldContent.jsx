@@ -10,11 +10,11 @@ export default function GoldContent() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchGoldCurrent({ gold_type: "xau_usd", location: "global", unit: "ounce" }));
+    dispatch(fetchGoldCurrent({ gold_type: "xau_usd", location: "tg", unit: "oz" }));
     dispatch(fetchGoldCurrent({ gold_type: "sjc", location: "hcm" }));
   }, [dispatch]);
 
-  const xau = useSelector((state) => state.gold.current["xau_usd-global"])?.[0];
+  const xau = useSelector((state) => state.gold.current["xau_usd-tg"])?.[0];
   const sjc = useSelector((state) => state.gold.current["sjc-hcm"])?.[0];
 
   return (
