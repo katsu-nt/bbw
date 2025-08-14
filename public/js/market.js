@@ -3560,14 +3560,10 @@ __webpack_require__.r(__webpack_exports__);
 var formatVietnamDateTime = function formatVietnamDateTime(isoString) {
   if (!isoString) return "";
   var date = new Date(isoString);
-  return date.toLocaleString("vi-VN", {
-    hour12: false,
+  return date.toLocaleDateString("vi-VN", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
     timeZone: "Asia/Ho_Chi_Minh"
   });
 };
