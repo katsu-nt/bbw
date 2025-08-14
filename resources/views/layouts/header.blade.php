@@ -35,12 +35,12 @@ $greenCategories = [
 ]
 @endphp
 
-<!-- VIDEO ADVERTISEMENT SECTION -->
+<!-- VIDEO ADVERTISEMENT SECTION 
 <section class="bg-lightGray md:py-9 py-0 l-nav" id="header-banner-top">
     <div class=" container mx-auto">
         <div class="flex justify-center items-center md:px-24 px-0">
-            <div id="zone-1" class="w-full relative" style="aspect-ratio: 970/250;">
-                <!-- Skeleton Container - thêm absolute và z-index cao -->
+            <div id="zone-1" class="w-full relative" style="aspect-ratio: 970/250;">-->
+                <!-- Skeleton Container - thêm absolute và z-index cao 
                 <div class="skeleton-container absolute inset-0 z-20">
                     <x-skeleton containerStyle="h-full w-full">
                     </x-skeleton>
@@ -49,7 +49,7 @@ $greenCategories = [
         </div>
     </div>
 </section>
-
+-->
 <!-- NAVBAR SECTION -->
 <section class="z-50 h-full transform duration-500 sticky top-0 lg:relative "
     style="overflow: visible; z-index: 1000; box-shadow: 1px 2px 2px 0px #00000026;" id="nav-section">

@@ -2617,6 +2617,8 @@ function SummaryBox(_ref) {
     colorDown = _ref$colorDown === void 0 ? "#B51001" : _ref$colorDown,
     _ref$loading = _ref.loading,
     loading = _ref$loading === void 0 ? false : _ref$loading;
+  var showPercent = typeof percent === "number" && percent !== 0;
+  var isUp = showPercent && percent > 0;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "flex flex-col",
     children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -2631,13 +2633,16 @@ function SummaryBox(_ref) {
           size: "8px",
           color: "#191919"
         }) : formatPrice(value)
-      }), typeof percent === "number" && percent !== 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-        className: "flex items-center ".concat(percent > 0 ? "text-[#00DC3C]" : "text-[#B51001]"),
+      }), showPercent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+        className: "flex items-center ".concat(isUp ? "text-[#00DC3C]" : "text-[#B51001]"),
+        style: {
+          color: isUp ? colorUp : colorDown
+        },
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
           className: "text-sm inline-block -translate-y-2 transform",
-          children: percent > 0 ? "▲" : "▼"
+          children: isUp ? "▲" : "▼"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-          children: "".concat(percent > 0 ? "+" : "").concat(percent.toFixed(2), "%")
+          children: "".concat(Math.abs(percent).toFixed(2), "%")
         })]
       })]
     })]

@@ -10,6 +10,9 @@ export default function SummaryBox({
   colorDown = "#B51001",
   loading = false,
 }) {
+  const showPercent = typeof percent === "number" && percent !== 0;
+  const isUp = showPercent && percent > 0;
+
   return (
     <div className="flex flex-col">
       {label && (
@@ -26,18 +29,17 @@ export default function SummaryBox({
             formatPrice(value)
           )}
         </span>
-        {typeof percent === "number" && percent !== 0 && (
+
+        {showPercent && (
           <span
-            className={`flex items-center ${
-              percent > 0 ? "text-[#00DC3C]" : "text-[#B51001]"
-            }`}
+            className={`flex items-center ${isUp ? "text-[#00DC3C]" : "text-[#B51001]"
+              }`}
+            style={{ color: isUp ? colorUp : colorDown }}
           >
             <span className="text-sm inline-block -translate-y-2 transform">
-              {percent > 0 ? "▲" : "▼"}
+              {isUp ? "▲" : "▼"}
             </span>
-            <span>
-              {`${percent > 0 ? "+" : ""}${percent.toFixed(2)}%`}
-            </span>
+            <span>{`${Math.abs(percent).toFixed(2)}%`}</span>
           </span>
         )}
       </div>
